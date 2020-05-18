@@ -6,28 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>【转载】WGAN-GP：改进的加入gradient penalty的WGAN | zuzhiang</title>
+  <title>【论文笔记】图像分割和图像配准联合学习模型——DeepAtlas | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="本文是转载的文章：WGAN-GP(改进的WGAN)介绍。">
+  <meta name="description" content="本文是论文《DeepAtlas: Joint Semi-Supervised Learning of Image Registration and Segmentation》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【转载】WGAN-GP：改进的加入gradient penalty的WGAN">
-<meta property="og:url" content="zuzhiang.cn/2020/04/09/wgan-gp/index.html">
+<meta property="og:title" content="【论文笔记】图像分割和图像配准联合学习模型——DeepAtlas">
+<meta property="og:url" content="zuzhiang.cn/2020/05/11/DeepAtlas/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="本文是转载的文章：WGAN-GP(改进的WGAN)介绍。">
+<meta property="og:description" content="本文是论文《DeepAtlas: Joint Semi-Supervised Learning of Image Registration and Segmentation》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/weight.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/weight_clip.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/GPal.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/gradient.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/equation3.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/WGANde3.png">
-<meta property="og:updated_time" content="2020-04-09T06:54:15.989Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/11/YJgZNj.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/11/YJRm60.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/11/YJge4s.jpg">
+<meta property="og:updated_time" content="2020-05-18T09:13:34.170Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【转载】WGAN-GP：改进的加入gradient penalty的WGAN">
-<meta name="twitter:description" content="本文是转载的文章：WGAN-GP(改进的WGAN)介绍。">
-<meta name="twitter:image" content="http://www.twistedwg.com/assets/img/WGAN/weight.png">
+<meta name="twitter:title" content="【论文笔记】图像分割和图像配准联合学习模型——DeepAtlas">
+<meta name="twitter:description" content="本文是论文《DeepAtlas: Joint Semi-Supervised Learning of Image Registration and Segmentation》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/11/YJgZNj.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -192,14 +189,14 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-wgan-gp" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-DeepAtlas" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class=" article-header">
   
   
     <h1 class="article-title" itemprop="name">
-      【转载】WGAN-GP：改进的加入gradient penalty的WGAN
+      【论文笔记】图像分割和图像配准联合学习模型——DeepAtlas
     </h1>
   
 
@@ -211,8 +208,8 @@
               <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
         </span>
 
-<a href="/2020/04/09/wgan-gp/" class="archive-article-date">
-        <time datetime="2020-04-09T06:49:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
+<a href="/2020/05/11/DeepAtlas/" class="archive-article-date">
+        <time datetime="2020-05-11T11:03:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
 </a>
 
   
@@ -221,27 +218,47 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>本文是转载的文章：<a href="http://www.twistedwg.com/2018/02/02/WGAN-GP.html" target="_blank" rel="noopener">WGAN-GP(改进的WGAN)介绍</a>。</p>
+    <p>本文是论文《DeepAtlas: Joint Semi-Supervised Learning of Image Registration and Segmentation》的阅读笔记。</p>
 <a id="more"></a>
 
-<blockquote>
-<p>WGAN是一篇好文章，但是在处理Lipschitz条件时直接把weight限制住也带来了一些问题，很快改进版的WGAN-GP便问世了，本文将带着大家一起看看 WGAN-GP的原理。</p>
-</blockquote>
-<p><a href="https://arxiv.org/abs/1704.00028" target="_blank" rel="noopener">WGAN-GP</a>是针对WGAN的存在的问题提出来的，WGAN在真实的实验过程中依旧存在着训练困难、收敛速度慢的 问题，相比较传统GAN在实验上提升不是很明显。WGAN-GP在文章中指出了WGAN存在问题的原因，那就是WGAN在处理Lipschitz限制条件时直接采用了 weight clipping，就是每当更新完一次判别器的参数之后，就检查判别器的所有参数的绝对值有没有超过一个阈值，比如0.01，有的话就把这些参数 clip回 [-0.01, 0.01] 范围内。通过在训练过程中保证判别器的所有参数有界，就保证了判别器不能对两个略微不同的样本在判别上不会差异过大，从而 间接实现了Lipschitz限制。实际训练上判别器loss希望尽可能拉大真假样本的分数差，然而weight clipping独立地限制每一个网络参数的取值范围，在 这种情况下最优的策略就是尽可能让所有参数走极端，要么取最大值（如0.01）要么取最小值（如-0.01），文章通过实验验证了猜测如下图所示判别器的参 数几乎都集中在最大值和最小值上。</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/weight.png" alt="img"></p>
-<p>还有就是weight clipping会导致很容易一不小心就梯度消失或者梯度爆炸。原因是判别器是一个多层网络，如果把clipping threshold设得稍微小了一 点，每经过一层网络，梯度就变小一点点，多层之后就会指数衰减；反之，如果设得稍微大了一点，每经过一层网络，梯度变大一点点，多层之后就会指数爆 炸。只有设得不大不小，才能让生成器获得恰到好处的回传梯度，然而在实际应用中这个平衡区域可能很狭窄，就会给调参工作带来麻烦。文章也通过实验展 示了这个问题，下图中横轴代表判别器从低到高第几层，纵轴代表梯度回传到这一层之后的尺度大小（注意纵轴是对数刻度）</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/weight_clip.png" alt="img"></p>
-<p>在以上问题提出后，作者提出了解决方案，那就是gradient penalty我翻译为梯度惩罚。Lipschitz限制是要求判别器的梯度不超过K，gradient penalty 就是设置一个额外的loss项来实现梯度与K之间的联系，这就是gradient penalty的核心所在，下图为引入gradient penalty后WGAN-GP的算法框图，对 于算法的分析我在附录中加以说明。</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/GPal.png" alt="img"></p>
-<p>gradient penalty的选取并不是在全网络下，仅仅是在真假分布之间抽样处理，下图为处理过程。</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/gradient.png" alt="img"></p>
-<p>下面公式展示为WGAN-GP的最终目标函数：</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/equation3.png" alt="img"></p>
-<p>WGAN-GP的创新点也就在目标函数的第二项上，由于模型是对每个样本独立地施加梯度惩罚，所以判别器的模型架构中不能使用Batch Normalization， 因为它会引入同个batch中不同样本的相互依赖关系。</p>
-<p>小结：WGAN-GP指出了WGAN存在的两大问题，weight clipping导致的参数集中化和调参上的梯度爆炸和梯度消失问题，改进的gradient penalty解决 了问题将参数与限制联系起来达到真实的Lipschitz限制条件。但是理论归理论实际实验上WGAN-GP的效果并不尽如人意，实验结果还没有WGAN的效果好， 我感觉问题应该是出在了gradient penalty上，但是具体的证明我还没到功夫，以后有时间好好研读推导一下。以下是附录部分，大家可选择性参考。</p>
-<p><strong>附录</strong></p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/WGANde3.png" alt="img"></p>
-<p>谢谢观看，希望对您有所帮助，欢迎指正错误，欢迎一起讨论！！！</p>
+<p>文章第一个提出了一个图像配准和图像分割联合学习的网络模型 DeepAtlas，该模型实现了弱监督的图像配准和半监督的图像分割。在图像配准时使用图像的分割标签作为监督数据，如果没有分割标签，则通过分割网络产生；而经过配准后的图像增加了在图像分割时可利用的训练数据的量，相当于是一种数据增强。该模型不仅在分割和配准的精度上有所提升，并且还可以在训练数据有限的情况下实现较好的效果。</p>
+<h2 id="一、记号"><a href="#一、记号" class="headerlink" title="一、记号"></a>一、记号</h2><ul>
+<li>$I_m$：浮动图像（moving image）</li>
+<li>$I_t$：目标图像（target image）</li>
+<li>$\mathcal{F}_R$：配准网络</li>
+<li>$\theta_r$：配准网络的参数</li>
+<li>$\mathcal{F}_S$：分割网络</li>
+<li>$\theta_s$：分割网络的参数</li>
+<li>$u=\mathcal{F}_R(I_m,I_t;\theta_r)$：形变场</li>
+<li>$\phi^{-1}=u+id$：形变图，其中 $id$ 是恒等变换</li>
+<li>$I_m^w=I_m\circ\phi^{-1}$：配准后的图像</li>
+<li>$S_t$：目标图像分割标签</li>
+<li>$S_m^w=S_m\circ\phi^{-1}$：配准后图像分割标签</li>
+</ul>
+<h2 id="二、网络结构"><a href="#二、网络结构" class="headerlink" title="二、网络结构"></a>二、网络结构</h2><p>DeepAtlas 的目的是当数据集中只有少量的分割标签可用时，通过联合训练来让分割和配准实现较高的精度。</p>
+<p><img src="https://s1.ax1x.com/2020/05/11/YJgZNj.jpg" alt></p>
+<p>网络的结构如上图所示，蓝色的实线表示弱监督的配准，黄色虚线表示半监督的分割。</p>
+<p>文章在附件中给出了分割网络和配准网络的具体结构，如下图左右两图所示：</p>
+<p><img src="https://s1.ax1x.com/2020/05/11/YJRm60.jpg" alt></p>
+<h3 id="1-配准网络"><a href="#1-配准网络" class="headerlink" title="1. 配准网络"></a>1. 配准网络</h3><p>配准网络的损失主要有三个损失函数组成：配准正则损失 $\mathcal{L}_r$，图像相似度损失 $\mathcal{L}_i$ 和解剖损失（分割相似度损失） $\mathcal{L}_a$。配准正则损失 $\mathcal{L}_r$ 可以让形变场 $\phi$ 变得光滑，图像相似度损失 $\mathcal{L}_i$ 用来评价浮动图像 $I_m$ 和配准后图像 $I_m^w$ 之间的相似度，解剖损失（分割相似度损失） $\mathcal{L}_a$ 是目标图像分割标签 $S_t$ 和配准后图像分割标签 $S_m^w$ 之间的相似度损失。</p>
+<p>如此一来，配准学习的过程可以由下式表示：<br>$$<br>\theta_{r}^{\star}=\underset{\theta_{r}}{\operatorname{argmin}}\left{\mathcal{L}<em>{i}\left(I</em>{m} \circ \Phi^{-1}, I_{t}\right)+\lambda_{r} \mathcal{L}<em>{r}\left(\Phi^{-1}\right)+\lambda</em>{a} \mathcal{L}<em>{a}\left(S</em>{m} \circ \Phi^{-1}, S_{t}\right)\right}<br>$$<br>其中 $\lambda_r,\lambda_a\geq0$。</p>
+<h3 id="2-分割网络"><a href="#2-分割网络" class="headerlink" title="2. 分割网络"></a>2. 分割网络</h3><p>分割网络的输入是一张图像 $I$，输出相应的分割结果 $\hat{S}=\mathcal{F}<em>S(I;\theta_s)$，分割网络的损失主要有两个损失函数组成：解剖损失 $\mathcal{L}_a$ 和有监督分割损失 $\mathcal{L}</em>{sp}$。解剖损失和配准网络中的相同，有监督的分割损失 $\mathcal{L}<em>{sp}(\hat{S},S)$ 是分割网络的分割结果 $\hat{S}$ 和人工分割结果 $S$ 之间的相似度损失。但是浮动图像 $I_m$ 和目标图像 $I_t$ 的分割标签的存在情况有多种可能，所以相应的损失函数也存在以下四种情况：<br>$$<br>\left{\begin{array}{l}<br>\mathcal{L}</em>{a}=\mathcal{L}<em>{a}\left(S</em>{m} \circ \Phi^{-1}, \mathcal{F}<em>{\mathcal{S}}\left(I</em>{t}\right)\right) \text { and } \mathcal{L}<em>{s p}=\mathcal{L}</em>{s p}\left(\mathcal{F}<em>{\mathcal{S}}\left(I</em>{m}\right), S_{m}\right), \text { if } I_{t} \text { is unlabeled; } \<br>\mathcal{L}<em>{a}=\mathcal{L}</em>{a}\left(\mathcal{F}<em>{\mathcal{S}}\left(I</em>{m}\right) \circ \Phi^{-1}, S_{t}\right) \text { and } \mathcal{L}<em>{s p}=\mathcal{L}</em>{s p}\left(\mathcal{F}<em>{\mathcal{S}}\left(I</em>{t}\right), S_{t}\right), \text { if } I_{m} \text { is unlabeled; } \<br>\mathcal{L}<em>{a}=\mathcal{L}</em>{a}\left(S_{m} \circ \Phi^{-1}, S_{t}\right) \text { and } \mathcal{L}<em>{s p}=\mathcal{L}</em>{s p}\left(\mathcal{F}<em>{\mathcal{S}}\left(I</em>{m}\right), S_{m}\right), \text { if } I_{m} \text { and } I_{t} \text { are labeled; } \<br>\mathcal{L}<em>{a}=\mathcal{L}</em>{s p}=0, \text { if both } I_{t} \text { and } I_{m} \text { are unlabeled. }<br>\end{array}\right.<br>$$<br>分割的学习过程可以由下式表示：<br>$$<br>\theta_{s}^{\star}=\underset{\theta_{s}}{\operatorname{argmin}}\left(\lambda_{a} \mathcal{L}<em>{a}+\lambda</em>{s p} \mathcal{L}<em>{s p}\right), \quad \lambda</em>{a}, \lambda_{s p} \geq 0<br>$$</p>
+<h2 id="三、实施细节"><a href="#三、实施细节" class="headerlink" title="三、实施细节"></a>三、实施细节</h2><ul>
+<li>解剖相似度损失 $\mathcal{L}<em>{a}$ 和有监督的分割损失 $\mathcal{L}</em>{sp}$ 采用的是 soft multi-class Dice loss：</li>
+</ul>
+<p>$$<br>\mathcal{L}<em>{\text {dice}}\left(S, S^{\star}\right)=1-\frac{1}{K} \sum</em>{k=1}^{K} \frac{\sum_{x} S_{k}(x) S_{k}^{\star}(x)}{\sum_{x} S_{k}(x)+\sum_{x} S_{k}^{\star}(x)}其中 $k$ 表示分割标签的下标，$x$ 是体素位置，$S$ 和 $S^*$ 是两个要比较的分割标签。<br>$$</p>
+<p>​    其中 $k$ 表示分割标签的下标，$x$ 是体素位置，$S$ 和 $S^*$ 是两个要比较的分割标签。</p>
+<ul>
+<li>图像相似度损失 $\mathcal{L}_i$ 采用的是正则化的互相关（NCC）：</li>
+</ul>
+<p>$$<br>\mathcal{L}<em>{i}\left(I</em>{m}^{w}, I_{t}\right)=1-N C C\left(I_{m}^{w}, I_{t}\right)<br>$$</p>
+<ul>
+<li>配准正则损失 $\mathcal{L}_r$ 采用的是弯曲能（bending energy）：</li>
+</ul>
+<p>$$<br>\mathcal{L}<em>{r}(\mathbf{u})=\frac{1}{N} \sum</em>{\mathbf{x}} \sum_{i=1}^{d}\left|H\left(u_{i}(\mathbf{x})\right)\right|_{F}^{2}<br>$$</p>
+<p>​    其中 $||\cdot||_F$ 表示弗罗贝尼乌斯范数（Frobenius norm），$H(u_i(x))$ 是第 $i$ 个成分 $u(x)$ 的 Hessian 矩阵，$d$ 表示维度，$N$ 表示体素数。</p>
+<p>在训练时，会交替的训练分割网络和配准网络，当一个网络在训练时，另一个网络的参数保持不变，并且是每训练配准网络20次才训练分割网络1次，这是因为分割网络更容易收敛。</p>
+<h2 id="四、实验结果"><a href="#四、实验结果" class="headerlink" title="四、实验结果"></a>四、实验结果</h2><p><img src="https://s1.ax1x.com/2020/05/11/YJge4s.jpg" alt></p>
 
     
 
@@ -288,7 +305,7 @@
           </li>
           <li>
             <strong>本文链接：</strong>
-            <a href="zuzhiang.cn/2020/04/09/wgan-gp/" title="【转载】WGAN-GP：改进的加入gradient penalty的WGAN" target="_blank">zuzhiang.cn/2020/04/09/wgan-gp/</a>
+            <a href="zuzhiang.cn/2020/05/11/DeepAtlas/" title="【论文笔记】图像分割和图像配准联合学习模型——DeepAtlas" target="_blank">zuzhiang.cn/2020/05/11/DeepAtlas/</a>
           </li>
           <li>
             <strong>版权声明： </strong>
@@ -308,7 +325,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/前人之述备矣//" class="article-tag-list-link color2">前人之述备矣</a>
+        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
         		</li>
       		
 		</ul>
@@ -363,7 +380,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/04/09/wgan-gp/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/05/11/DeepAtlas/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -378,18 +395,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2020/05/11/PMRN/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/05/18/TODM/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          【论文笔记】Probabilistic Multilayer Regularization Network for Unsupervised 3D Brain Image Registration
+          【论文笔记】基于组合优化的订单分配模型
         
       </div>
     </a>
   
   
-    <a href="/2020/04/09/wgan/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【转载】令人拍案叫绝的Wasserstein GAN</div>
+    <a href="/2020/05/11/Dual-PRNet/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】双流金字塔配准网络——Dual-PRNet</div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GfruwQ.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/08/Gfrneg.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GfrQFs.jpg">
-<meta property="og:updated_time" content="2020-04-09T06:58:36.606Z">
+<meta property="og:updated_time" content="2020-04-16T03:00:10.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】LARA：基于GAN的解决冷启动问题的推荐系统">
 <meta name="twitter:description" content="本文是关于论文《LARA: Attribute-to-feature Adversarial Learning for New-item Recommendation》的阅读笔记。">
@@ -254,13 +254,13 @@
 <h3 id="1-生成器"><a href="#1-生成器" class="headerlink" title="1. 生成器"></a>1. 生成器</h3><p>生成器采用了分别生成，然后再合并的结构，即生成器可以分为两个部分：条件物品的每个属性 $a_i^c$ 被送到特定的生成器 $g_i$ 中，然后生成潜在用户的特征，然后神经网络 G 合并所有的生成的用户特征向量，并输出一个最终的用户特征向量，该过程可以表示为下式：<br>$$<br>\mathbf{u}^{c}=G\left(g_{1}\left(\mathbf{a}<em>{1}^{c}\right), g</em>{2}\left(\mathbf{a}<em>{2}^{c}\right), \ldots, g</em>{k}\left(\mathbf{a}<em>{k}^{c}\right)\right)<br>$$<br>通过最小化目标函数来得到最优的生成器，并且当在训练生成器的时候判别器的参数是固定的，所以只需要优化跟生成器相关的项：<br>$$<br>\begin{array}{l}<br>\theta^{*}=\underset{\theta}{\arg \min } \sum</em>{n=1}^{N} \mathbb{E}<em>{\mathbf{u}^{c} \sim p</em>{\theta}\left(\mathbf{u}^{c} | I_{n}\right)}\left[\log \left(1-\sigma\left(d_{\phi}\left(\mathbf{u}^{c}, I_{n}\right)\right)\right)\right] \<br>=\underset{\theta}{\arg \max } \sum_{n=1}^{N} \mathbb{E}<em>{\mathbf{u}^{c} \sim p</em>{\theta}\left(\mathbf{u}^{c} | I_{n}\right)}\left[\log \left(1+\exp \left(d_{\phi}\left(\mathbf{u}^{c}, I_{n}\right)\right)\right]\right.<br>\end{array}<br>$$</p>
 <h3 id="2-判别器"><a href="#2-判别器" class="headerlink" title="2. 判别器"></a>2. 判别器</h3><p>判别器有三种训练对：</p>
 <ul>
-<li>$(u^c,I^c)$：给定的物品 $I^c$和生成的用户 $u^c$</li>
+<li>$(u^c,I^c)$：给定的物品 $I^c$ 和生成的用户 $u^c$</li>
 <li>$(u^+,I^c)$：给定的物品 $I^c$ 和真实用户 $u^+$（ground-truth 数据中对 $I^c$ 感兴趣的用户）</li>
 <li>$(u^-,I^c)$：给定的物品 $I^c$ 和假用户 $u^-$（ground-truth 数据中对 $I^c$ 不感兴趣的用户）</li>
 </ul>
 <p>通过以上三种样本的训练方式，可以使判别器产生的用户特征不仅像真实的用户特征，而且和给定的物品相关。<br>$$<br>y(\mathcal{T})=\left{\begin{array}{ll}<br>1, &amp; \mathcal{T}=\left(\mathbf{u}^{+}, I^{c}\right) \<br>0, &amp; \mathcal{T}=\left(\mathbf{u}^{c}, I^{c}\right) \<br>0, &amp; \mathcal{T}=\left(\mathbf{u}^{-}, I^{c}\right)<br>\end{array}\right.<br>$$<br>对于真实用户 $u^+$ 的确定，先找到一个和物品 $I^c$ 有交互的用户 $u$，并将其特征向量初始化为0，维度和物品的属性个数相同，再遍历数据集找到与 $u$ 有交互的物品的集合，并得到它们的属性集合，将属性对应的维度设为1。假用户 $u^-$ 是先找到一个和物品 $I^c$ 没有交互的用户 $u$，后续过程跟真实用户的确定相同。</p>
 <p>判别器的目的就是将 $(u^+,I^c)$ 和其他两个区分开来，所以 $(u^+,I^c)$ 是正例，其标签是1，其他两个是负例，标签是0。判别器输出的是用户和物品相关的概率，通过以下公式计算：<br>$$<br>D\left(\mathbf{u} | I_{n}\right)=\sigma\left(d_{\phi}\left(\mathbf{u}, I_{n}\right)\right)=\frac{\exp \left(d_{\phi}\left(\mathbf{u}, I_{n}\right)\right)}{1+\exp \left(d_{\phi}\left(\mathbf{u}, I_{n}\right)\right)}<br>$$<br>其中 $\phi$ 是判别器的参数。</p>
-<p>在训练时通过最大化目标函数来得到最优的判别器：<br>$$<br>\begin{aligned}<br>\phi^{<em>}=\underset{\theta}{\arg\max} &amp; \sum_{n=1}^{N}\left(\mathbb{E}<em>{\mathbf{u}^{+} \sim p</em>{\text {true}}\left(\mathbf{u}^{+} | I_{n}\right)}\left[\log \left(\sigma\left(d_{\phi}\left(\mathbf{u}^{+}, I_{n}\right)\right)\right)\right]\right.\<br>&amp;\left.+\mathbb{E}<em>{\mathbf{u}^{c} \sim p</em>{\theta^{</em>}}\left(\mathbf{u}^{c} | I_{n}\right)}<br>[\log \left(1-\sigma\left(d_{\phi}\left(\mathbf{u}^{c}, I_{n}\right)\right)\right)\right]\<br>&amp;\left.<br>+\mathbb{E}<em>{\mathbf{u}^{-} \sim p</em>{f a l s e}\left(\mathbf{u}^{-} | I_{n}\right)}<br>\left<br>[\log \left(1-\sigma\left(d_{\phi}\left(\mathbf{u}^{-}, I_{n}\right)\right)\right)\right]\right)<br>\end{aligned}<br>$$</p>
+<p>在训练时通过最大化目标函数来得到最优的判别器：<br>$$<br>\begin{aligned}<br>\phi^{<em>}=\underset{\phi}{\arg\max} &amp; \sum_{n=1}^{N}\left(\mathbb{E}<em>{\mathbf{u}^{+} \sim p</em>{\text {true}}\left(\mathbf{u}^{+} | I_{n}\right)}\left[\log \left(\sigma\left(d_{\phi}\left(\mathbf{u}^{+}, I_{n}\right)\right)\right)\right]\right.\<br>&amp;\left.+\mathbb{E}<em>{\mathbf{u}^{c} \sim p</em>{\theta^{</em>}}\left(\mathbf{u}^{c} | I_{n}\right)}<br>[\log \left(1-\sigma\left(d_{\phi}\left(\mathbf{u}^{c}, I_{n}\right)\right)\right)\right]\<br>&amp;\left.<br>+\mathbb{E}<em>{\mathbf{u}^{-} \sim p</em>{f a l s e}\left(\mathbf{u}^{-} | I_{n}\right)}<br>\left<br>[\log \left(1-\sigma\left(d_{\phi}\left(\mathbf{u}^{-}, I_{n}\right)\right)\right)\right]\right)<br>\end{aligned}<br>$$</p>
 <h3 id="3-推荐生成"><a href="#3-推荐生成" class="headerlink" title="3. 推荐生成"></a>3. 推荐生成</h3><p>生成器生成了可能喜欢当前物品的用户之后，就可以把当前的新物品推荐给与生成的用户最相似的几个用户了。文章中用余弦相似度计算的生成的用户和用户集中用户之间的相似度。</p>
 <h2 id="五、实验"><a href="#五、实验" class="headerlink" title="五、实验"></a>五、实验</h2><p>实验部分主要解答了三个问题：</p>
 <ul>

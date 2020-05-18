@@ -6,28 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>【转载】WGAN-GP：改进的加入gradient penalty的WGAN | zuzhiang</title>
+  <title>Archives: 2020/5 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="本文是转载的文章：WGAN-GP(改进的WGAN)介绍。">
+  <meta name="description" content="It&apos;s my private blog.">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【转载】WGAN-GP：改进的加入gradient penalty的WGAN">
-<meta property="og:url" content="zuzhiang.cn/2020/04/09/wgan-gp/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="zuzhiang">
+<meta property="og:url" content="zuzhiang.cn/archives/2020/05/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="本文是转载的文章：WGAN-GP(改进的WGAN)介绍。">
+<meta property="og:description" content="It&apos;s my private blog.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/weight.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/weight_clip.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/GPal.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/gradient.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/equation3.png">
-<meta property="og:image" content="http://www.twistedwg.com/assets/img/WGAN/WGANde3.png">
-<meta property="og:updated_time" content="2020-04-09T06:54:15.989Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【转载】WGAN-GP：改进的加入gradient penalty的WGAN">
-<meta name="twitter:description" content="本文是转载的文章：WGAN-GP(改进的WGAN)介绍。">
-<meta name="twitter:image" content="http://www.twistedwg.com/assets/img/WGAN/weight.png">
+<meta name="twitter:title" content="zuzhiang">
+<meta name="twitter:description" content="It&apos;s my private blog.">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -192,237 +184,237 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-wgan-gp" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
+            
+  
+  
     
-      <header class=" article-header">
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/2020/05/18/OROD/" class="archive-article-date">
+        <time datetime="2020-05-18T09:09:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-18</time>
+</a>
+
+        </div>
+    	 
   
-  
-    <h1 class="article-title" itemprop="name">
-      【转载】WGAN-GP：改进的加入gradient penalty的WGAN
+    <h1 itemprop="name">
+	
+	      <a class="archive-article-title" href="/2020/05/18/OROD/">【论文笔记】基于DQN和知识迁移的订单分配模型</a>
+	
     </h1>
   
 
 
-  
-  
-        <!-- 不蒜子统计 -->
-        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
-              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
-        </span>
-
-<a href="/2020/04/09/wgan-gp/" class="archive-article-date">
-        <time datetime="2020-04-09T06:49:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是转载的文章：<a href="http://www.twistedwg.com/2018/02/02/WGAN-GP.html" target="_blank" rel="noopener">WGAN-GP(改进的WGAN)介绍</a>。</p>
-<a id="more"></a>
-
-<blockquote>
-<p>WGAN是一篇好文章，但是在处理Lipschitz条件时直接把weight限制住也带来了一些问题，很快改进版的WGAN-GP便问世了，本文将带着大家一起看看 WGAN-GP的原理。</p>
-</blockquote>
-<p><a href="https://arxiv.org/abs/1704.00028" target="_blank" rel="noopener">WGAN-GP</a>是针对WGAN的存在的问题提出来的，WGAN在真实的实验过程中依旧存在着训练困难、收敛速度慢的 问题，相比较传统GAN在实验上提升不是很明显。WGAN-GP在文章中指出了WGAN存在问题的原因，那就是WGAN在处理Lipschitz限制条件时直接采用了 weight clipping，就是每当更新完一次判别器的参数之后，就检查判别器的所有参数的绝对值有没有超过一个阈值，比如0.01，有的话就把这些参数 clip回 [-0.01, 0.01] 范围内。通过在训练过程中保证判别器的所有参数有界，就保证了判别器不能对两个略微不同的样本在判别上不会差异过大，从而 间接实现了Lipschitz限制。实际训练上判别器loss希望尽可能拉大真假样本的分数差，然而weight clipping独立地限制每一个网络参数的取值范围，在 这种情况下最优的策略就是尽可能让所有参数走极端，要么取最大值（如0.01）要么取最小值（如-0.01），文章通过实验验证了猜测如下图所示判别器的参 数几乎都集中在最大值和最小值上。</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/weight.png" alt="img"></p>
-<p>还有就是weight clipping会导致很容易一不小心就梯度消失或者梯度爆炸。原因是判别器是一个多层网络，如果把clipping threshold设得稍微小了一 点，每经过一层网络，梯度就变小一点点，多层之后就会指数衰减；反之，如果设得稍微大了一点，每经过一层网络，梯度变大一点点，多层之后就会指数爆 炸。只有设得不大不小，才能让生成器获得恰到好处的回传梯度，然而在实际应用中这个平衡区域可能很狭窄，就会给调参工作带来麻烦。文章也通过实验展 示了这个问题，下图中横轴代表判别器从低到高第几层，纵轴代表梯度回传到这一层之后的尺度大小（注意纵轴是对数刻度）</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/weight_clip.png" alt="img"></p>
-<p>在以上问题提出后，作者提出了解决方案，那就是gradient penalty我翻译为梯度惩罚。Lipschitz限制是要求判别器的梯度不超过K，gradient penalty 就是设置一个额外的loss项来实现梯度与K之间的联系，这就是gradient penalty的核心所在，下图为引入gradient penalty后WGAN-GP的算法框图，对 于算法的分析我在附录中加以说明。</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/GPal.png" alt="img"></p>
-<p>gradient penalty的选取并不是在全网络下，仅仅是在真假分布之间抽样处理，下图为处理过程。</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/gradient.png" alt="img"></p>
-<p>下面公式展示为WGAN-GP的最终目标函数：</p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/equation3.png" alt="img"></p>
-<p>WGAN-GP的创新点也就在目标函数的第二项上，由于模型是对每个样本独立地施加梯度惩罚，所以判别器的模型架构中不能使用Batch Normalization， 因为它会引入同个batch中不同样本的相互依赖关系。</p>
-<p>小结：WGAN-GP指出了WGAN存在的两大问题，weight clipping导致的参数集中化和调参上的梯度爆炸和梯度消失问题，改进的gradient penalty解决 了问题将参数与限制联系起来达到真实的Lipschitz限制条件。但是理论归理论实际实验上WGAN-GP的效果并不尽如人意，实验结果还没有WGAN的效果好， 我感觉问题应该是出在了gradient penalty上，但是具体的证明我还没到功夫，以后有时间好好研读推导一下。以下是附录部分，大家可选择性参考。</p>
-<p><strong>附录</strong></p>
-<p><img src="http://www.twistedwg.com/assets/img/WGAN/WGANde3.png" alt="img"></p>
-<p>谢谢观看，希望对您有所帮助，欢迎指正错误，欢迎一起讨论！！！</p>
-
-    
-
-    
-    <div class="page-reward">
-      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
-        <div class="tooltip tooltip-east">
-          <span class="tooltip-item">
-            赏
-          </span>
-          <span class="tooltip-content">
-            <span class="tooltip-text">
-              <span class="tooltip-inner">
-                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
-                    class="icon icon-quo-right"></i></p>
-                <div class="reward-box">
-                  
-                  <div class="reward-box-item">
-                    <img class="reward-img" src="/img/alipay.jpg">
-                    <span class="reward-type">支付宝</span>
-                  </div>
-                  
-                  
-                  <div class="reward-box-item">
-                    <img class="reward-img" src="/img/weixin.png">
-                    <span class="reward-type">微信</span>
-                  </div>
-                  
-                </div>
-              </span>
-            </span>
-          </span>
-        </div>
-      </a>
-    </div>
-    
-
-    
-      <div> 
-        <ul class="post-copyright">
-          <li>
-            <strong>本文作者：</strong>
-            俎志昂
-          </li>
-          <li>
-            <strong>本文链接：</strong>
-            <a href="zuzhiang.cn/2020/04/09/wgan-gp/" title="【转载】WGAN-GP：改进的加入gradient penalty的WGAN" target="_blank">zuzhiang.cn/2020/04/09/wgan-gp/</a>
-          </li>
-          <li>
-            <strong>版权声明： </strong>
-            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
-          </li>
-        </ul>
-      </div>
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
+        <div class="article-info info-on-right">
+          
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/前人之述备矣//" class="article-tag-list-link color2">前人之述备矣</a>
+        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-    
-
-    
-    
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a> -->
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/04/09/wgan-gp/" alt="微信分享二维码"> -->
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-
-    
-    <div class="clearfix"></div>
-  </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-
-<nav id="article-nav">
   
-    <a href="/2020/05/11/PMRN/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          【论文笔记】Probabilistic Multilayer Regularization Network for Unsupervised 3D Brain Image Registration
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/04/09/wgan/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【转载】令人拍案叫绝的Wasserstein GAN</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/2020/05/18/TODM/" class="archive-article-date">
+        <time datetime="2020-05-18T09:09:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-18</time>
+</a>
 
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
         </div>
-        
-        
-    </div>
-</aside>
+    	 
+  
+    <h1 itemprop="name">
+	
+	      <a class="archive-article-title" href="/2020/05/18/TODM/">【论文笔记】基于组合优化的订单分配模型</a>
+	
+    </h1>
+  
 
 
+        <div class="article-info info-on-right">
+          
+          
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
 
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/2020/05/11/DeepAtlas/" class="archive-article-date">
+        <time datetime="2020-05-11T11:03:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
+</a>
+
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+	
+	      <a class="archive-article-title" href="/2020/05/11/DeepAtlas/">【论文笔记】图像分割和图像配准联合学习模型——DeepAtlas</a>
+	
+    </h1>
+  
 
 
+        <div class="article-info info-on-right">
+          
+          
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
 
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/2020/05/11/Dual-PRNet/" class="archive-article-date">
+        <time datetime="2020-05-11T11:03:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
+</a>
+
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+	
+	      <a class="archive-article-title" href="/2020/05/11/Dual-PRNet/">【论文笔记】双流金字塔配准网络——Dual-PRNet</a>
+	
+    </h1>
+  
 
 
+        <div class="article-info info-on-right">
+          
+          
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
 
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/2020/05/11/PMRN/" class="archive-article-date">
+        <time datetime="2020-05-11T11:03:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
+</a>
+
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+	
+	      <a class="archive-article-title" href="/2020/05/11/PMRN/">【论文笔记】Probabilistic Multilayer Regularization Network for Unsupervised 3D Brain Image Registration</a>
+	
+    </h1>
+  
+
+
+        <div class="article-info info-on-right">
+          
+          
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
+  
+
+    
 
 
           </div>
@@ -461,8 +453,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
