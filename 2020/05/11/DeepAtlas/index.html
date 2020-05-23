@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/11/YJgZNj.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/11/YJRm60.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/11/YJge4s.jpg">
-<meta property="og:updated_time" content="2020-05-18T09:13:34.170Z">
+<meta property="og:updated_time" content="2020-05-18T10:29:14.979Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】图像分割和图像配准联合学习模型——DeepAtlas">
 <meta name="twitter:description" content="本文是论文《DeepAtlas: Joint Semi-Supervised Learning of Image Registration and Segmentation》的阅读笔记。">
@@ -246,7 +246,7 @@
 <h2 id="三、实施细节"><a href="#三、实施细节" class="headerlink" title="三、实施细节"></a>三、实施细节</h2><ul>
 <li>解剖相似度损失 $\mathcal{L}<em>{a}$ 和有监督的分割损失 $\mathcal{L}</em>{sp}$ 采用的是 soft multi-class Dice loss：</li>
 </ul>
-<p>$$<br>\mathcal{L}<em>{\text {dice}}\left(S, S^{\star}\right)=1-\frac{1}{K} \sum</em>{k=1}^{K} \frac{\sum_{x} S_{k}(x) S_{k}^{\star}(x)}{\sum_{x} S_{k}(x)+\sum_{x} S_{k}^{\star}(x)}其中 $k$ 表示分割标签的下标，$x$ 是体素位置，$S$ 和 $S^*$ 是两个要比较的分割标签。<br>$$</p>
+<p>$$<br>\mathcal{L}<em>{\text {dice}}\left(S, S^{\star}\right)=1-\frac{1}{K} \sum</em>{k=1}^{K} \frac{\sum_{x} S_{k}(x) S_{k}^{\star}(x)}{\sum_{x} S_{k}(x)+\sum_{x} S_{k}^{\star}(x)}<br>$$</p>
 <p>​    其中 $k$ 表示分割标签的下标，$x$ 是体素位置，$S$ 和 $S^*$ 是两个要比较的分割标签。</p>
 <ul>
 <li>图像相似度损失 $\mathcal{L}_i$ 采用的是正则化的互相关（NCC）：</li>

@@ -6,20 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives | zuzhiang</title>
+  <title>【论文笔记】SIFA——基于GAN的双向跨模态无监督域适应框架 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《Unsupervised Bidirectional Cross-Modality Adaptation via Deeply Synergistic Image and Feature Alignment for Medical Image Segmentation》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/page/3/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】SIFA——基于GAN的双向跨模态无监督域适应框架">
+<meta property="og:url" content="zuzhiang.cn/2020/05/23/SIFA/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《Unsupervised Bidirectional Cross-Modality Adaptation via Deeply Synergistic Image and Feature Alignment for Medical Image Segmentation》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/23/YjwoC9.jpg">
+<meta property="og:updated_time" content="2020-05-23T05:00:41.369Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】SIFA——基于GAN的双向跨模态无监督域适应框架">
+<meta name="twitter:description" content="本文是论文《Unsupervised Bidirectional Cross-Modality Adaptation via Deeply Synergistic Image and Feature Alignment for Medical Image Segmentation》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/23/YjwoC9.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,42 +187,140 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-SIFA" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/28/STN/" class="archive-article-date">
-        <time datetime="2020-02-28T06:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-28</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/28/STN/">【论文笔记】Spatial Transformer Networks(STN)-用于医学图像配准的空间变化网络</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】SIFA——基于GAN的双向跨模态无监督域适应框架
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/2020/05/23/SIFA/" class="archive-article-date">
+        <time datetime="2020-05-23T04:59:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《Unsupervised Bidirectional Cross-Modality Adaptation via Deeply Synergistic Image and Feature Alignment for Medical Image Segmentation》的阅读笔记。</p>
+<a id="more"></a>
+
+<p>文章提出了一个名为 SIFA（Synergistic Image and Feature Alignment）的无监督域适应框架。SIFA 的代码见 <a href="https://github.com/cchen-cc/SIFA" target="_blank" rel="noopener">github</a>。SIFA 从图像和特征两个角度引入了对齐的协同融合。</p>
+<h2 id="一、相关工作"><a href="#一、相关工作" class="headerlink" title="一、相关工作"></a>一、相关工作</h2><p>域适应就是将从源域学习到的知识迁移到目标域中，在此之前 CycleGAN 在域适应方面取得了很好的效果。</p>
+<p>SIFA 的一个关键特点是图像变换和分割任务的共享编码器。通过参数共享，本框架中的图像对齐和特征对齐能够协同工作，减少端到端训练过程中的域偏移（domain shift）。同时，另一个研究方向是特征对齐，目的是在对抗性学习的情况下提取深度神经网络的域不变特征。</p>
+<h2 id="二、记号"><a href="#二、记号" class="headerlink" title="二、记号"></a>二、记号</h2><ul>
+<li>$s$：源域</li>
+<li>$t$：目标域</li>
+<li>$G_t$：从源域到目标域的生成器，生成 $x^{s\rightarrow t}$</li>
+<li>$D_t$：从源域到目标域的判别器，判别图像是生成的还是真正来自目标域的</li>
+<li>$E$：特征编码器</li>
+<li>$U$：解码器</li>
+<li>$C$：像素级分类器</li>
+<li>$G_s=E\circ U$：特征编码器+解码器相当于一个源域生成器，生成 $x^{t\rightarrow s}$</li>
+<li>$E\circ C$：特征编码器+像素级分类器相当于一个分割网络，产生目标域图像和生成的目标域图像的分割标签</li>
+<li>$D_s$：判别生成的源域图像来自生成的目标域图像 $x^{s\rightarrow t}$ 还是来自真正的目标域图像 $x_t$ 的判别器</li>
+<li>$D_p$：对分割网络生成的分割标签进行判别的判别器</li>
+<li>$\mathcal{L}^t_{adv}(G_t,D_t)$：目标域 GAN（$G_t,D_t$）的目标函数</li>
+<li>$\mathcal{L}_{cyc}(G_t,E,U)$：源域-目标域-源域或目标域-源域-目标域的循环一致性损失</li>
+<li>$\mathcal{L}_{seg}(E,C)$：分割网络的混合损失</li>
+<li>$\mathcal{L}<em>{a d v}^{p}(E, C, D</em>{p})$：判别器 $D_p$ 的对抗损失</li>
+<li>$\mathcal{L}<em>{\text {adv }}^{s}(E, D</em>{s})$：判别器 $D_s$ 的对抗损失</li>
+<li>$\mathcal{L}<em>{\text {adv }}^{\tilde{s}}(E, D</em>{s})$：判别器 $D_s$ 辅助任务的对抗损失</li>
+</ul>
+<h2 id="三、方法"><a href="#三、方法" class="headerlink" title="三、方法"></a>三、方法</h2><h3 id="1-用于图像对齐的外观转变"><a href="#1-用于图像对齐的外观转变" class="headerlink" title="1. 用于图像对齐的外观转变"></a>1. 用于图像对齐的外观转变</h3><p>由于域偏移，跨域之间的图片通常看起来不同，而图像对齐的目的就是减少源域图像和目标域图像之间的这种差异。即给定一个有标签的来自源域的数据集 ${x_i^s,y_i^s}<em>{i=1}^N$，以及一个无标签的来自目标域的数据集 ${x_i^t}</em>{j=1}^M$，使得源域图像 $x_i^s$ 尽可能的看起来像 目标域图像 $x_i^t$。转换后的图像不仅要看起来像来自目标域，而且还应该保留源域的结构语义内容。</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YjwoC9.jpg" alt></p>
+<p>上图是网络的整体结构示意图，可结合以下描述来加以理解。</p>
+<h4 id="（1）外观转变"><a href="#（1）外观转变" class="headerlink" title="（1）外观转变"></a>（1）外观转变</h4><p>使用一个生成器 $G_t$ 将源域图像转换成与目标域相似的图像，即 $G_t(x^s)=x^{s\rightarrow t}$，并使用一个判别器 $D_t$ 来判断生成的图像是真正来自目标域还是生成的。这个 GAN 的目标函数为：<br>$$<br>\begin{aligned}<br>\mathcal{L}<em>{\text {adv}}^{t}\left(G</em>{t}, D_{t}\right)=&amp; \mathbb{E}<em>{x^{t} \sim X^{t}}\left[\log D</em>{t}\left(x^{t}\right)\right]+\<br>&amp; \mathbb{E}<em>{x^{s} \sim X^{s}}\left[\log \left(1-D</em>{t}\left(G_{t}\left(x^{s}\right)\right)\right)\right]<br>\end{aligned}<br>$$<br>为了让转换得到的图像 $x^{s\rightarrow t}$ 保留源域的特征，通常使用一个反向的生成器来促进图像的循环一致性。图中的 E 是特征编码器，U 是解码器，E 和 U 加起来就相当于一个生成器 $G_s$，即 $G_s=E\circ U$ ，它可以将转换得到的目标域图像 $x^{s\rightarrow t}$ 再转换回源域。并通过源域的判别器 $D_s$ 进行判别，其对抗损失为 $\mathcal{L}<em>{adv}^s$，和目标域上的 GAN 的训练方式一致。通过源域-目标域-源域（$x^{s \rightarrow t \rightarrow s}=U\left(E\left(G</em>{t}\left(x^{s}\right)\right)\right)$）或目标域-源域-目标域（$x^{t \rightarrow s \rightarrow t}=G_{t}\left(U\left(E\left(x^{t}\right)\right)\right)$）的转换就得到了图像的循环一致性损失，即：<br>$$<br>\begin{aligned}<br>\mathcal{L}<em>{\mathrm{cyc}}\left(G</em>{t}, E, U\right)=&amp; \mathbb{E}<em>{x^{s} \sim X^{s}}\left|U\left(E\left(G</em>{t}\left(x^{s}\right)\right)\right)-x^{s}\right|<em>{1}+\<br>&amp; \mathbb{E}</em>{x^{t} \sim X^{t}}\left|G_{t}\left(U\left(E\left(x^{t}\right)\right)\right)-x^{t}\right|_{1}<br>\end{aligned}<br>$$</p>
+<h4 id="（4）目标域的分割网络"><a href="#（4）目标域的分割网络" class="headerlink" title="（4）目标域的分割网络"></a>（4）目标域的分割网络</h4><p>  图中的 C 是一个像素级的分类器，E 和 C 加起来 $E\circ C$ 就相当于一个目标域的分割网络，它的输入包括 $x^{s\rightarrow t},y^s,x^t$，输出是 $x^{s\rightarrow t},x^t$ 的分割标签，分割网络通过最小化一个混合损失来优化：<br>$$<br>\mathcal{L}_{s e g}(E, C)=H\left(y^{s}, C\left(E\left(x^{s \rightarrow t}\right)\right)+\operatorname{Dice}\left(y^{s}, C\left(E\left(x^{s \rightarrow t}\right)\right)\right)\right.<br>$$<br>其中第一项是交叉熵，第二项是 Dice 损失。</p>
+<h3 id="2-特征对齐的对抗学习"><a href="#2-特征对齐的对抗学习" class="headerlink" title="2. 特征对齐的对抗学习"></a>2. 特征对齐的对抗学习</h3><p>为解决跨域的域偏移问题，文章提出了另外的判别器来从特征对齐的角度来减少生成的目标图像 $x^{s\rightarrow t}$ 和真正的目标图像 $x^t$ 的 domain gap。为了对齐以上两种图像的特征，通常的方法是在特征空间直接使用对抗学习，但是特征空间一般是高维的，很难直接对齐。所以文章使用的方法是在两个低维的空间内使用对抗学习，一个是语义预测空间，另一个是生成图像空间。</p>
+<h4 id="（1）在语义预测空间的特征对齐"><a href="#（1）在语义预测空间的特征对齐" class="headerlink" title="（1）在语义预测空间的特征对齐"></a>（1）在语义预测空间的特征对齐</h4><p>使用判别器 $D_p$ 来对分割网络生成的分割标签进行判别，如果两者的特征没有对齐的话，就通过反向传播对特征提取器 E 进行优化，从而减小生成的目标域图像 $x^{s\rightarrow t}$ 和真正的目标域图像 $x^t$ 的特征分布之间的差异。该对抗损失为：<br>$$<br>\begin{aligned}<br>\mathcal{L}<em>{a d v}^{p}\left(E, C, D</em>{p}\right)=&amp; \mathbb{E}<em>{x^{s \rightarrow t} \sim X^{s \rightarrow t}\left[\log D</em>{p}\left(C\left(E\left(x^{s \rightarrow t}\right)\right)\right)\right]+} \<br>&amp; \mathbb{E}<em>{x^{t} \sim X^{t}\left[\log \left(1-D</em>{p}\left(C\left(E\left(x^{t}\right)\right)\right)\right)\right]}<br>\end{aligned}<br>$$</p>
+<h4 id="（2）语义预测空间的深度监督对抗学习"><a href="#（2）语义预测空间的深度监督对抗学习" class="headerlink" title="（2）语义预测空间的深度监督对抗学习"></a>（2）语义预测空间的深度监督对抗学习</h4><p>低级特征可能和高级特征的对齐情况并不一样，所以使用额外的和编码器低层的输出相关的像素级分类器来产生额外的辅助预测，然后通过一个判别器来对这些额外预测进行判别。这增强了低级特征的对齐，如此一来，$\mathcal{L}<em>{seg}$  和 $\mathcal{L}</em>{adv}$ 的表达式就需要进行调整了，它们分别被拓展为 $\mathcal{L}<em>{seg}^i(E,C_i)$ 和 $\mathcal{L}</em>{adv}^{P_i}(E,C_i,D_{p_i})$，其中 $i={1,2}$，$C_1,C_2$ 表示连接到编码器不同层的两个分类器，$D_{p_1},D_{p_2}$ 表示对两个分类器的输出进行判别的判别器。</p>
+<h4 id="（4）生成图像空间的特征对齐"><a href="#（4）生成图像空间的特征对齐" class="headerlink" title="（4）生成图像空间的特征对齐"></a>（4）生成图像空间的特征对齐</h4><p>对于生成器 $E\circ U$，为判别器 $D_s$ 增加一个辅助任务——判别生成的源域图像来自生成的目标域图像 $x^{s\rightarrow t}$ 还是来自真正的目标域图像 $x_t$。该辅助任务的对抗损失为：<br>$$<br>\begin{aligned}<br>\mathcal{L}<em>{\text {adv }}^{\tilde{s}}\left(E, D</em>{s}\right)=&amp; \mathbb{E}<em>{x^{s \rightarrow} t \sim X^{s \rightarrow t}}\left[\log D</em>{s}\left(U\left(E\left(x^{s \rightarrow t}\right)\right)\right)\right]+\<br>&amp; \mathbb{E}<em>{x^{t} \sim X^{t}}\left[\log \left(1-D</em>{s}\left(U\left(E\left(x^{t}\right)\right)\right)\right)\right]<br>\end{aligned}<br>$$</p>
+<h3 id="3-用于协同学习的共享编码器"><a href="#3-用于协同学习的共享编码器" class="headerlink" title="3. 用于协同学习的共享编码器"></a>3. 用于协同学习的共享编码器</h3><p>在协同学习框架的一个关键是在图像和特征对齐之间共享编码器 E，编码器 E 会通过损失 $\mathcal{L}<em>{adv}^s$ 和 $\mathcal{L}</em>{cyc}$，以及判别器 $D_{p_i},D_s$ 的反向传播来进行优化。</p>
+<p>在训练时各个模块的训练顺序为：$G_t\rightarrow D_T \rightarrow E \rightarrow C_i \rightarrow U \rightarrow D_s \rightarrow D_{p_i}$。整个网络的目标函数为：<br>$$<br>\begin{aligned}<br>\mathcal{L}=&amp; \mathcal{L}<em>{a d v}^{t}\left(G</em>{t}, D_{t}\right)+\lambda_{a d v}^{s} \mathcal{L}<em>{a d v}^{s}\left(E, U, D</em>{s}\right)+\<br>&amp; \lambda_{\mathrm{gs}} \mathcal{L}<em>{\mathrm{csc}}\left(G</em>{t}, E, U\right)+\lambda_{\operatorname{seg}}^{1} \mathcal{L}<em>{\operatorname{seg}}^{1}\left(E, C</em>{1}\right)+\<br>&amp; \lambda_{\operatorname{seg}}^{2} \mathcal{L}<em>{\operatorname{seg}}^{2}\left(E, C</em>{2}\right)+\lambda_{a d v}^{p_{1}} \mathcal{L}<em>{a d v}^{p</em>{1}}\left(E, C, D_{p_{1}}\right)+\<br>&amp; \lambda_{\text {adv}}^{p_{2}} \mathcal{L}<em>{a d v}^{p</em>{2}}\left(E, C, D_{p_{2}}\right)+\lambda_{a d v}^{\tilde{s}} \mathcal{L}<em>{a b}^{\tilde{s}}\left(E, D</em>{s}\right)<br>\end{aligned}<br>$$<br>其中 $\left{\lambda_{a d v}^{s}, \lambda_{c y c}, \lambda_{s e g}^{1}, \lambda_{s e g}^{2}, \lambda_{a d v}^{p_{1}}, \lambda_{a d v}^{p_{2}}, \lambda_{a d v}^{\tilde{s}}\right}$ 是用于平衡各项的参数，在实验时分别设为 ${0.1,10,1.0,0.1,0.1,0.01,0.1}$。</p>
+<h2 id="四、网络设置和实施细节"><a href="#四、网络设置和实施细节" class="headerlink" title="四、网络设置和实施细节"></a>四、网络设置和实施细节</h2><ul>
+<li>生成器 $G_t$ 采用的是和 CycleGAN 中一样的设置，包括3个卷积层，9个残差块，2个反卷积层，然后再通过一个卷积层获得生成的图像。</li>
+<li>解码器 U 包括1个卷积层，4个残差块，3个反卷积层，然后再通过一个卷积层获得输出。</li>
+<li>判别器 ${D_t,D_s,D_p}$ 采用的是和 PatchGAN 一样的设置，它的输入是 $70\times70$ 的patches，它包括5个卷积层，除了最后两层卷积层步长为1，其他的卷积核为4，步长为2。特征图的个数分别为 ${64,128,256,512,1}$。在前四层卷积层中每个卷积层后都跟着一个实例正则化和一个0.2的 Leaky ReLU。</li>
+<li>编码器 E 使用残差连接和空洞卷积（dilation rate=2），来扩大分辨率的大小。用 ${Ck,Rk,Dk}$ 分别表示通道数为 $k$ 的卷积层、残差块和空洞残差块；用 M 表示步长为 2 的最大池化层；则编码器的构成为 ${C16,R16,M,R32,M,2\times R64,M,2\times R128,4\times R256,2\times R512,2\times D512,2\times C512}$。每个卷积操作后都跟着一个批正则化和 ReLU 激活函数。</li>
+<li>像素级分类器 $C_1,C_2$ 包括一个 $1\times 1$ 的卷积层，后面跟着一个上采样层，$C_1$ 最后连接到一个 $2\times C512$ 块来得到输出，$C_2$ 最后连接到 $2\times R512$ 块来得到输出。</li>
+<li>batch size 为8，使用的是 Adam 优化器，学习率为 $2\times 10^{-4}$。</li>
+</ul>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
+        </div>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/05/23/SIFA/" title="【论文笔记】SIFA——基于GAN的双向跨模态无监督域适应框架" target="_blank">zuzhiang.cn/2020/05/23/SIFA/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -232,408 +333,105 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/05/23/SIFA/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/23/MIR/" class="archive-article-date">
-        <time datetime="2020-02-23T13:22:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/18/OROD/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】基于DQN和知识迁移的订单分配模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/23/MIR/">基于深度学习的医学图像配准笔记</a>
-	
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/pytorch-example/" class="archive-article-date">
-        <time datetime="2020-02-21T12:53:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/pytorch-example/">用pytorch实现在MNIST手写数字数据集上的分类任务</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/GAN-example/" class="archive-article-date">
-        <time datetime="2020-02-21T12:51:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/GAN-example/">基于生层对抗网络（GAN）在MNIST手写数字数据集上生成假图片（pytorch版）</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/notes/" class="archive-article-date">
-        <time datetime="2020-02-21T12:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/notes/">随笔-随时更新</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/随笔//" class="article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/resource/" class="archive-article-date">
-        <time datetime="2020-02-21T12:39:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/resource/">资源免费共享-随时更新</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/随笔//" class="article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/nnU-Net/" class="archive-article-date">
-        <time datetime="2020-02-21T12:38:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/nnU-Net/">【论文笔记】基于U-Net的医学图像分割模型nnU-Net（no-new U-Net）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/19/nii-DICOM/" class="archive-article-date">
-        <time datetime="2020-02-19T12:40:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-19</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/19/nii-DICOM/">怎样打开并查看.nii和DICOM格式的医学图像</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/19/MIT/" class="archive-article-date">
-        <time datetime="2020-02-19T12:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-19</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/19/MIT/">医学成像技术笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/14/ANTs/" class="archive-article-date">
-        <time datetime="2020-02-14T06:54:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/14/ANTs/">医学图像配准软件 ANTs（Advanced Normalization Tools）的安装和使用说明</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +470,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
