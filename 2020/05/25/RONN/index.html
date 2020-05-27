@@ -6,13 +6,13 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>【论文笔记】：基于范围的有障碍最近邻查询（RONN） | zuzhiang</title>
+  <title>【论文笔记】基于范围的有障碍最近邻查询（RONN） | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="description" content="本文是关于论文《Range-based Obstructed Nearest Neighbor Queries（RONN）》（基于范围的有障碍最近邻查询）的阅读笔记。没有完全读懂。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【论文笔记】：基于范围的有障碍最近邻查询（RONN）">
+<meta property="og:title" content="【论文笔记】基于范围的有障碍最近邻查询（RONN）">
 <meta property="og:url" content="zuzhiang.cn/2020/05/25/RONN/index.html">
 <meta property="og:site_name" content="zuzhiang">
 <meta property="og:description" content="本文是关于论文《Range-based Obstructed Nearest Neighbor Queries（RONN）》（基于范围的有障碍最近邻查询）的阅读笔记。没有完全读懂。">
@@ -33,9 +33,9 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/25/tCZFW8.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/25/tCZiJf.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/25/tCZASS.jpg">
-<meta property="og:updated_time" content="2020-05-25T11:33:50.334Z">
+<meta property="og:updated_time" content="2020-05-26T13:45:35.451Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【论文笔记】：基于范围的有障碍最近邻查询（RONN）">
+<meta name="twitter:title" content="【论文笔记】基于范围的有障碍最近邻查询（RONN）">
 <meta name="twitter:description" content="本文是关于论文《Range-based Obstructed Nearest Neighbor Queries（RONN）》（基于范围的有障碍最近邻查询）的阅读笔记。没有完全读懂。">
 <meta name="twitter:image" content="https://s1.ax1x.com/2020/05/25/tCVvsH.jpg">
   
@@ -209,7 +209,7 @@
   
   
     <h1 class="article-title" itemprop="name">
-      【论文笔记】：基于范围的有障碍最近邻查询（RONN）
+      【论文笔记】基于范围的有障碍最近邻查询（RONN）
     </h1>
   
 
@@ -288,12 +288,12 @@
 <hr>
 <p>RONN-RF同时测试一个数据对象到所有边的情况，而不是对每个边依次处理，这样提升了速度。RONN-RF只需要遍历R-树一次而不是四次。让$r_i,i=1,2,3,4$是查询范围R的角点，$\bar{E_{ij}}$表示边$\bar{r_ir_j}$，给定中间RONN的结果集（$RS_{ij}$）以及已访问过的障碍物的可视化图VG，我们就能确定数据对象在测试p下是否是边$\bar{E_{ij}}$的RONN。如果是，那么我们就可以获得分割点的列表，它可以把$\bar{E_{ij}}$分割成和$RS_{ij}$中的RONN相关的线段。此外，$\bar{E_{ij}}$的MOD也会被更新。</p>
 <p><img src="https://s1.ax1x.com/2020/05/25/tCVjQe.jpg" alt="5"></p>
-<p>给定一个查询范围R，RONN-RF首先发出一个范围查询来获得内部的RONN，即$p_4$，并用其初始化四个边的MOD。接着，通过遍历R树来得到外部的RONN。一开始，堆中只有$N_1,N_2$，按它们到R的欧几里得距离进行升序排序。从H弹出顶部的$N_1$，由于$N_1$是内部节点，需要比较它的子条目$N_5，N_6，N_7$到R的欧几里得距离和已有的MOD的关系，并将$N_6，N_7$插入回堆中，而$N_5$由于大于MOD而被过滤掉了。类似的将$N_2$弹出，其子条目$N_3，N_4$入堆；然后$N_3$出堆，$p_5，p_6$被插入到H中，$p_4$已经在RONN的结果集中了，所以不再插入；弹出$N_6$，把其子条目$o_1$插入到可视化图VG中；同理，弹出$N_4$，在VG中插入$o_2$；然后将$p_5$弹出，因为它是数据对象，并且是一个RONN，通过VG更新分割点和每条边的MOD；同理$p_6$包含在结果集中；最后将$N_7$弹出，将其子条目$p_7$插入到H中，因为$p_8$的距离大于某些MOD，所以不插入，但由于$o_1$的存在，不能更新当前RONN结果，此时H为空，RONN结果集包含$p_4,p_5,p_6$。</p>
+<p>给定一个查询范围R，RONN-RF首先发出一个范围查询来获得内部的RONN，即$p_4$，并用其初始化四个边的MOD。接着，通过遍历R树来得到外部的RONN。一开始，堆中只有$N_1,N_2$，按它们到R的欧几里得距离进行升序排序。从H弹出顶部的$N_1$，由于$N_1$是内部节点，需要比较它的子条目$N_5，N_6，N_7$到R的欧几里得距离和已有的MOD的关系，并将$N_6，N_7$插入回堆中，而$N_5$由于大于MOD而被过滤掉了。类似的将$N_2$弹出，其子条目$N_3，N_4$入堆；然后$N_3$出堆，$p_5，p_6$被插入到H中，$p_4$已经在RONN的结果集中了，所以不再插入；弹出$N_6$，把其子条目$o_1$插入到可视化图VG中；同理，弹出$N_4$，在VG中插入$o_2$；然后将$p_5$弹出，因为它是数据对象，并且是一个RONN，通过VG更新分割点和每条边的MOD；同理$p_6$包含在结果集中；最后将$N_7$弹出，将其子条目$p_7$插入到H中，因为$p_8$的距离大于某些MOD，所以不插入。然后弹出 $p_7$，但由于$o_1$的存在，不能更新当前RONN结果，此时H为空，RONN结果集包含$p_4,p_5,p_6$。</p>
 <p>在以上样例中，每条边都保存一个MOD，一个RONN的候选对象被过滤掉当且仅当它到查询范围边界的欧几里得距离大于相应的MOD，</p>
 <p>定理1：给定一个查询范围R和当前RONN结果集RS，一个R-树的条目e被过滤当且仅当对于R的每一个边$\bar{ab}$，满足$min_dist(e,\bar{ab})&gt;max_odis(RS,\bar{ab})$，其中前者是欧几里得距离。</p>
 <p>相比于CONNB算法，RONN-RF算法有两个优点：</p>
 <ul>
-<li>RONN-RF只需要遍历R-树一次，而CONNB需要四次</li>
+<li>RONN-RF寻找外部RONN时，只需要遍历R-树一次，而CONNB需要四次</li>
 <li>RONN-RF通过启发式的方式来对搜索空间进行剪枝</li>
 </ul>
 <p>以下是RONN-RF的算法流程：</p>
@@ -405,7 +405,7 @@
           </li>
           <li>
             <strong>本文链接：</strong>
-            <a href="zuzhiang.cn/2020/05/25/RONN/" title="【论文笔记】：基于范围的有障碍最近邻查询（RONN）" target="_blank">zuzhiang.cn/2020/05/25/RONN/</a>
+            <a href="zuzhiang.cn/2020/05/25/RONN/" title="【论文笔记】基于范围的有障碍最近邻查询（RONN）" target="_blank">zuzhiang.cn/2020/05/25/RONN/</a>
           </li>
           <li>
             <strong>版权声明： </strong>
