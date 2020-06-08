@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="zuzhiang">
 <meta property="og:description" content="本文主要是关于《鸟哥的Linux私房菜：基础篇》中第四章到第十二章的笔记，有些自己已经理解或感觉很少会使用到的东西没有再做记录，笔记的顺序做过一定的整理，不是完全按照书上的顺序，此外还加入了一些在别的地方学到的Linux的常用知识。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-05T02:30:20.876Z">
+<meta property="og:updated_time" content="2020-06-08T01:11:31.976Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《鸟哥的Linux私房菜：基础版》笔记">
 <meta name="twitter:description" content="本文主要是关于《鸟哥的Linux私房菜：基础篇》中第四章到第十二章的笔记，有些自己已经理解或感觉很少会使用到的东西没有再做记录，笔记的顺序做过一定的整理，不是完全按照书上的顺序，此外还加入了一些在别的地方学到的Linux的常用知识。">
@@ -218,125 +218,818 @@
 <a id="more"></a>
 
 <p>在命令行中[]表示可选，&lt;&gt;表示必选，{}表示任选一个。</p>
-<h2 id="第四章-首次登录与在线求助"><a href="#第四章-首次登录与在线求助" class="headerlink" title="第四章 首次登录与在线求助"></a>第四章 首次登录与在线求助</h2><p>在桌面按下 <code>Ctrl+Alt+[F1~F6]</code>进入编号为1~6的文本模式（又称终端接口、terminal、console），再按下相同的按键返回图形化窗口。</p>
-<p><code>~</code>符号是一个变量，它表示家目录，root 用户的家目录是 /root，普通用户的家目录是 /home/user_name。<code>-</code>表示前一个访问的目录。</p>
-<p>在命令行里输入<code>exit</code>可以实现当前用户的注销（非关机）。</p>
-<p>一般的指令格式为<code>command [-options] parameter1 parameter2 ...</code>，其中<code>command</code>是指令名，<code>[]</code>表示可选，<code>-</code>号表示是缩写，如<code>-h</code>；<code>--</code>表示全称，如<code>--help</code>。<code>parameter</code>是命令的参数。在某些特殊情况下选项和参数前面也有可能带有正号<code>+</code>。在指令中无论空几格都视为一格。</p>
-<p>在Linux中大小写字母是不一样的。</p>
-<p>显示日期和时间：date</p>
-<p>显示日历：cal [month] [year]</p>
-<p>简单好用的计算器：bc，支持<code>+ - * / ^ %</code>即加、减、乘、除、指数、取余等，默认输出只支持整数，输入<code>quit</code>退出。</p>
-<p><code>Tab</code>键具有命令补全和文件补全的功能，在一个没打完的命令名后按两次<code>Tab</code>就可以显示所有以该字符串为前缀的命令名，在一个没打完的文件名后按两次<code>Tab</code>就可以显示所有以该字符串为前缀的文件名，在<code>-</code>或<code>--</code>后面按两次<code>Tab</code>就可以显示改命令所有的可选项。</p>
-<p><code>Ctrl+c</code>可以终止当前进程的运行，<code>Ctrl+z</code>是挂起当前进程，<code>Ctrl+d</code>代表键盘输入结束，即EOF，并且该组合键还可以当作<code>exit</code>命令来使用。</p>
-<p>可以通过<code>command --help</code>来查看指令的帮助信息，即怎样使用。或者用<code>man command</code>指令查看如何使用，进入<code>man</code>指令的功能后，按下空格键往下翻页，按下<code>q</code>退出，按下<code>/</code>再输入字符串，就可以向下搜索该字符串了，类似的<code>?</code>是向上搜索，按下<code>n</code>是搜索下一个。以上按键都是在<code>man</code>界面才能使用的。</p>
-<p><code>info</code>指令和<code>man</code>指令的作用差不多，它把文件数据拆成一个个独立页面（节点），并用超链接来跳转到不同的页面。按<code>U</code>和<code>N</code>键分别可以跳到上一个和下一个节点处。每个节点前有<code>*</code>，可以用上下键移动到某个节点上，然后按回车键进入。也可以按<code>Tab</code>键在节点之间快速移动。按<code>q</code>退出info page。</p>
-<p><code>who</code>命令查看当前有哪些用户在线。</p>
-<p><code>shutdown</code>、<code>poweroff</code>和<code>halt</code>可以关机，常用第一个，<code>reboot</code>可以重启。</p>
-<p><code>shutdown [-krhc] [时间] [警告信息]</code>，<code>-k</code>是只发出警告信息不关机，<code>-r</code>是重新启动，<code>-h</code>立即关机，<code>-c</code>取消正在进行的shutdown指令，时间是系统关机的时间，单位是分钟，默认为1分钟。例子：<code>shutdown -h now</code>立即关机，<code>shutdown -h 20:25</code>下一个20点25分关机。</p>
-<p><code>sync</code>可以让内存中尚未更新保存的数据写入到磁盘中。</p>
-<p><code>su -</code>可以让用户身份变为root，输入<code>exit</code>返回普通用户身份</p>
-<h2 id="第五章-文件权限和目录配置"><a href="#第五章-文件权限和目录配置" class="headerlink" title="第五章 文件权限和目录配置"></a>第五章 文件权限和目录配置</h2><p>文件有好多种，在输入<code>ls -al</code>显示文件的属性时，第一个字符为<code>-</code>则是一般文件，为<code>d</code>则是目录文件，为<code>l</code>则为快捷方式（连结档）</p>
-<p>Linux 中的文件实际上没有扩展名，不过仍常根据文件的拓展名来区分文件的类型，如<code>.sh</code>是shell的脚本文件，<code>.tar, .tar.gz, .zip, .tgz</code>等为压缩文件，</p>
-<p>文件名的第一个字符为<code>.</code>时表示为一个隐藏文件。</p>
-<p>根据约定好的标准，linux下不同的目录所存储的文件类型是一样的，如：<code>/bin</code>用来存储可执行文件，<code>/boot</code>用来存储开机会用到的文件，<code>/dev</code>用来存储装置和接口设备，<code>/ect</code>用来存储配置文件，<code>/lib</code>用来存储函式库文件，<code>/media</code>用来存储可移除的装置，如软盘、光盘、DVD等，<code>/mnt</code>用来存储暂时挂载的其他装置，<code>/opt</code>用来存储第三方协力软件，<code>/run</code>用来存储开机后产生的各项信息，<code>/sbin</code>用来存储开机、修复、还原系统所需要的指令，<code>/tmp</code>用来存储一般用户或正在执行的程序所产生的文件，<code>/usr</code>用来存储各种软件，<code>/var</code>用来存储变动性的数据，<code>/home</code>是默认的用户家目录，<code>/root</code>是root用户的家目录。比较重要的有/etc, /bin, /dev, /lib, /sbin等。</p>
-<h2 id="第六章-文件与目录管理"><a href="#第六章-文件与目录管理" class="headerlink" title="第六章 文件与目录管理"></a>第六章 文件与目录管理</h2><p><code>.</code>表示本层目录，<code>..</code>表示上层目录，<code>-</code>表示前一个目录，<code>~</code>表示当前用户的家目录，<code>~用户名</code>表示该用户的家目录。</p>
-<p><code>cd</code>变换目录（change directory），<code>pwd</code>显示当前目录（print working directory），<code>mkdir</code>创建一个新的目录，<code>rmdir</code>删除一个空的目录。</p>
-<p><code>cd</code>后不加任何目录表示回到家目录。</p>
-<p><code>pwd [-P]</code>中<code>-P</code>表示显示确实的路径，而不是用链接路径</p>
-<p><code>mkdir [-mp] 目录名称</code>，<code>-m</code>表示配置文件的权限，<code>-p</code>可以直接将所需的目录（包括上层目录）递归的建立起来。</p>
-<p><code>rmdir [-p] 目录名称</code>，<code>-p</code>表示连同上层的空目录一起删除，若目录中有内容则无法删除。</p>
-<p><code>echo $PATH</code>用来查看环境变量，echo有显示、印出的意思，$表示后面接的是变量。</p>
-<p><code>ls [-aAdfFhilnrRSt] 文件名或目录名称</code>，<code>-a</code>表示显示所有文件（包括以<code>.</code>开头的隐藏文件），<code>-d</code>仅显示目录，<code>-h</code>将文件的容量以人类易读的方式显示，<code>-l</code>长数据串行出，包含文件的属性与权限等数据。</p>
-<p><code>cp [-adfilprsu] 源文件 目标文件</code>，复制文件或目录，<code>-a</code>相当于<code>-dr --preserve=all</code>，<code>-d</code>若源文件为链接文件的属性，则复制链接文件属性而非文件本身，<code>-f</code>强制的意思，<code>-i</code>若目标文件已经存在，则在覆盖时会先进行询问，<code>-r</code>递归持续复制，用于目录的复制行为，<code>-s</code>复制为符号链接文件，即快捷方式文件，<code>-u</code>当源文件比目标文件新或目标文件不存在时才进行更新或复制，<code>--preserve=all</code>，连同文件的各种属性也复制过去。</p>
-<p><code>rm [-fir] 文件或目录</code>用来移除文件或目录，<code>-f</code>是强制的意思，可以忽略不存在的文件，不出现警告信息，<code>-i</code>互动模式，删除前会先询问，<code>-r</code>递归删除。例子：<code>rm -i bashrc*</code>其中*表示0到无穷任意多个字符。例子：<code>rm ./-aaa</code>在删除开头是<code>-</code>的文件时，不能直接运行<code>rm -aaa</code>，因为<code>-</code>会被当作选项。</p>
-<p><code>mv [-fiu]</code>移动文件或目录，或更名。<code>-f</code>强制覆盖目标文件，<code>-i</code>覆盖前先询问，<code>-u</code>若源文件比目标文件新时才更新。例子：<code>mv file file1</code>实际是更名的效果，<code>mv file1 file2 dir</code>当有多个文件或目录名是，最后一个一定是目录，其作用是将所有文件都移动到目录<code>dir</code>中。</p>
-<p><code>basename /etc/sysconfig/network</code>取最后的文件名，即<code>network</code>，<code>dirname /etc/sysconfig/network</code>取目录名，即<code>/etc/sysconfig</code></p>
-<p><code>cat</code>由第一行开始显示文件内容，<code>tac</code>从最后一行开始显示（是cat倒着写），<code>nl</code>显示的时候输出行号，<code>more</code>一页一页的显示文件内容，<code>less</code>与<code>more</code>类似，但它可以往前翻页，<code>head</code>只看头几行，<code>tail</code>只看末尾几行，<code>od</code>以二进制的方式读取文件内容。</p>
-<p><code>cat [-AbEnTv] 文件</code>，cat是concatenate（连续）的缩写，<code>-n</code>打印出行号，空白行也有行号，<code>-v</code>列出一些看不出来的特殊字符</p>
-<p><code>nl [-bnw] 文件</code>，<code>-b a</code>无论是否为空行，都显示行号，<code>-n ln</code>在屏幕的最左方显示行号。</p>
-<p>以上两个指令都不可以进行翻页。</p>
-<p><code>more 文件名</code>，可在最后输入各种指令进行操作：<code>空格键</code>往下翻页，<code>b</code>往上翻页，<code>回车键</code>往下翻一行，<code>/字符串</code>在当前显示内容中往下搜索字符串，<code>:f</code>显示文件名和当前显示的行数，<code>q</code>退出。</p>
-<p><code>less 文件名</code>，除了<code>more</code>有的操作，还有：<code>[pagedown]</code>往下翻页，<code>[pageup]</code>往上翻页，<code>?字符串</code>向上搜索字符串，<code>n</code>重复前一个搜索，<code>g</code>跑到文件的第一行，<code>G</code>跑到文件的最后一行</p>
-<p><code>head [-n number] 文件名</code>，从头开始显示指定行数的文件内容，<code>tail [-n number] 文件名</code>，从末尾开始显示指定行数的文件内容，<code>-f</code>持续侦测文件内容，当文件正在写入时使用。例子：<code>tail -n +100 /etc/man_db.conf</code>显示第100行往后的内容。</p>
-<p><code>od [-t TYPE] 文件名</code>，<code>-t</code>后面跟<code>a</code>表示是用默认字符来输出，<code>c</code>表示用ASCII字符来输出，<code>d</code>表示利用十进制来输出，<code>f</code>表示利用浮点数来输出，<code>o</code>表示用八进制来输出，<code>x</code>表示用十六进制来输出。</p>
-<p><code>touch [-acdmt] 文件名</code>，<code>-a</code>仅修改access time，<code>-m</code>仅修改modification time。</p>
-<p><code>umask [-S]</code>用来查看或指定当前用户在建立文件或目录时的权限默认值。直接输入<code>umask</code>会显示四个数字，分别表示root用户、当前用户、用户组和其他用户的权限，其中读权限r为4分，写权限w为2分，执行权限x为1分。<code>-S</code>是以人能读懂的方式显示当前用户、用户组和其他用户的权限，如<code>drwxr-xr-x</code>中的第一个<code>d</code>表示为目录，若为<code>-</code>表示为普通文件，当没有相应的权限时用<code>-</code>占位。例子：<code>umask 022</code>指定三种用户的权限。</p>
-<p><code>chattr [+-=][ASacdistu] 文件名或目录名</code>配置文件隐藏属性，<code>+</code>增加一个特殊参数，<code>-</code>删除一个特殊参数，<code>=</code>设定一定，且仅有后面的参数。<code>-a</code>设定文件只能增加数据，不能删除和修改，<code>-i</code>设定文件不能删除、改名或增加数据等。这两个只有root用户才能设定。</p>
-<p><code>lsattr [-adR] 文件名或目录名</code>显示文件隐藏属性，<code>-a</code>将隐藏文件的属性也显示出来，<code>-d</code>如果是目录则只列出目录本身的属性而非目录内文件的属性，<code>-R</code>连同子目录的数据也一并列出来。</p>
-<p><code>which [-a] command</code>寻找可执行文件，<code>-a</code>将所有PATH目录中可以找到的指令均列出，默认是只列出第一个。</p>
-<p><code>whereis [-bmsu] 文件或目录名</code>在一些特定的目录中寻找文件</p>
-<p><code>locate [-ir] keyword</code>利用数据库来寻找文件，<code>-i</code>忽略大小写。数据库一般是一天更新一次，可以用<code>updatedb</code>来更新数据库。</p>
-<p><code>find [PATH] [option] [action]</code>在硬盘上寻找文件，选项有：<code>-name filename</code>指定文件名，<code>-size [+-]SIZE</code>搜索比SIZE大还是小的文件，c表示byte，k表示KB，m表示MB，<code>-type TYPE</code>指定文件类型，<code>f</code>是一般文件，<code>d</code>是目录，<code>l</code>是连接档。文件名默认是全名，也可以带有*等。动作有执行和打印等，如<code>find / -size +1M -exec ls -l {} \;</code>中{}表示由find找到的内容，;是结束的标志。不常用。</p>
-<h2 id="第七章-磁盘与文件系统管理"><a href="#第七章-磁盘与文件系统管理" class="headerlink" title="第七章 磁盘与文件系统管理"></a>第七章 磁盘与文件系统管理</h2><p><code>df [-ahikHTm] [文件或目录名]</code>列出文件系统的磁盘使用量，<code>-a</code>列出所有的文件系统，<code>-h</code>自动以KB、MB、GB等合适的格式显示。</p>
-<p><code>du [-ahskm] 文件或目录名</code>评估文件系统的使用量，<code>-ah</code>和上面的一样，默认以KB为单位显示。</p>
-<p><code>ln [-sf] 源文件 目标文件</code>制作连接档，<code>-s</code>表示是软连接，即快捷方式，默认是硬连接，<code>-f</code>强制进行，若目标文件存在则将其删除后再建立。</p>
-<h2 id="第八章-压缩"><a href="#第八章-压缩" class="headerlink" title="第八章 压缩"></a>第八章 压缩</h2><p>压缩文件的拓展名大多是<code>*.tar, *.tar.gz, *.tgz, *.gz, *.Z, *.bz2, *.xz</code>，其中tar的文件只是打包过，没有经过压缩。</p>
-<p><code>gzip [-cdtv#] 文件名</code>压缩命令可以对扩展名为 .Z, .zip, .gz 的文件进行解压缩，压缩时生成的拓展名为 .gz。<code>-d</code>进行解压缩，解压缩完毕后会删除源文件，<code>-t</code>检验压缩文件的一致性，检验文件是否出错，<code>-v</code>显示压缩比等信息，<code>#</code>为数字的意思，代表压缩等级，-1最快但压缩比大，-9最慢但压缩比小。在压缩完毕后会删除源文件。</p>
-<p><code>zcat/zmore/zless</code>用来读取纯文本文档被压缩后的压缩文件。</p>
-<p><code>bzip2 [-cdkzv#] 文件名</code>，<code>-k</code>保留源文件而不删除，<code>-dv#</code>和<code>gzip</code>相同，该命令的压缩率比<code>gzip</code>高，但速度慢些。</p>
-<p><code>xz [-dtlkc#] 文件名</code>，<code>-l</code>列出压缩文件的相关信息，如压缩前后的大小和压缩率等，<code>-dtkc#</code>和<code>bzip2</code>相同，压缩率更高。</p>
-<p>以上指令只能对单一的文件进行压缩，如果是多个文件则需要先进行打包，在进行压缩。</p>
-<p><code>tar [-z|-j|-J] [cv] [-f 待建立的新文件名] 文件名...</code>打包与压缩</p>
-<p><code>tar [-z|-j|-J] [tv] [-f 已有的文件名]</code>查看文件名，</p>
-<p><code>tar [-z|-j|-J] [xv] [-f 已有的文件名] [-C 目录名]</code>解压缩，</p>
-<p><code>-c</code>建立打包文件或压缩，<code>-t</code>查看打包文件包括哪些文件，<code>-x</code>解打包或解压缩，<code>-c, -t, -x</code>不可同时出现在同一指令中，<code>-z</code>利用gzip进行压缩/解压缩，<code>-j</code>利用bzip2进行压缩/解压缩，<code>-J</code>利用xz进行压缩/解压缩，<code>-z, -j, -J</code>不可不同时出现在同一指令中。<code>-v</code>在压缩/解压缩过程中将正在处理的文件名显示出来，<code>-f 文件名</code>指定要处理的文件，<code>-C 目录</code>指定要解压到的目录。例子：<code>tar -jxv -f filename.tar.bz2 -C 目录名</code>就是利用bzip2将该压缩文件解压到指定目录中。如果不加<code>[-z|-j|-J]</code>进行打包时文件名要指定为*.tar，若添加<code>[-z|-j|-J]</code>进行压缩时文件名要指定为*.tar.gz|*.tar.bz2|*.tar.xz。如果不想打包目录中的某几个文件，则可以使用<code>tar -jcv -f /root/system.tar.bz2 --exclude=file1 --exclude=file2</code></p>
-<p>通过<code>tar</code>命令打包的文件被称为tarfile，通过<code>tar</code>命令压缩的文件被称为tarball</p>
-<p>在输入命令时，如果想输入多行，可以先输入<code>\</code>，然后立刻输入回车键，就可以在下一行继续写了。</p>
-<p>数据的备份和还原，略。</p>
-<h2 id="第九章-vi和vim"><a href="#第九章-vi和vim" class="headerlink" title="第九章 vi和vim"></a>第九章 vi和vim</h2><p>vim是进阶版的vi，可以用不同颜色显示文字内容，并且具有程序编写的功能，可以根据程序的类型来进行显示。</p>
-<p>vi有三种模式：一般指令模式、编辑模式和指令行命令模式。一般指令模式：用vi打开文件后默认进入一般指令模式；编辑模式：按下<code>i,I,o,O,a,A,r,R中</code>的任意一个字母后进入编辑模式，按下<code>ESC</code>键退出；指令行命令模式：输入<code>:,?</code>后进入指令行命令模式。</p>
-<p><code>vi 文件名</code>当文件名存在时直接打开，不存在时新建。一般输入<code>i</code>进入编辑模式，输入<code>ESC</code>键退出编辑模式，输入<code>:</code>进入指令行命令模式，<code>:wq!</code>中<code>w</code>是写入保存，<code>q</code>是退出，<code>!</code>是强制执行。</p>
-<p>在一般指令模式下：</p>
-<p>输入<code>30↓</code>则是往下移动30列，<code>Ctrl+f</code>或<code>&lt;page up&gt;</code>前一页，<code>Ctrl+b</code>或<code>&lt;page down&gt;</code>后一页，<code>n&lt;space&gt;</code>n表示数字，光标右移n个字符，<code>0</code>或<code>home</code>移动到这一行的最前面字符，<code>$</code>或<code>end</code>移动到这一行的最后一个字符，<code>G</code>移动到文件的最后一行，<code>gg</code>移动到文件的第一行，<code>n&lt;Enter&gt;</code>光标往下移动n行，<code>/word</code>从光标处开始往下寻找字符word，<code>?word</code>从光标处开始往上寻找字符word，<code>n</code>向下重复前一个搜寻操作，<code>:n1,n2s/word1/word2/g</code>在第n1行和n2行之间搜寻word1并将其替换为word2，<code>:1,$s/word1/word2/g</code>从第一行到最后一行寻找word1，并将其地换为word2，<code>dd</code>删除光标所在的一整行，<code>yy</code>复制游标所在的那一行，<code>p</code>是在光标的下一行粘贴，<code>u</code>复原上一个动作，<code>Ctrl+r</code>或<code>.</code>重做上一个动作。</p>
-<p>在指令行命令模式下：</p>
-<p><code>:set nu</code>显示行号，<code>:set nonu</code>取消行号。</p>
-<p>如果输入<code>alias</code>显示 vi=’vim’，则说明在执行vi指令时，默认使用的是vim。</p>
-<p>可以用vim 后面接多个文件来同时对多个文件进行编辑，在指令行模式下，<code>:n</code>是编辑下一个文件，<code>:N</code>是编辑上一个文件，<code>:files</code>是列出目前这个vim所开启的所有文件。</p>
-<p>在指令行模式下输入<code>:sq [文件名]</code>可以同时浏览多个文件，当加文件名时则在一个新窗口打开该文件，当不加文件名时，在同一个窗口内打开。<code>Ctrl+w+↑</code>切换到上面的窗口，<code>Ctrl+w+↓</code>切换到下面的窗口，<code>Ctrl+w+q</code>退出当前窗口。</p>
-<h2 id="第十章-BASH"><a href="#第十章-BASH" class="headerlink" title="第十章 BASH"></a>第十章 BASH</h2><p>linux下默认的shell是bash</p>
-<p><code>alias lm=ls -al</code>命令别名设定功能，可以将<code>ls -al</code>这个指令设定一个别名<code>lm</code>，<code>alias</code>可以查看所有有别名的命令，<code>unalias lm</code>则可以取消命令的别名。</p>
-<p><code>Ctrl+a</code>让光标移动到整个指令串的最前面，<code>Ctrl+e</code>让光标移动到整个指令串的最后面。</p>
-<p>linux中的变量的设定<code>name=&quot;my name is $NAME&quot;</code>，如果变量内容有空格符，需要用单引号或双引号将其括起来，在双引号中<code>$</code>符后面的被当做是变量名，单引号中的特殊字符被当作纯文本。</p>
-<p>若为变量扩增内容时，可使用：<code>PATH=&quot;$PATH&quot;:/home/bin</code>或<code>PATH=${PATH}:/home/bin</code>或<code>PATH=$PATH:/home/bin</code></p>
-<p><code>unset 变量名</code>用来取消变量的设定</p>
-<p><code>env</code>用来查看所有的环境变量</p>
-<p><code>export 变量名</code>将自定义变量转成环境变量，</p>
-<p><code>read [-pt] variable</code>从键盘输入变量，<code>-p</code>后面接提示字符，<code>-t</code>后面接等待的秒数。</p>
-<p><code>declare [-aixr] variable</code>宣告变量的类型，<code>-a</code>将后面的变量定义为数组类型，<code>-i</code>将后面的变量定义为整数类型，<code>-x</code>将后面的变量变成环境变量，<code>-r</code>将后面的变量设定为只读类型。</p>
+<h2 id="一、基础知识"><a href="#一、基础知识" class="headerlink" title="一、基础知识"></a>一、基础知识</h2><ul>
+<li><p><code>Ctrl+Alt+[F1~F6]</code>：在桌面按下可进入编号为1~6的文本模式（又称终端接口、terminal、console），再按下相同的按键返回图形化窗口。</p>
+</li>
+<li><p><code>command [-options] 参数1 参数2 ...</code>：一般的指令格式</p>
+<ul>
+<li><p><code>command</code>：指令名</p>
+</li>
+<li><p><code>[]</code>：表示可选</p>
+</li>
+<li><p><code>-</code>：表示是缩写，如<code>-h</code></p>
+</li>
+<li><p><code>--</code>：表示全称，如<code>--help</code></p>
+</li>
+<li><p><code>参数</code>：命令的参数</p>
+<p>在某些特殊情况下选项和参数前面也有可能带有正号<code>+</code>。</p>
+</li>
+</ul>
+<p>在指令中无论空几格都视为一格。在Linux中大小写字母是不一样的。</p>
+</li>
+<li><p><code>Tab</code>：具有命令补全和文件补全的功能</p>
+<ul>
+<li>在一个没打完的命令名后按两次<code>Tab</code>就可以显示所有以该字符串为前缀的命令名</li>
+<li>在一个没打完的文件名后按两次<code>Tab</code>就可以显示所有以该字符串为前缀的文件名</li>
+<li>在<code>-</code>或<code>--</code>后面按两次<code>Tab</code>就可以显示改命令所有的可选项</li>
+</ul>
+</li>
+<li><p><code>Ctrl+其他键</code></p>
+<ul>
+<li><code>Ctrl+c</code>：终止当前进程的运行</li>
+<li><code>Ctrl+z</code>：挂起当前进程</li>
+<li><code>Ctrl+d</code>：键盘输入结束，即EOF，并且该组合键还可以当作<code>exit</code>命令来使用</li>
+<li><code>Ctrl+a</code>：让光标移动到整个指令串的最前面</li>
+<li><code>Ctrl+e</code>：让光标移动到整个指令串的最后面</li>
+<li><code>Ctrl+?</code>：清除本行指令</li>
+</ul>
+</li>
+<li><p>文件有好多种，在输入<code>ls -al</code>显示文件的属性时，第一个字符为<code>-</code>则是一般文件，为<code>d</code>则是目录文件，为<code>l</code>则为快捷方式（连结档）</p>
+</li>
+<li><p>Linux 中的文件实际上没有扩展名，不过仍常根据文件的拓展名来区分文件的类型，如<code>.sh</code>是shell的脚本文件，<code>.tar, .tar.gz, .zip, .tgz</code>等为压缩文件</p>
+</li>
+<li><p>文件名的第一个字符为<code>.</code>时表示为一个隐藏文件。</p>
+</li>
+<li><p>根据约定好的标准，linux下不同的目录所存储的文件类型是一样的，以下目录中比较重要的有<code>/etc, /bin, /dev, /lib, /sbin</code>等。</p>
+<ul>
+<li><code>/bin</code>：存储可执行文件</li>
+<li><code>/boot</code>：存储开机会用到的文件</li>
+<li><code>/dev</code>：存储装置和接口设备</li>
+<li><code>/ect</code>：存储配置文件</li>
+<li><code>/lib</code>：存储函式库文</li>
+<li><code>/media</code>：存储可移除的装置，如软盘、光盘、DVD等</li>
+<li><code>/mnt</code>：存储暂时挂载的其他装置</li>
+<li><code>/opt</code>：存储第三方协议软件</li>
+<li><code>/run</code>：存储开机后产生的各项信息</li>
+<li><code>/sbin</code>：存储开机、修复、还原系统所需要的指令</li>
+<li><code>/tmp</code>：存储一般用户或正在执行的程序所产生的文件</li>
+<li><code>/usr</code>：存储各种软件</li>
+<li><code>/var</code>：存储变动性的数据</li>
+<li><code>/home</code>：默认的用户家目录</li>
+<li><code>/root</code>：root用户的家目录</li>
+</ul>
+</li>
+<li><p>目录符号</p>
+<ul>
+<li><code>.</code>：本层目录</li>
+<li><code>..</code>：上层目录</li>
+<li><code>-</code>：前一个目录</li>
+<li><code>~</code>：当前用户的家目录</li>
+<li><code>~用户名</code>：该用户的家目录</li>
+<li><code>/root</code>：root 用户的家目录</li>
+<li><code>/home/用户名</code>：普通用户的家目录</li>
+<li><code>/</code>：根目录，即所有目录最顶层的目录</li>
+</ul>
+</li>
+<li><p><code>vim</code>是进阶版的<code>vi</code>，可以用不同颜色显示文字内容，并且具有程序编写的功能，可以根据程序的类型来进行显示。<code>vi</code>有三种模式：</p>
+<ul>
+<li>一般指令模式：用vi打开文件后默认进入一般指令模式<ul>
+<li><code>30↓</code>：往下移动30行</li>
+<li><code>Ctrl+f</code>或<code>PageDown</code>：下一页</li>
+<li><code>Ctrl+b</code>或<code>PageUp</code>：上一页</li>
+<li><code>n+Space</code>：光标右移n个字符，n表示数字</li>
+<li><code>0</code>或<code>home</code>：移动到这一行的最前面字符</li>
+<li><code>$</code>或<code>end</code>：移动到这一行的最后一个字符</li>
+<li><code>Shift+g</code>：移动到文件的最后一行</li>
+<li><code>gg</code>：移动到文件的第一行</li>
+<li><code>n+Enter</code>：光标往下移动n行</li>
+<li><code>/字符串</code>：从光标处开始往下寻找字符串</li>
+<li><code>?字符串</code>：从光标处开始往上寻找字符串</li>
+<li><code>n</code>：向下重复前一个搜寻操作</li>
+<li><code>:n1,n2s/word1/word2/g</code>：在第n1行和n2行之间搜寻word1并将其替换为word2</li>
+<li><code>:1,$s/word1/word2/g</code>：从第一行到最后一行寻找word1，并将其地换为word2</li>
+<li><code>dd</code>：删除光标所在的一整行</li>
+<li><code>yy</code>：复制游标所在的那一行</li>
+<li><code>p</code>：在光标的下一行粘贴</li>
+<li><code>u</code>：复原上一个动作</li>
+<li><code>.</code>：重做上一个动作</li>
+</ul>
+</li>
+<li>编辑模式：按下<code>i,I,o,O,a,A,r,R中</code>的任意一个字母后进入编辑模式，按下<code>ESC</code>键退出</li>
+<li>指令行命令模式：输入<code>:,?</code>后进入指令行命令模式<ul>
+<li><code>:set nu</code>：显示行号</li>
+<li><code>:set nonu</code>：取消行号</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在输入命令时，如果想输入多行，可以先输入<code>\</code>，然后立刻输入回车键，就可以在下一行继续写了。</p>
+</li>
+<li><p><code>vi 文件名</code>当文件名存在时直接打开，不存在时新建。一般输入<code>i</code>进入编辑模式，输入<code>ESC</code>键退出编辑模式，输入<code>:</code>进入指令行命令模式，<code>:wq!</code>中<code>w</code>是写入保存，<code>q</code>是退出，<code>!</code>是强制执行</p>
+</li>
+<li><p>如果输入<code>alias</code>显示 vi=’vim’，则说明在执行vi指令时，默认使用的是vim</p>
+</li>
+<li><p>可以用vim 后面接多个文件来同时对多个文件进行编辑，在指令行模式下，<code>:n</code>是编辑下一个文件，<code>:N</code>是编辑上一个文件，<code>:files</code>是列出目前这个vim所开启的所有文件。在指令行模式下输入<code>:sq [文件名]</code>可以同时浏览多个文件，当加文件名时则在一个新窗口打开该文件，当不加文件名时，在同一个窗口内打开。<code>Ctrl+w+↑</code>切换到上面的窗口，<code>Ctrl+w+↓</code>切换到下面的窗口，<code>Ctrl+w+q</code>退出当前窗口。</p>
+</li>
+<li><p>linux下默认的shell是bash</p>
+</li>
+<li><p><code>/etc/profile</code>：保存系统整体的设定的文件，在用户登录系统时，会自动调用<code>/etc/profile</code>然后该文件又会自动调用其他配置文件</p>
+</li>
+<li><p><code>~/.bash_profile</code>或<code>~/.bash_login</code>或<code>~/.profile</code>：当前用户的设定文件</p>
+</li>
+<li><p><code>source 配置文件名</code>：不需注销即可把配置文件里的内容加载进来，<code>source</code>的作用同<code>.</code></p>
+</li>
+<li><p>通配符</p>
+<ul>
+<li><code>*</code>：0到无穷多个任意字符</li>
+<li><code>?</code>：一个任意字符</li>
+<li><code>[abcd]</code>：取[]中的任意一个字符</li>
+<li><code>-</code>：在编码顺序内的所有字符，如<code>[0-9]</code>表示0-9共10个数字</li>
+<li><code>^</code>：反向选择，如<code>[^abc]</code>表示除了abc之外的其他一个字符</li>
+</ul>
+</li>
+<li><p>特殊字符</p>
+<ul>
+<li><code>#</code>：注释符号</li>
+<li><code>\</code>：转义字符</li>
+<li><code>|</code>：管线，分割两个管线命令的界定</li>
+<li><code>;</code>：连续性命令的节点</li>
+<li><code>$</code>：取用变数的前导符</li>
+<li><code>&amp;</code>：工作控制，将指令变为背景下工作</li>
+<li><code>!</code>：逻辑非</li>
+<li><code>()</code>：中间为子shell的起始和终止</li>
+<li><code>{}</code>：中间为命令区块的组合。 </li>
+</ul>
+</li>
+<li><p><code>&gt;</code>和<code>&gt;&gt;</code>是输出重定向，即将本来要输出到屏幕的内容输出到其他位置，如某个文件中，前者是覆盖写入，后者是追加写入，如<code>ls -a / &gt;~/rootfile</code>将目录<code>/</code>下的所有文件名以覆盖的形式写入到<code>~/rootfile</code>中，文件不存在时会自动建立。<code>1&gt;</code>和<code>1&gt;&gt;</code>是标准输出的重定向，即将指令正常运行时的信息重定向输出，<code>2&gt;</code>和<code>2&gt;&gt;</code>是标准错误输出的重定向，即将指令运行错误时的信息重定向输出。<code>&amp;&gt;</code>可以将正确和错误信息输出到同一个文件中，并且顺序不会乱</p>
+</li>
+<li><p><code>&lt;</code>和<code>&lt;&lt;</code>是输入重定向，即将本来要从键盘输入的内容改为由其他方式（如文件）输入，后者由文件输入之后必须通过键盘输入EOF之后才结束</p>
+</li>
+<li><p><code>cmd;cmd</code>：不考虑指令相关性的连续指令下达</p>
+</li>
+<li><p><code>cmd1 &amp;&amp; cmd2</code>：若cmd1正确执行完毕，则继续执行cmd2，反之不执行cmd2</p>
+</li>
+<li><p><code>cmd1 || cmd2</code>：若cmd1正确执行完毕，则不执行cmd2，反之执行cmd2</p>
+</li>
+<li><p>管线命令<code>|</code>和连续下达命令<code>;</code>是不同的，它可以让第一个命令的正确输出信息作为第二个命令的输入，有多个命令时以此类推。不是所有的指令都可以当作后面的指令，它必须要有接收标准输入的能力</p>
+</li>
+<li><p>在管线中当某些指令需要用到文件名来进行处理时，该标准输入和标准输出可以利用<code>-</code>来代替</p>
+</li>
+<li><p><code>&amp;</code>可以让命令在后台运行，如<code>cp -r /usr/* test &amp;</code> 将<code>/usr</code>目录下的所有文件和目录复制到<code>test</code>目录下，该过程在后台完成</p>
+</li>
+</ul>
+<h2 id="二、常用命令"><a href="#二、常用命令" class="headerlink" title="二、常用命令"></a>二、常用命令</h2><ul>
+<li><p><code>exit</code>：在命令行里输入可以实现当前用户的注销（退出当前命令行，非关机）</p>
+</li>
+<li><p><code>man readline</code>：查看bash中的默认快捷键</p>
+</li>
+<li><p><code>date</code>：显示日期和时间</p>
+</li>
+<li><p><code>cal [month] [year]</code>：显示日历</p>
+</li>
+<li><p><code>bc</code>：简单好用的计算器</p>
+<ul>
+<li><code>+ - * / ^ %</code>：支持加、减、乘、除、指数、取余等，默认输出只支持整数；</li>
+<li>输入<code>quit</code>退出。</li>
+</ul>
+</li>
+<li><p><code>command --help</code>：查看指令的帮助信息，即怎样使用</p>
+</li>
+<li><p><code>who</code>：查看当前有哪些用户在线</p>
+</li>
+<li><p><code>shutdown|poweroff|halt</code>：关机，常用第一个</p>
+</li>
+<li><p><code>shutdown [-krhc] [时间] [警告信息]</code>：关机</p>
+<ul>
+<li><code>-k</code>：只发出警告信息不关机</li>
+<li><code>-r</code>：重新启动</li>
+<li><code>-h</code>：立即关机</li>
+<li><code>-c</code>：取消正在进行的shutdown指令</li>
+<li><code>时间</code>：系统关机的时间，单位是分钟，默认为1分钟</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>shutdown -h now</code>：立即关机</li>
+<li><code>shutdown -h 20:25</code>：下一个20点25分关机</li>
+</ul>
+</li>
+<li><p><code>reboot</code>：可以重启</p>
+</li>
+<li><p><code>su 用户名</code>：切换用户</p>
+<ul>
+<li><code>exit</code>：在进入新用户身份后，该指令可返回原用户身份</li>
+</ul>
+</li>
+<li><p><code>echo $PATH</code>：查看环境变量，echo有显示、印出的意思，$表示后面接的是变量名</p>
+</li>
+<li><p><code>alias lm=&#39;ls -al&#39;</code>：命令别名设定功能，将<code>ls -al</code>这个指令设定一个别名<code>lm</code></p>
+<ul>
+<li><code>不加参数</code>：查看所有有别名的命令</li>
+<li><code>unalias lm</code>：取消命令的别名。</li>
+</ul>
+</li>
+<li><p><code>history [n]</code>：查看历史命令</p>
+<ul>
+<li><code>n</code>：数字，列出最近的n条命令</li>
+<li><code>history [-c]</code>：将所有历史命令全部清除</li>
+<li><code>history [-raw] histfiles</code>：查看历史命令<ul>
+<li><code>-a</code>：将历史命令额外保存在<code>histfiles</code>文件中</li>
+<li><code>-r</code>：将<code>histfiles</code>文件中的内容读入到history记忆中</li>
+<li><code>-w</code>：将目前的history记忆内容写入到<code>histfiles</code>中。</li>
+</ul>
+</li>
+</ul>
+<p><code>!number</code>执行history记忆中的第number个命令，<code>!command</code>向前搜索以command为开头的指令并执行，<code>!!</code>执行上一个命令</p>
+</li>
+<li><p><code>df [-ah] [文件或目录名]</code>：列出文件系统的磁盘使用量</p>
+<ul>
+<li><code>-a</code>：列出所有的文件系统</li>
+<li><code>-h</code>：自动以KB、MB、GB等合适的格式显示</li>
+</ul>
+</li>
+<li><p><code>du [-ah] [文件或目录名]</code>：评估文件系统的使用量</p>
+<ul>
+<li><code>-ah</code>：如上，默认以KB为单位显示</li>
+</ul>
+</li>
+<li><p><code>gcc 文件名</code>：对源代码进行预处理、编译、汇编和链接，默认输出为：可执行文件”a.out”，编译后的文件”sourcename.o”，汇编文件是”sourcename.s”，预处理后的C源代码送往标准输出</p>
+</li>
+<li><p><code>gcc 文件名 -o 输出文件名</code> ：指定输出文件的文件名</p>
+</li>
+<li><p>对于多个文件联合执行的，除.h文件不需要编译外，其他文件都需要编译：</p>
+<ul>
+<li><code>gcc -c example.c</code></li>
+<li><code>gcc -c add.c</code></li>
+<li><code>gcc -c modify.c</code></li>
+<li><code>gcc -c delete.c</code></li>
+</ul>
+<p>编译后生成目标文件<code>example.o, add.o, modify.o, delete.o</code></p>
+<ul>
+<li><code>gcc example.o add.o modify.o delete.o -o example</code></li>
+</ul>
+<p>链接以上四个文件，生成可执行文件<code>example</code></p>
+</li>
+<li><p><code>gcc 文件名 -l 路径名</code>:如果头文件不在gcc的搜索路径中，可以用该选项指定额外搜索路径，如<code>gcc helloworld.c -l /usr/include -o helloworld</code> 将该目录加入到头文件的搜索路径中</p>
+</li>
+<li><p><code>wget [-bc] url</code>：从指定URL下载</p>
+<ul>
+<li><code>-b</code>：在后台下载</li>
+<li><code>-c</code>：断点续传</li>
+</ul>
+<p>进入后台下载的任务，可以先找到其下载日志文件，然后用<code>tail -f wget-log</code>或<code>cat wget-log</code>查看下载情况</p>
+</li>
+</ul>
+<hr>
+<p>##########<code>目录操作命令：cd, pwd, mkdir, rmdir, ls</code>##########</p>
+<hr>
+<ul>
+<li><code>cd</code>：变换目录（change directory），<code>cd</code>后不加任何目录表示回到家目录</li>
+<li><code>pwd [-P]</code>：显示当前目录（print working directory）<ul>
+<li><code>-p</code>：显示确实的路径，而不是用链接路径</li>
+</ul>
+</li>
+<li><code>mkdir [-mp] 目录名</code>：创建一个新的目录<ul>
+<li><code>-m</code>：配置文件的权限，例：<code>mkdir -m 777</code></li>
+<li><code>-p</code>：直接将所需的目录（包括上层目录）递归的建立起来</li>
+</ul>
+</li>
+<li><code>rmdir [-p] 目录名</code>：删除空目录<ul>
+<li><code>-p</code>：连同上层的空目录一起删除，若目录中有内容则无法删除，例：<code>rmdir -p a/b/c</code>。</li>
+</ul>
+</li>
+<li><code>ls [-ahl] 文件名或目录名</code>：显示文件或目录信息<ul>
+<li><code>-a</code>：显示所有文件（包括以<code>.</code>开头的隐藏文件）</li>
+<li><code>-h</code>：将文件的容量以人类易读的方式显示</li>
+<li><code>-l</code>：长数据串行出，包含文件的属性与权限等数据</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>##########<code>文件操作命令：cp, rm, mv, sort, uniq, wc</code>##########</p>
+<hr>
+<ul>
+<li><p><code>cp [-adfirsu] 源文件名 目标文件名</code>：复制文件或目录</p>
+<ul>
+<li><code>-a</code>：相当于<code>-dr --preserve=all</code></li>
+<li><code>-d</code>：若源文件为链接文件的属性，则复制链接文件属性而非文件本身</li>
+<li><code>-f</code>：强制的意思</li>
+<li><code>-i</code>：若目标文件已经存在，则在覆盖时会先进行询问</li>
+<li><code>-r</code>：递归持续复制，用于目录的复制行为</li>
+<li><code>-s</code>：复制为符号链接文件，即快捷方式文件</li>
+<li><code>-u</code>：当源文件比目标文件新或目标文件不存在时才进行更新或复制</li>
+<li><code>--preserve=all</code>：连同文件的各种属性也复制过去</li>
+</ul>
+</li>
+<li><p><code>rm [-fir] 文件名或目录名</code>：移除文件或目录</p>
+<ul>
+<li><code>-f</code>：强制执行，可以忽略不存在的文件，不出现警告信息</li>
+<li><code>-i</code>：互动模式，删除前会先询问</li>
+<li><code>-r</code>：递归删除</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>rm -i bashrc*</code>：删除以bashrc开头的文件或目录，其中*表示0到无穷任意多个字符</li>
+<li><code>rm ./-aaa</code>：删除名为<code>-aaa</code>的文件，不能直接运行<code>rm -aaa</code>，因为<code>-</code>会被当作选项。</li>
+</ul>
+</li>
+<li><p><code>mv [-fiu] 源文件名或目录名 目标文件名或目录名</code>：移动文件或目录，或更名</p>
+<ul>
+<li><code>-f</code>：强制覆盖目标文件</li>
+<li><code>-i</code>：覆盖前先询问</li>
+<li><code>-u</code>：若源文件比目标文件新时才更新</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>mv 旧文件名 新文件名</code>：实际是更名的效果</li>
+<li><code>mv 文件名1 文件名2 目录名</code>：当有多个文件或目录名是，最后一个一定是目录，其作用是将所有文件都移动到目录中</li>
+<li><code>rm *</code>：删除当前目录下的所有文件</li>
+<li><code>rm *.txt</code>：删除当前目录下的所有文本文档</li>
+</ul>
+</li>
+<li><p><code>sort [-fbnru] 文件名</code>：排序</p>
+<ul>
+<li><code>-f</code>：忽略大小写</li>
+<li><code>-b</code>：忽略最前面的空格</li>
+<li><code>-n</code>：以纯数字（而不是字符）的方式排序</li>
+<li><code>-r</code>：反向排序</li>
+<li><code>-u</code>：对于相同的数据只显示一行</li>
+</ul>
+</li>
+<li><p><code>uniq [-ic] 文件名</code>：对文本文件中的行去重，通常与sort命令配合</p>
+<ul>
+<li><code>-i</code>：忽略大小写</li>
+<li><code>-c</code>：在第一列显示重复次数</li>
+</ul>
+</li>
+<li><p><code>wc [-lwm] 文件名</code>：统计文件信息</p>
+<ul>
+<li><code>-l</code>：仅列出行数</li>
+<li><code>-w</code>：仅列出多少字</li>
+<li><code>-m</code>：多少字符</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>##########<code>读写文件命令：echo, vi, cat, tac, nl, head, tail, od, more, less</code>##########</p>
+<hr>
+<ul>
+<li><p><code>echo 内容 &gt; 文件名</code>：创建文件并写入文本内容</p>
+<p>例：</p>
+<ul>
+<li><code>echo &quot;love you&quot; &gt; zza.txt</code>：将文本写入到zza.txt中</li>
+</ul>
+</li>
+<li><p><code>echo 内容 &gt;&gt; 文件名</code>：向文件里追加内容，若文件不存在则新建</p>
+</li>
+<li><p><code>vi 文件名</code>：打开或创建一个文本文件，并可以在vi界面输入内容</p>
+</li>
+<li><p><code>cat &gt; 文件名</code>：创建文件并在下一行写入文本内容，输入<code>Ctrl+C</code>表示输入结束</p>
+</li>
+<li><p><code>cat &gt;&gt; 文件名</code>：在文件中追加内容</p>
+</li>
+<li><p><code>cat [-nv] 文件名</code>：由第一行开始显示文件内容，cat是concatenate（连续）的缩写</p>
+<ul>
+<li><code>-n</code>：打印出行号，空白行也有行号</li>
+<li><code>-v</code>：列出一些看不出来的特殊字符</li>
+</ul>
+</li>
+<li><p><code>tac 文件名</code>：从最后一行开始显示（是cat倒着写）</p>
+</li>
+<li><p><code>nl [-bnw] 文件名</code>：显示的时候输出行号，<code>cat</code>和<code>nl</code>都不可以用<code>PageDown</code>或<code>PageUp</code>进行翻页</p>
+<ul>
+<li><code>-b a</code>：无论是否为空行，都显示行号</li>
+<li><code>-n ln</code>：在屏幕的最左方显示行号</li>
+</ul>
+</li>
+<li><p><code>head [-n number] 文件名</code>：从头开始显示指定行数的文件内容</p>
+</li>
+<li><p><code>tail [-f] [-n number] 文件名</code>：从末尾开始显示指定行数的文件内容</p>
+<ul>
+<li><code>-f</code>：持续侦测文件内容，当文件正在写入时使用</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>tail -n +100 /etc/man_db.conf</code>：显示第100行往后的内容</li>
+</ul>
+</li>
+<li><p><code>od 文件名</code>：以二进制的方式读取文件内容</p>
+</li>
+<li><p><code>more 文件名</code>：显示文件内容</p>
+<ul>
+<li><code>Space</code>：往下翻页</li>
+<li><code>b</code>：往上翻页</li>
+<li><code>Enter</code>：往下翻一行</li>
+<li><code>/字符串</code>：在当前显示内容中往下搜索字符串</li>
+<li><code>:f</code>：显示文件名和当前显示的行数</li>
+<li><code>q</code>：退出</li>
+</ul>
+</li>
+<li><p><code>less 文件名</code>：除了<code>more</code>有的操作，还有</p>
+<ul>
+<li><code>PageDown</code>：往下翻页</li>
+<li><code>PageUp]</code>：往上翻页</li>
+<li><code>?字符串</code>：向上搜索字符串</li>
+<li><code>n</code>：重复前一个搜索</li>
+<li><code>g</code>：跑到文件的第一行</li>
+<li><code>Shift+g</code>：跑到文件的最后一行</li>
+</ul>
+</li>
+<li><p><code>od [-t TYPE] 文件名</code>：显示文件内容</p>
+<ul>
+<li><code>-t a</code>：用默认字符来输出</li>
+<li><code>-t c</code>：用ASCII字符来输出、</li>
+<li><code>-t d</code>：用十进制来输出</li>
+<li><code>-t f</code>：用浮点数来输出</li>
+<li><code>-t o</code>：用八进制来输出</li>
+<li><code>-t x</code>：用十六进制来输出</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>##########<code>修改文件属性命令：touch, umask, chattr, lsattr</code>##########</p>
+<hr>
+<ul>
+<li><p><code>touch [-am] 文件名</code>：修改文件或目录的时间属性</p>
+<ul>
+<li><code>-a</code>：仅修改access time</li>
+<li><code>-m</code>：仅修改modification time</li>
+</ul>
+</li>
+<li><p><code>umask [-S]</code>：查看或指定当前用户在建立文件或目录时的权限默认值。</p>
+<ul>
+<li><code>不加参数</code>：显示四个数字，分别表示root用户、当前用户、用户组和其他用户的权限，其中读权限r为4分，写权限w为2分，执行权限x为1分</li>
+<li><code>-S</code>：以人能读懂的方式显示当前用户、用户组和其他用户的权限，如<code>drwxr-xr-x</code>中的第一个<code>d</code>表示为目录，若为<code>-</code>表示为普通文件，当没有相应的权限时用<code>-</code>占位</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>umask 022</code>：指定当前用户、用户组和其他用户的权限</li>
+</ul>
+</li>
+<li><p><code>chattr [+-=][ai] 文件名或目录名</code>：配置文件隐藏属性</p>
+<ul>
+<li><code>+</code>：增加一个特殊参数</li>
+<li><code>-</code>：删除一个特殊参数</li>
+<li><code>=</code>：设定一定，且仅有后面的参数</li>
+<li><code>-a</code>：设定文件只能增加数据，不能删除和修改</li>
+<li><code>-i</code>：设定文件不能删除、改名或增加数据等。<code>-ai</code>只有root用户才能设定。</li>
+</ul>
+</li>
+<li><p><code>lsattr [-adR] 文件名或目录名</code>：显示文件隐藏属性</p>
+<ul>
+<li><code>-a</code>：将隐藏文件的属性也显示出来</li>
+<li><code>-d</code>：如果是目录则只列出目录本身的属性而非目录内文件的属性</li>
+<li><code>-R</code>：连同子目录的数据也一并列出来</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>##########<code>寻找文件命令：which, whereis, locate, find, grep</code>##########</p>
+<hr>
+<ul>
+<li><code>which [-a] command</code>：寻找可执行文件/命令的路径<ul>
+<li><code>-a</code>：将所有PATH目录中可以找到的指令均列出，默认是只列出第一个</li>
+</ul>
+</li>
+<li><code>whereis 文件或目录名</code>：在一些特定的目录中寻找文件</li>
+<li><code>locate [-i] 关键词</code>：利用数据库来寻找文件，数据库一般是一天更新一次，可以用<code>updatedb</code>来更新数据库<ul>
+<li><code>-i</code>忽略大小写</li>
+</ul>
+</li>
+<li><code>find [PATH] [option] [action]</code>：在硬盘上寻找文件<ul>
+<li><code>option</code>：<ul>
+<li><code>-name filename</code>：指定文件名</li>
+<li><code>-size [+-]SIZE</code>：搜索比SIZE大还是小的文件，c表示byte，k表示KB，m表示MB</li>
+<li><code>-type TYPE</code>：指定文件类型，<code>f</code>是一般文件，<code>d</code>是目录，<code>l</code>是连接档。</li>
+</ul>
+</li>
+<li><code>path</code>：默认是全名，也可以带有*等</li>
+<li><code>action</code>：有执行和打印等，如<code>find / -size +1M -exec ls -l {} \;</code>，从-exec到;为find命令额外执行的动作，{}表示由find找到的内容，;是结束的标志。即先找到size小于1M的文件，然后用ls命令列出来</li>
+</ul>
+</li>
+<li><code>grep [-acinv] [--color=auto] &#39;搜索字符串&#39; 文件名</code>：分析一行讯息，若有所需信息则取出来<ul>
+<li><code>-a</code>：将二进制文件以文本文件的方式搜索</li>
+<li><code>-c</code>：计算找到‘搜索字符串’的次数</li>
+<li><code>-i</code>：忽略大小写</li>
+<li><code>-n</code>：顺便输出行号</li>
+<li><code>-v</code>：反向选择，即显示没有出现’搜索字符串’的那一行</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>##########<code>压缩命令：gzip, bzip2, xz, tar</code>##########</p>
+<hr>
+<ul>
+<li>压缩文件的拓展名大多是<code>*.tar, *.tar.gz, *.tgz, *.gz, *.Z, *.bz2, *.xz</code>，其中<code>.tar</code>的文件只是打包过，没有经过压缩</li>
+<li><code>gzip [-dtv#] 文件名</code>：压缩/解压缩命令<ul>
+<li><code>不加参数</code>：压缩成扩展名为<code>.gz</code>的文件</li>
+<li><code>-d</code>：解压，解压后会删除源文件，可对扩展名为<code>.Z, .zip, .gz</code> 的文件进行解压</li>
+<li><code>-t</code>：检验压缩文件的一致性，检验文件是否出错</li>
+<li><code>-v</code>：显示压缩比等信息（压缩时用）</li>
+<li><code>#</code>：为数字的意思，代表压缩等级，-1最快但压缩比大，-9最慢但压缩比小</li>
+</ul>
+</li>
+<li><code>bzip2 [-dkv#] 文件名</code>：压缩时生成的文件后缀名为<code>.bz2</code>，该命令的压缩率比<code>gzip</code>高，但速度慢些<ul>
+<li><code>-k</code>：保留源文件而不删除</li>
+<li><code>-dv#</code>：和<code>gzip</code>相同</li>
+</ul>
+</li>
+<li><code>xz [-dlk#] 文件名</code>：压缩时生成的文件后缀名为<code>.xz</code>，压缩率更高<ul>
+<li><code>-l</code>：列出压缩文件的相关信息，如压缩前后的大小和压缩率等</li>
+<li><code>-dk#</code>和<code>bzip2</code>相同</li>
+</ul>
+</li>
+</ul>
+<p>以上三个指令只能对单一的文件进行压缩，如果是多个文件则需要先进行打包，再进行压缩</p>
+<ul>
+<li><p><code>zcat/zmore/zless</code>：用来读取纯文本文档被压缩后的压缩文件</p>
+</li>
+<li><p><code>tar [-z|-j|-J] [-cv] [-f 待建立的新文件名] 要打包或压缩的文件名列表</code>：打包或压缩</p>
+</li>
+<li><p><code>tar [-z|-j|-J] [-tv] [-f 已有的文件名]</code>：查看打包文件包括哪些文件</p>
+</li>
+<li><p><code>tar [-z|-j|-J] [-xv] [-f 已有的文件名] [-C 目录名]</code>：解打包或解压缩，C为大写</p>
+<p><code>-c, -t, -x</code>不可同时出现在同一指令中</p>
+<ul>
+<li><code>-z</code>：用<code>gzip</code>进行压缩/解压缩</li>
+<li><code>-j</code>：用<code>bzip2</code>进行压缩/解压缩</li>
+<li><code>-J</code>：用<code>xz</code>进行压缩/解压缩</li>
+</ul>
+<p><code>-z, -j, -J</code>不可同时出现在同一指令中</p>
+<ul>
+<li><code>-v</code>：在压缩/解压缩过程中将正在处理的文件名显示出来</li>
+<li><code>-f 文件名</code>：指定要处理的文件</li>
+<li><code>-C 目录</code>：指定要解压到的目录</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>tar -jxv -f filename.tar.bz2 -C 目录名</code>：用<code>bzip2</code>将该压缩文件解压到指定目录中</li>
+<li><code>tar -jcv -f /root/system.tar.bz2 --exclude=file1 --exclude=file2</code>：不打包目录中的某几个文件</li>
+</ul>
+<p>如果不加<code>[-z|-j|-J]</code>则是进行打包，此时文件名要指定为<code>*.tar</code>，若添加<code>[-z|-j|-J]</code>进行压缩时文件名要指定为<code>\*.tar.gz|\*.tar.bz2|\*.tar.xz</code>，通过<code>tar</code>命令打包的文件被称为tarfile，通过<code>tar</code>命令压缩的文件被称为tarball</p>
+</li>
+</ul>
+<hr>
+<p>##########<code>进程相关命令：ps, top, kill, jobs, fg, bg</code>########## </p>
+<hr>
+<ul>
+<li><code>ps [-alru]</code>：（process state）查看进程状态，结果并不动态连续<ul>
+<li><code>-l</code>：以表格形式输出</li>
+<li><code>-u</code>：按用户名启动时间的顺序来显示进程</li>
+<li><code>-a</code>：显示所有用户的所有进程</li>
+<li><code>-r</code>：显示运行中的进程</li>
+</ul>
+</li>
+<li><code>top [-bcdinpqsS]</code>：动态件事系统任务，输出结果是连续的<ul>
+<li><code>-b</code>：以批量模式运行，但不能接受命令行输入</li>
+<li><code>-c</code>：显示命令行，而不仅仅是命令名</li>
+<li><code>-d 秒数</code>：设置两次刷新时间的间隔</li>
+<li><code>-i</code>：禁止显示空闲进程或僵尸进程</li>
+<li><code>-n 次数</code>：设置更新次数，显示完后退出。</li>
+<li><code>-p PID</code>：仅件事指定进程的ID,PID是个数值</li>
+<li><code>-q</code>：不经任何延时就刷新</li>
+<li><code>-s</code>：安全模式运行，禁用一些效互指令</li>
+<li><code>-S</code>：累计模式，输出每个进程的总CPU时间</li>
+</ul>
+</li>
+<li><code>kill 进程号</code>：删除进程</li>
+<li><code>fg 任务号</code>：恢复到前台运行</li>
+<li><code>bg 任务号</code>：恢复到后台运行</li>
+<li><code>jobs</code>：查看被挂起的进程</li>
+</ul>
+<hr>
+<p>##########<code>用户管理命令：useradd, usermod, userdel, passwd, su, id, whoami, w</code>##########</p>
+<hr>
+<ul>
+<li><code>useradd [-degsu] 用户名</code>：新建用户帐号（超级用户可用）<ul>
+<li><code>-d 目录名 用户名</code>：指定用户登入时的主目录</li>
+<li><code>-e 日期 用户名</code>：帐号终止日期</li>
+<li><code>-g 群组 用户名</code>：指定账户所属的用户组</li>
+<li><code>-s shell 用户名</code>：指定账户登录后所使用的shell</li>
+<li><code>-u uid 用户名</code>：指定用户ID</li>
+</ul>
+</li>
+<li><code>usermod [-degsul] 用户名</code>：修改用户属性（超级用户可用）<ul>
+<li>`-d 目录名 用户名指定用户登入时的主目录</li>
+<li><code>-e 日期 用户名</code>：帐号终止日期</li>
+<li><code>-g 群组 用户名</code>：指定账户所属的用户组</li>
+<li><code>-s shell 用户名</code>：指定账户登录后所使用的shell</li>
+<li><code>-u uid 用户名</code>：指定用户ID</li>
+<li><code>-l 新用户名 旧用户名</code>：修改用户名    </li>
+</ul>
+</li>
+<li><code>userdel [-rf] 用户名</code>：删除指定的用户帐号（超级用户可用）<ul>
+<li><code>-r 用户名</code>：不仅删除帐号，还删除所属文件</li>
+<li><code>-f 用户名</code>：删除用户登入目录及目录中的所有文件</li>
+</ul>
+</li>
+<li><code>passwd [-dlus]</code>：设置或修改用户口令及其属性<ul>
+<li><code>-d 用户名</code>：删除用户的口令</li>
+<li><code>l用户名</code>：暂时锁定指定的用户帐号</li>
+<li><code>-u 用户名</code>：结束指定用户帐号的锁定</li>
+<li><code>-s 用户名</code>：显示指定用户帐号的状态</li>
+</ul>
+</li>
+<li><code>su 用户名</code>：切换用户身份，超级用户可切换为普通用户，而不输入口令，普通用户则需要输入口令。使用<code>exit</code>可以返回原来的用户</li>
+<li><code>sudo passwd root</code>：然后输入两遍密码，即可更新root用户的密码</li>
+<li><code>id 用户名</code>：查看用户的UID、GID和用户所属组的信息，默认为当前用户</li>
+<li><code>whoami</code>：查看当前用户名</li>
+<li><code>w</code>：查看当前登录系统用户和详细信息</li>
+</ul>
+<hr>
+<p>##########<code>用户组管理类命令：groupadd, groupmod, groupdel</code>##########</p>
+<hr>
+<ul>
+<li><code>groupadd [-go] 用户组名</code>：新建组群（超级用户可用）<ul>
+<li><code>-g</code>：指定用户组ID</li>
+<li><code>-o</code>：允许组ID不唯一</li>
+</ul>
+</li>
+<li><code>groupmod [-gno] 用户组名</code>：修改指定用户组的属性（超级用户可用）<ul>
+<li><code>-g</code>：指定新的用户组ID</li>
+<li><code>-n</code>：指定新的用户组名字</li>
+<li><code>-o</code>：允许组ID不唯一</li>
+</ul>
+</li>
+<li><code>groupdel 用户组名</code>：删除指定的用户组（超级用户可用）</li>
+</ul>
+<hr>
+<p>##########<code>文件权限管理命令：chmod, chown, chgrp</code>##########</p>
+<hr>
+<ul>
+<li><p><code>chmod 对象 操作符 权限</code>：修改文件的访问权限</p>
+<ul>
+<li>对象<ul>
+<li><code>u</code>：文件所有者</li>
+<li><code>g</code>：同组用户</li>
+<li><code>o</code>：其他用户</li>
+</ul>
+</li>
+<li>操作符<ul>
+<li><code>+</code>：增加</li>
+<li><code>-</code>：删除</li>
+<li><code>=</code>：赋予</li>
+</ul>
+</li>
+<li>权限<ul>
+<li><code>r</code>：读</li>
+<li><code>w</code>：写</li>
+<li><code>x</code>：执行</li>
+<li><code>s</code>：设置用户ID</li>
+</ul>
+</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>chmod g-w file</code>：取消同组用户对<code>file</code>文件的写入权限</li>
+<li><code>chmod 755 pict</code>：将<code>pict</code>目录的访问权限设置为775</li>
+</ul>
+</li>
+<li><p><code>chown [-cR] 所有者/组 文件名</code>：将指定文件的拥有者改为指定的用户或用户组</p>
+<ul>
+<li><code>-c</code>：显示更改的部分的信息</li>
+<li><code>-R</code>：处理指定目录以及其子目录下的所有文件</li>
+</ul>
+</li>
+<li><p><code>chgrp [-cR] 组名 文件名</code>：改变文件的所属用户组</p>
+<ul>
+<li><code>-c</code>：显示更改的部分的信息</li>
+<li><code>-R</code>：处理指定目录以及其子目录下的所有文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、不常用命令"><a href="#三、不常用命令" class="headerlink" title="三、不常用命令"></a>三、不常用命令</h2><ul>
+<li><p><code>man command</code>：查看指令如何使用，进入<code>man</code>指令的功能后</p>
+<ul>
+<li><code>Space</code>：往下翻页</li>
+<li><code>q</code>：退出</li>
+<li><code>/</code>：后加字符串，可以向下搜索该字符串</li>
+<li><code>?</code>：向上搜索字符串</li>
+<li><code>n</code>：搜索下一个</li>
+</ul>
+</li>
+<li><p><code>info</code>：和<code>man</code>指令的作用差不多，它把文件数据拆成一个个独立页面（节点），并用超链接来跳转到不同的页面，每个节点前有<code>*</code>符号</p>
+<ul>
+<li><code>U</code>：跳到上一个节点处</li>
+<li><code>N</code>：跳到下一个节点处</li>
+<li><code>↑|↓</code>：移动到某个节点</li>
+<li><code>Enter</code>：进入节点</li>
+<li><code>Tab</code>：在节点之间快速移动</li>
+<li><code>q</code>：退出info page</li>
+</ul>
+</li>
+<li><p><code>sync</code>：让内存中尚未更新保存的数据写入到磁盘中</p>
+</li>
+<li><p><code>basename /etc/sysconfig/network</code>：取最后的文件名，即<code>network</code></p>
+</li>
+<li><p><code>dirname /etc/sysconfig/network</code>：取目录名，即<code>/etc/sysconfig</code></p>
+</li>
+<li><p><code>ln [-sf] 源文件 目标文件</code>：制作连接档</p>
+<ul>
+<li><code>-s</code>：软连接，即快捷方式，默认是硬连接</li>
+<li><code>-f</code>：强制执行，若目标文件存在则将其删除后再建立</li>
+</ul>
+</li>
+<li><p>linux中的变量的设定<code>name=&quot;my name is $NAME&quot;</code>，如果变量内容有空格符，需要用单引号或双引号将其括起来，在双引号中<code>$</code>符后面的被当做是变量名，单引号中的特殊字符被当作纯文本。</p>
+</li>
+<li><p>若为变量扩增内容时，可使用：<code>PATH=&quot;$PATH&quot;:/home/bin</code>或<code>PATH=${PATH}:/home/bin</code>或<code>PATH=$PATH:/home/bin</code></p>
+</li>
+<li><p><code>unset 变量名</code>：取消变量的设定</p>
+</li>
+<li><p><code>env</code>：查看所有的环境变量</p>
+</li>
+<li><p><code>export [变量名]</code>：将自定义变量转成环境变量，若不加变量名则默认全部环境变量</p>
+</li>
+<li><p><code>read [-pt] 变量名</code>：从键盘输入变量</p>
+<ul>
+<li><code>-p</code>：后面接提示字符</li>
+<li><code>-t</code>：后面接等待的秒数</li>
+</ul>
+</li>
+<li><p><code>declare [-aixr] 变量名</code>：宣告变量的类型</p>
+<ul>
+<li><code>-a</code>：将后面的变量定义为数组类型</li>
+<li><code>-i</code>：将后面的变量定义为整数类型</li>
+<li><code>-x</code>：将后面的变量变成环境变量</li>
+<li><code>-r</code>：将后面的变量设定为只读类型</li>
+</ul>
+</li>
+</ul>
 <p>一个变量有多个不同的内容时，内容之间由<code>:</code>隔开。</p>
-<p><code>${variable#/*local/bin:}</code>可以删除结尾是local/bin的变量内容，并且从左往右开始删除第一个。<code>#</code>表示从最前面开始删除且只删除第一个，<code>##</code>表示把匹配到的全删除，<code>%</code>和<code>%%</code>与<code>#</code>和<code>##</code>类似，只不过是从后面开始删除。</p>
-<p><code>${variable/old/new}</code>用新的值取代旧的值，若为<code>//old/new</code>则所有符合的内容都要取代，</p>
-<p><code>new_var=${old_var-content}</code>如果旧变量存在则将其值赋给新变量，否则新变量的值为为content。<code>new_var=${old_var:content}</code>和前者类似，只是当旧变量为空时，新变量的值也取content。</p>
-<p><code>history [n]</code>n是数字的意思，列出最近的n条命令，<code>history [-c]</code>将所有历史命令全部清除，<code>history [-raw] histfiles</code>查看历史命令，<code>-a</code>将历史命令额外保存在histfiles文件中，<code>-r</code>将histfiles文件中的内容读入到history记忆中，<code>-w</code>将目前的history记忆内容写入到histfiles中。</p>
-<p><code>!number</code>执行history记忆中的第number个命令，<code>!command</code>向前搜索以command为开头的指令并执行，<code>!!</code>执行上一个命令。</p>
-<p><code>/etc/profile:</code>是系统整体的设定，<code>~/.bash_profile</code>或<code>~/.bash_login</code>或<code>~/.profile</code>是当前用户的设定，在用户登录系统时，会自动调用<code>/etc/profile:</code>然后该文件又会自动调用其他配置文件，</p>
-<p><code>source 配置文件名</code>不需注销即可把配置文件里的内容加载进来，<code>source</code>的作用同<code>.</code></p>
-<p><code>stty [-a]</code>设定终端机的输入按键代表的含义，stty 是 setting tty 的缩写，<code>-a</code>是将目前所有的syyt参数列出来。列出的内容中<code>intr=^C</code>中intr表示终止当前运行的程序，^表示Ctrl键，类似的kill表示删除当前指令行的所有内容，<code>?</code>表示退格键。</p>
-<p><code>stty erase ^h</code>设置向后删除字符的快捷键为<code>Ctrl+h</code></p>
-<p><code>set [-uvCHhmBx]</code>设定指令输入/输出环境，<code>-u</code>默认不启用，启用后当使用未设定变量时会显示错误信息。</p>
-<p>通配符：<code>*</code>表示0到无穷多个任意字符，<code>?</code>表示一个任意字符，<code>[abcd]</code>表示取[]中的任意一个字符，<code>-</code>表示在编码顺序内的所有字符，如<code>[0-9]</code>表示0-9共10个数字，<code>^</code>表示反向选择，如<code>[^abc]</code>表示除了abc之外的其他一个字符。</p>
-<p>特殊字符：<code>#</code>注释符号，<code>\</code>转义字符，<code>|</code>管线，分割两个管线命令的界定，<code>;</code>连续性命令的节点，<code>$</code>取用变数的前导符，<code>&amp;</code>工作控制，将指令变为背景下工作，<code>!</code>逻辑非，<code>()</code>中间为子shell的起始和终止，<code>{}</code>中间为命令区块的组合。 </p>
-<p><code>&gt;</code>和<code>&gt;&gt;</code>是输出重定向，即将本来要输出到屏幕的内容输出到其他位置，如某个文件中，前者是覆盖写入，后者是追加写入，如<code>ls -a / &gt;~/rootfile</code>将目录<code>/</code>下的所有文件名以覆盖的形式写入到<code>~/rootfile</code>中，文件不存在时会自动建立。<code>1&gt;</code>和<code>1&gt;&gt;</code>是标准输出的重定向，即将指令正常运行时的信息重定向输出，<code>2&gt;</code>和<code>2&gt;&gt;</code>是标准错误输出的重定向，即将指令运行错误时的信息重定向输出。<code>&amp;&gt;</code>可以将正确和错误信息输出到同一个文件中，并且顺序不会乱。</p>
-<p><code>&lt;</code>和<code>&lt;&lt;</code>是输入重定向，即将本来要从键盘输入的内容改为由其他方式（如文件）输入，后者由文件输入之后必须通过键盘输入EOF之后才结束。</p>
-<p><code>cmd;cmd</code>不考虑指令相关性的连续指令下达</p>
-<p><code>cmd1 &amp;&amp; cmd2</code>若cmd1正确执行完毕，则继续执行cmd2，反之不执行cmd2.</p>
-<p><code>cmd1 || cmd2</code>若cmd1正确执行完毕，则不执行cmd2，反之执行cmd2.</p>
-<p>管线命令<code>|</code>和连续下达命令<code>;</code>是不同的，它可以让第一个命令的正确输出信息作为第二个命令的输入，有多个命令时以此类推。不是所有的指令都可以当作后面的指令，它必须要有接收标准输入的能力。</p>
-<p><code>cut -d &#39;分隔字符&#39; -f fields</code>或<code>cut -c 字符区间</code>，分析某一行讯息，取出某部分我们想要的。<code>-d</code>后面跟分隔字符，与<code>-f</code>一同使用，<code>-f</code>依据<code>-d</code>后面的分隔字符将一段讯息分为数段，用<code>-f</code>取出第几段。<code>-c</code>以字符的单位取出固定字符区间，后面跟数字范围，如<code>12-</code>或<code>12-20</code>。如<code>echo ${PATH} | cut -d &#39;:&#39; -f 3,5</code>将PATH信息以字符:分隔后去除第3，5段。</p>
-<p><code>grep [-acinv] [--color=auto] &#39;搜索字符串&#39; filename</code>分析一行讯息，若有所需信息则取出来。<code>-a</code>将二进制文件以文本文件的方式搜索，<code>-c</code>计算找到‘搜索字符串’的次数，<code>-i</code>忽略大小写，<code>-n</code>顺便输出行号，<code>-v</code>反向选择，即显示没有出现’搜索字符串’的那一行。</p>
-<p><code>sort [-fbMnrtuk] [file or stdin]</code>排序，<code>-f</code>忽略大小写，<code>-b</code>忽略最前面的空格，<code>-n</code>以纯数字的方式排序，<code>-r</code>反向排序，<code>-u</code>对于相同的数据只显示一行。</p>
-<p><code>uniq [-ic]</code>去重，<code>-i</code>忽略大小写，<code>-c</code>进行计数。</p>
-<p><code>wc [-lwm]</code>统计信息，<code>-l</code>仅列出行，<code>-w</code>仅列出多少字，<code>-m</code>多少字符</p>
-<p><code>tee [-a] file</code>将数据流分别送到文件和屏幕输出，<code>-a</code>以追加的方式写入到文件中。</p>
-<p><code>tr [-ds] SET1</code>删除一段讯息中的文字或对其进行替换，<code>-d</code>删除SET1这个字符串，<code>-s</code>取代这个字符串。</p>
-<p><code>col [-xb]</code>，<code>-x</code>将tab见转换为对等的空格键。</p>
-<p><code>join [-ti12] file1 file2</code>对比两个文件，将具有相同数据的行合并。<code>-t</code>分隔符，默认是空格，<code>-i</code>忽略大小写，<code>-12</code>分别表示第1、2个文件要用哪个字段来分析。如第一个文件中有”name:root”，第二文件中有”name:zuzhiang”，则以“:”为分隔符，合并后的结果是”name:root:zuzhiang”</p>
-<p><code>paste [-d] file1 file2</code>将两行粘在一起，中间以Tab键隔开，<code>-d</code>分割字符，默认是Tab键，<code>-</code>如果file部分写成 -，表示来自标准输入的意思。</p>
-<p><code>expand [-t] file</code>将Tab键转成空格键，<code>-t</code>后面可以接数字，表示一个Tab键由几个空格代替。</p>
-<p><code>split [-bl] file PREFIX</code>将大文件分区成为小文件，<code>-b</code>后面接想要分区后的文件大小，可加单位b,k,m等，<code>-l</code>以行数来进行分区，<code>PREFIX</code>代表前导符的意思，可作为分区文件的前导文字。</p>
-<p><code>xargs [-0epn] command</code>读入标准输入的数据，并以分隔符为界，将其分隔成为不同的参数，<code>-0</code>可将”,\space”等字符还原成一般字符，<code>-n</code>接参数的个数，<code>xargs</code>后面没有接任何指令时，默认以<code>echo</code>来进行输出。</p>
-<p>在管线中当某些指令需要用到文件名来进行处理时，该标准输入和标准输出可以利用<code>-</code>来代替。</p>
-<h2 id="第十一章-正则表达式"><a href="#第十一章-正则表达式" class="headerlink" title="第十一章 正则表达式"></a>第十一章 正则表达式</h2><p>正则表达式和通配符是完全不一样的东西</p>
+<ul>
+<li><p><code>${variable#/*local/bin:}</code>：可以删除结尾是local/bin的变量内容，并且从左往右开始删除第一个</p>
+<ul>
+<li><code>#</code>：从最前面开始删除且只删除第一个</li>
+<li><code>##</code>：把匹配到的全删除</li>
+<li><code>%</code>和<code>%%</code>：与<code>#</code>和<code>##</code>类似，只不过是从后面开始删除</li>
+</ul>
+</li>
+<li><p><code>${variable/old/new}</code>：用新的值取代旧的值，若为<code>//old/new</code>则所有符合的内容都要取代</p>
+</li>
+<li><p><code>new_var=${old_var-content}</code>：如果旧变量存在则将其值赋给新变量，否则新变量的值为为content</p>
+</li>
+<li><p><code>new_var=${old_var:content}</code>：和前者类似，只是当旧变量为空时，新变量的值也取content</p>
+</li>
+<li><p><code>stty [-a]</code>：设定终端机的输入按键代表的含义，stty 是 setting tty 的缩写</p>
+<ul>
+<li><code>-a</code>：将目前所有的syyt参数列出来。列出的内容中<code>intr=^C</code>中intr表示终止当前运行的程序，^表示Ctrl键，类似的kill表示删除当前指令行的所有内容，<code>?</code>表示退格键。</li>
+<li><code>stty erase ^h</code>设置向后删除字符的快捷键为<code>Ctrl+h</code></li>
+</ul>
+</li>
+<li><p><code>cut -d &#39;分隔字符&#39; -f fields</code>：从文件的每一行剪切字节、字符和字段并将这些字节、字符和字段写至标准输出</p>
+<ul>
+<li><code>-d</code>：后面跟分隔字符，与<code>-f</code>一同使用</li>
+<li><code>-f</code>：依据<code>-d</code>后面的分隔字符将一段讯息分为数段，用<code>-f</code>取出第几段</li>
+<li><code>-c</code>：以字符为单位取出固定字符区间，后面跟数字范围，如<code>12-</code>或<code>12-20</code>。如<code>echo ${PATH} | cut -d &#39;:&#39; -f 3,5</code>将PATH信息以字符:分隔后，取出第3，5段</li>
+</ul>
+</li>
+<li><p><code>tee [-a] 文件名</code>：读取标准输入的数据，并将其内容输出到文件和屏幕</p>
+<ul>
+<li><code>-a</code>以追加的方式写入到文件中</li>
+</ul>
+</li>
+<li><p><code>col [-x]</code>：过滤控制字符</p>
+<ul>
+<li><code>-x</code>：将<code>Tab</code>键转换为对等的空格键</li>
+</ul>
+</li>
+<li><p><code>join [-ti12] 文件名1 文件名2</code>：对比两个文件，将具有相同数据的行合并</p>
+<ul>
+<li><code>-t</code>：分隔符，默认是空格</li>
+<li><code>-i</code>：忽略大小写</li>
+<li><code>-12</code>：分别表示第1、2个文件要用哪个字段来分析，即用第1个文件的第几列和第2个文件的第几列相匹配</li>
+</ul>
+<p>如第一个文件中有”name:root”，第二文件中有”name:zuzhiang”，则以“:”为分隔符，合并后的结果是”name:root:zuzhiang”</p>
+</li>
+<li><p><code>paste [-d] 文件名1 文件名2</code>：将两个文件对应的两行放到同一行，中间以<code>Tab</code>键隔开</p>
+<ul>
+<li><code>-d</code>：分割字符，默认是<code>Tab</code>键</li>
+<li><code>-</code>：如果file部分写成 <code>-</code>，表示来自标准输入的意思</li>
+</ul>
+</li>
+<li><p><code>expand [-t] 文件名</code>：将<code>Tab</code>键转成空格键</p>
+<ul>
+<li><code>-t</code>：后面接数字，表示一个<code>Tab</code>键由几个空格代替</li>
+</ul>
+</li>
+<li><p><code>split [-bl] 文件名 前缀</code>：将大文件分区成为小文件</p>
+<ul>
+<li><code>-b</code>：后面接想要分区后的文件大小，可加单位b,k,m等</li>
+<li><code>-l</code>：以行数来进行分区</li>
+<li><code>前缀</code>：前导符的意思，可作为分区文件的前导文字</li>
+</ul>
+</li>
+<li><p><code>xargs [-0epn] 命令</code>：读入标准输入的数据，并以分隔符为界，将其分隔成为不同的参数，<code>xargs</code>后面没有接任何指令时，默认以<code>echo</code>来进行输出</p>
+<ul>
+<li><code>-0</code>：可将<code>,</code>，<code>\</code>，<code>Space</code>等字符还原成一般字符</li>
+<li><code>-n</code>：接参数的个数</li>
+</ul>
+<p>例：</p>
+<ul>
+<li><code>xargs ls -al</code>：然后输入两个文件夹的名称，则会用<code>ls -al</code>命令列出两个文件夹包含的文件信息</li>
+</ul>
+</li>
+</ul>
+<h2 id="四、未整理"><a href="#四、未整理" class="headerlink" title="四、未整理"></a>四、未整理</h2><h3 id="第十一章-正则表达式"><a href="#第十一章-正则表达式" class="headerlink" title="第十一章 正则表达式"></a>第十一章 正则表达式</h3><p>正则表达式和通配符是完全不一样的东西</p>
 <p><code>[:alnum:]</code>表示英文大小写字符和数字，<code>[:alpha:]</code>表示任何英文大小写字符，<code>[:blank:]</code>表示空格键和Tab键，<code>[:cntrl:]</code>表示控制键，包括CR/LF/Tab/Del等，<code>[:digit:]</code>表示数字，<code>[:graph:]</code>除了空格键和Tab键之外的所有按键，<code>[:lower:]</code>表示小写字符，<code>[:print:]</code>表示任意可以被打印出来的字符，<code>[:punct:]</code>表示标点符号#$也是，<code>[:upper:]</code>表示大写字符，<code>[:space:]</code>表示任何会产生空白的字符，如空格键、Tab键、CR键等，<code>[:xdigit:]</code>表示十六进制的数字，包括0-9,a-f,A-F。</p>
 <p><code>grep [-A] [-B] [--color=auto] &#39;搜索字符串&#39; filename</code>，<code>-A</code>后面可加数组，为after的意思，除了列出该行外，后续的n行也列出来，<code>-B</code>后面可加数字，为befor的意思，除了列出该行外，前面的n行也列出来。</p>
 <p><code>[]</code>表示搜索字符的集合，只表示一个字符，<code>[^]</code>表示反向选择，<code>^</code>表示定位在行首，<code>$</code>表示定位在行尾，<code>.</code>任意一个字符，<code>*</code>任意0到无穷多个字符，<code>{number[,number]}</code>表示重复字符数，如<code>o\{2\}</code>表示两个o，<code>o\{2,5\}</code>表示2到5个o，<code>o\{2,\}</code>表示2到 无穷个o。</p>
@@ -347,7 +1040,7 @@
 <p><code>diff [-bBi] from-file to-file</code>对比两个文件的差异，<code>-b</code>忽略一行当中仅有多个空白的差异，<code>-B</code>忽略空白行的差异，<code>-i</code>忽略大小写的不同。</p>
 <p><code>cmp [-l] file1 file2</code>以字节为单位对比两个文件，<code>-l</code>将所有的不同点的字节都列出来，预设是只会输出第一个不同的点。</p>
 <p><code>patch  -pN &lt; path_file</code>更新文件，<code>-p</code>表示取消几层目录的意思，<code>patch -R -pN &lt; patch_file</code>还原文件，<code>-R</code>表示还原。</p>
-<h2 id="第十二章-Shell脚本"><a href="#第十二章-Shell脚本" class="headerlink" title="第十二章 Shell脚本"></a>第十二章 Shell脚本</h2><p>如果读取到一个回车符（CR）就尝试执行该行命令；如果一行的内容太多，可以用<code>\Enter</code>来延伸至下一行；<code>#</code>可作为注释符号。</p>
+<h3 id="第十二章-Shell脚本"><a href="#第十二章-Shell脚本" class="headerlink" title="第十二章 Shell脚本"></a>第十二章 Shell脚本</h3><p>如果读取到一个回车符（CR）就尝试执行该行命令；如果一行的内容太多，可以用<code>\Enter</code>来延伸至下一行；<code>#</code>可作为注释符号。</p>
 <p>脚本文件的扩展名为<code>.sh</code>，可以通过<code>bash shell.sh</code>或<code>sh shell.sh</code>来执行</p>
 <p>用<code>exit 0</code>表示退出脚本程序，<code>var=$((运算内容))</code>，</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">read</span> -p <span class="string">"Please input your name:"</span> name</span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">"\nYour name is: <span class="variable">$&#123;name&#125;</span>"</span></span><br><span class="line">total=$((<span class="variable">$&#123;a&#125;</span>*<span class="variable">$&#123;b&#125;</span>)) <span class="comment">#a*b</span></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
@@ -430,6 +1123,11 @@
 
   </div>
   <div class="article-info article-info-index">
+    
+    <div class="article-pop-out tagcloud">
+      <i class="icon-tuding"></i>
+      <a class="article-tag-list-link color3">置顶</a>
+    </div>
     
     
     
