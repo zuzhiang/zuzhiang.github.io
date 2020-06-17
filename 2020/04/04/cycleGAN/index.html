@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/04/Gd50iT.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/04/Gd5BJU.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/04/04/Gd5doV.jpg">
-<meta property="og:updated_time" content="2020-04-05T02:32:14.512Z">
+<meta property="og:updated_time" content="2020-06-16T13:57:01.053Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】cycleGAN：《Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks》">
 <meta name="twitter:description" content="本文是 cycleGAN 论文《Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks》的阅读笔记。">
@@ -224,7 +224,7 @@
 
 <p><img src="https://s1.ax1x.com/2020/04/04/Gd5DWF.jpg" alt></p>
 <p>论文一上来就给出了该图，从图中可以看到 cycleGAN 可以从源域图像转换为目标域的图像，并保留源域图像的细节，还可以从目标域图像转换回源域图像。</p>
-<h2 id="一、摘要"><a href="#一、摘要" class="headerlink" title="一、摘要"></a>一、摘要</h2><p>cycleGAN 的主要贡献是在不适用配对的图像对（paired images）数据时，用 GAN 实现了图像到图像的转换（image-to-image translation），即学习从源域图像到目标域图像之间的映射关系。此外除了传统的对抗损失（adversarial loss），还加入了循环一致性损失（cycle consistency loss）来保证转换后的图像保留原图像的细节信息。</p>
+<h2 id="一、摘要"><a href="#一、摘要" class="headerlink" title="一、摘要"></a>一、摘要</h2><p>cycleGAN 的主要贡献是在不使用配对的图像对（paired images）数据时，用 GAN 实现了图像到图像的转换（image-to-image translation），即学习从源域图像到目标域图像之间的映射关系。此外除了传统的对抗损失（adversarial loss），还加入了循环一致性损失（cycle consistency loss）来保证转换后的图像保留原图像的细节信息。</p>
 <h2 id="二、记号"><a href="#二、记号" class="headerlink" title="二、记号"></a>二、记号</h2><ul>
 <li>$X$：源域图像集合</li>
 <li>$Y$：目标域图像集合</li>
