@@ -18,7 +18,7 @@
 <meta property="og:description" content="本文是论文《Adversarial Image Registration with Application for MR and TRUS Image Fusion》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://s1.ax1x.com/2020/06/16/NkWoWj.jpg">
-<meta property="og:updated_time" content="2020-06-17T07:22:55.613Z">
+<meta property="og:updated_time" content="2020-06-17T07:25:36.425Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】AIR-Net：基于GAN的配准模型">
 <meta name="twitter:description" content="本文是论文《Adversarial Image Registration with Application for MR and TRUS Image Fusion》的阅读笔记。">
@@ -227,8 +227,9 @@
 <p>一个空洞卷积层（128通道， dilation rate为2）用来扩大感受野，两个卷积层（128通道，步长为2）用来降低分辨率，一个包含具有残差连接的三个卷积层的残差模块（128通道），一个卷积层（卷积核大小为$1\times1$，通道数为8）用来降低参数数量，两个全连接层用来得到最终的输出，第一个全连接层的输出为256维的，第二个全连接层的输出的维度和转换参数的个数相同（如果是三维刚性配准则有6个参数，如果是三维仿射配准则有12个参数）。以上卷积层如果没有特殊声明，卷积核大小都为$3\times3$，并且后面紧跟一个ReLU激活函数。</p>
 <p>判别器的详细结构和生成器几乎相同，唯一不同的地方在于最后一个全连接层的输出维度为1，并且后面跟着一个Sigmoid激活函数。</p>
 <hr>
-<p>判别器的损失为：<br>$$<br>\mathcal{L}(D)=-\mathbb{E}<em>{T \sim p</em>{g t}(T)}\left[D\left(I_{f}, I_{m}\right)\right]+\mathbb{E}<em>{T \sim p</em>{z}(T)}\left[D\left(I_{f}, T\left(I_{m}\right)\right]\right.<br>$$<br>其中 $I_f$ 和 $I_m$ 分别是固定图像和浮动图像，$\mathbb{E}<em>{T \sim p</em>{g t}(T)}\left[D\left(I_{f}, I_{m}\right)\right]$ 表示已经对齐的MR-TRUS的图像对的判别器损失的期望，而 $\mathbb{E}<em>{T \sim p</em>{z}(T)}[D(I_{f}, T(I_{m})]$ 表示随机对齐的图像对的判别器损失的期望。</p>
-<p>生成器的损失为：<br>$$<br>\mathcal{L}(G)=\mathbb{E}<em>{T \sim p</em>{z}(T)}\left[1-D\left(I_{f}, T_{e s t}\left(T\left(I_{m}\right)\right)\right)+\alpha\left|T_{e s t}-T^{-1}\right|^{2}\right]<br>$$<br>其中 $||T_{eset}-T^{-1}||^2$ 是估计的转换和随机生成的转换之间的欧几里得距离。</p>
+<p>判别器的损失为：<br>$$<br> \mathcal{L}(D)=-\mathbb{E}<em>{T \sim p</em>{g t}(T)}\left[D\left(I_{f}, I_{m}\right)\right]+\mathbb{E}<em>{T \sim p</em>{z}(T)}\left[D\left(I_{f}, T\left(I_{m}\right)\right]\right.<br>$$<br>其中 $ I_f $ 和 $ I_m$ 分别是固定图像和浮动图像，$\mathbb{E}<em>{T \sim p</em>{g t}(T)}\left[D\left(I_{f}, I_{m}\right)\right]$ 表示已经对齐的MR-TRUS的图像对的判别器损失的期望，而 $\mathbb{E}<em>{T \sim p</em>{z}(T)}[D(I_{f}, T(I_{m})]$ 表示随机对齐的图像对的判别器损失的期望。</p>
+<p>生成器的损失为：</p>
+<p>$$<br>\mathcal{L}(G)=\mathbb{E}<em>{T \sim p</em>{z}(T)}\left[1-D\left(I_{f}, T_{e s t}\left(T\left(I_{m}\right)\right)\right)+\alpha\left|T_{e s t}-T^{-1}\right|^{2}\right]<br>$$<br>其中 $||T_{eset}-T^{-1}||^2$ 是估计的转换和随机生成的转换之间的欧几里得距离。</p>
 <p>在训练时采用了和WGAN（Wasserstein GAN）类似的方法，为了保证训练的稳定性，在每次更新判别器网络的参数即后，需要将其参数clip到某个范围内，clipping 参数值设置为0.1。并且没训练一次生成器网络，判别器网络会更新两次。</p>
 
     
