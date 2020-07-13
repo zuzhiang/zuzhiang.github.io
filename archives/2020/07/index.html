@@ -6,21 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>生成对抗网络(GAN) | zuzhiang</title>
+  <title>Archives: 2020/7 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="本文主要讲解有关生成对抗网络（GAN）的相关知识。">
+  <meta name="description" content="It&apos;s my private blog.">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="article">
-<meta property="og:title" content="生成对抗网络(GAN)">
-<meta property="og:url" content="zuzhiang.cn/2020/02/14/GAN/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="zuzhiang">
+<meta property="og:url" content="zuzhiang.cn/archives/2020/07/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="本文主要讲解有关生成对抗网络（GAN）的相关知识。">
+<meta property="og:description" content="It&apos;s my private blog.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-22T03:25:40.244Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="生成对抗网络(GAN)">
-<meta name="twitter:description" content="本文主要讲解有关生成对抗网络（GAN）的相关知识。">
+<meta name="twitter:title" content="zuzhiang">
+<meta name="twitter:description" content="It&apos;s my private blog.">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -185,255 +184,65 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-GAN" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
+            
+  
+  
     
-      <header class=" article-header">
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/2020/07/13/UNet-pp/" class="archive-article-date">
+        <time datetime="2020-07-13T08:57:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-13</time>
+</a>
+
+        </div>
+    	 
   
-  
-    <h1 class="article-title" itemprop="name">
-      生成对抗网络(GAN)
+    <h1 itemprop="name">
+	
+	      <a class="archive-article-title" href="/2020/07/13/UNet-pp/">【论文笔记】UNet++：一种用于医学图像分割的嵌套U-Net结构</a>
+	
     </h1>
   
 
 
-  
-  
-        <!-- 不蒜子统计 -->
-        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
-              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
-        </span>
-
-<a href="/2020/02/14/GAN/" class="archive-article-date">
-        <time datetime="2020-02-14T01:08:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解有关生成对抗网络（GAN）的相关知识。</p>
-<a id="more"></a>
-
-<h2 id="一、判别模型和生成模型"><a href="#一、判别模型和生成模型" class="headerlink" title="一、判别模型和生成模型"></a>一、判别模型和生成模型</h2><p>机器学习中的模型一般有两种：1. 决策函数 Y=f(X)；2. 条件概率分布 P(Y|X)</p>
-<p>根据通过学习数据来获取这两种模型的方法，可以分为判别方法和生成方法。判别方法是由数据直接学习决策函数或条件概率分布作为预测模型，即判别模型；而生成模型是由数据学习联合概率分布 P(X,Y)，然后由 P(Y|X)=p(X,Y)/P(X) 求出概率分布 P(Y|X) 作为预测模型，即生成模型。</p>
-<h2 id="二、生成对抗网络（GAN）"><a href="#二、生成对抗网络（GAN）" class="headerlink" title="二、生成对抗网络（GAN）"></a>二、生成对抗网络（GAN）</h2><p>生成对抗网络（GAN）启发自博弈论中的零和博弈（即两人的利益之和为零，一方的所得正式另一方的所失），GAN 模型由生成模型（generative model）和对抗模型（discriminative model）组成。生成模型 G 捕捉样本数据的分布，用服从某一分布的噪声 z 来生成一个类似真是训练数据的样本，追求效果越像真实样本越好；判别模型 D 是一个二分类器，估计一个样本来自训练数据（而非生成数据）的概率。生成器就类似于造假币的人，而判别器就类似于验钞机，生成器的目的就是其造的假币要骗过验钞机。</p>
-<p>GAN 的目标函数：<br>$$<br>\min_G\max_DV(D,G)=E_{x-p_{data}(x)}[\log D(x)]+E_{z-p_z(x)}[\log(1-D(G(z)))]<br>$$<br>其中 D(x) 表示真实数据通过判别器 D 的输出结果，而 D(G(z)) 是噪声 z 通过生成器 G 生成的假数据通过判别器 D 的输出结果。所以对于判别器 D 来说，需要最大化目标函数，即通过判别器让真币为真的概率越大越好，而假币为真的概率越小越好。对于生成器 G 来说，需要最小化目标函数，即让假币越真越好。</p>
-<p>在训练的时候需要先训练判别器，再训练生成器。</p>
-<p>令 $C(G)=\max_DV(G,D)$，则可以通过推导得到：$C(G)=-\log(4)+2\cdot JSD(p_{data}||p_g)$，其中 JSD 表示 Jensen-Shannon divergence，即 JS 散度。$p_{data}$ 是真实数据的分布，而 $p_g$ 是生成的假数据的分布。</p>
-<p>GAN 存在训练过程不稳定的问题，这一方面是因为 GAN 自身的缺陷，另一方面是因为生成器和判别器的能力不匹配；此外生成器只会生成一两种类别的样本。</p>
-<p>GAN 的一个改进是 WGAN。当真实数据的分布和假数据的分布互不重叠时，JS 散度值会趋近于一个常数，其导数接近于0，这就导致了梯度消失。所以重新定义了一种 Wasserstein-1 距离来代替原来的 JS 散度：<br>$$<br>W(P_r,P_g)=\inf_{\gamma-\Pi(P_r,P_g)}E_{(x,y)}[||x-y||]<br>$$<br>即使 $P_r$ 和 $P_g$ 互不重叠，wasserstein 距离依旧可以清楚的反应两个分布的距离。</p>
-<p>目标函数也变为了：<br>$$<br>\max_{f_w}E_{x-P_r}[f_w(x)]-E_{z-P_z}[f_w(G(z))]<br>$$</p>
-<p>$$<br>\min_G-E_{z-P_z}[f_w(G(z))]<br>$$</p>
-<p>WGAN 很好的解决了训练不稳定和模式崩溃的问题。</p>
-<p>GAN 只能随机产生一个类别，CGAN 可以指定类别来生成。</p>
-
-    
-
-    
-    <div class="page-reward">
-      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
-        <div class="tooltip tooltip-east">
-          <span class="tooltip-item">
-            赏
-          </span>
-          <span class="tooltip-content">
-            <span class="tooltip-text">
-              <span class="tooltip-inner">
-                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
-                    class="icon icon-quo-right"></i></p>
-                <div class="reward-box">
-                  
-                  <div class="reward-box-item">
-                    <img class="reward-img" src="/img/alipay.jpg">
-                    <span class="reward-type">支付宝</span>
-                  </div>
-                  
-                  
-                  <div class="reward-box-item">
-                    <img class="reward-img" src="/img/weixin.png">
-                    <span class="reward-type">微信</span>
-                  </div>
-                  
-                </div>
-              </span>
-            </span>
-          </span>
-        </div>
-      </a>
-    </div>
-    
-
-    
-      <div> 
-        <ul class="post-copyright">
-          <li>
-            <strong>本文作者：</strong>
-            俎志昂
-          </li>
-          <li>
-            <strong>本文链接：</strong>
-            <a href="zuzhiang.cn/2020/02/14/GAN/" title="生成对抗网络(GAN)" target="_blank">zuzhiang.cn/2020/02/14/GAN/</a>
-          </li>
-          <li>
-            <strong>版权声明： </strong>
-            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
-          </li>
-        </ul>
-      </div>
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
+        <div class="article-info info-on-right">
+          
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
+        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-    
-
-    
-    
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a> -->
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/02/14/GAN/" alt="微信分享二维码"> -->
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-
-    
-    <div class="clearfix"></div>
-  </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-
-<nav id="article-nav">
-  
-    <a href="/2020/02/14/ANTs/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          医学图像配准软件 ANTs（Advanced Normalization Tools）的安装和使用说明
-        
-      </div>
-    </a>
   
   
-    <a href="/2020/02/11/RCN/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【论文笔记】递归级联网络（Recursive Cascaded Networks）论文及VTN（Volume Tweening Network）</div>
-      <i class="icon-circle-right"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-
-
-
-
-
-  <div id="giteement-ctn"></div>
-  
-    <link rel="stylesheet" href="/lib/default.css">
-    <script src="/lib/giteement.browser.js"></script>
-  
-  <script>
-  <!-- id: "生成对抗网络(GAN)" -->
-  var giteement = new Giteement({
-    id: '20200214090818',
-    owner: 'zuzhiang',
-    repo: 'zuzhiang',
-    backcall_uri: 'https://zuzhiang.github.io',
-    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
-    oauth: {
-      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
-      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
-    },
-  })
-  giteement.render('giteement-ctn')
-  </script>
-
-
-
-
-
-
+    
 
 
           </div>
@@ -472,8 +281,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
