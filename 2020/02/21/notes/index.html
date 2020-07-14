@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="zuzhiang">
 <meta property="og:description" content="本文是自己的一些随笔，记录一些比较关键的，以后可以用到的知识点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-11T13:05:00.051Z">
+<meta property="og:updated_time" content="2020-07-14T09:04:41.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="随笔-随时更新">
 <meta name="twitter:description" content="本文是自己的一些随笔，记录一些比较关键的，以后可以用到的知识点。">
@@ -255,10 +255,12 @@
 <li>Dice 损失类似于交并比，有两个mask，记为X和Y，其Dice损失为$Dice=2\times\frac{X\cap Y}{|X|+|Y|}$</li>
 <li>WinEdt 中 Tex 编译的快捷键为 <code>ctrl+shift+P</code>，当出现报错信息时 l.30 中字母 l 后面的即出错的行数，输入 e 可以定位到对应的行，输入 Enter 查看下一个错误信息，输入 s 忽略所有报错信息。</li>
 <li>变形场（deformation field）是指能使流体在运动中发生形状变化，尤其是伸展（收缩）和切变的速度场。</li>
-<li>用 <code>nvidia-smi</code> 命令查看显卡使用情况</li>
+<li>用 <code>nvidia-smi</code> 命令查看显卡使用情况，<code>watch -n 1 nvidia-smi</code>动态查看显卡使用情况</li>
 <li>ubuntu查看版本信息：<code>lsb_release -a</code>，查看 CUDA 版本 <code>nvcc --version</code> 或 <code>cat /usr/local/cuda/version.txt</code></li>
 <li>linux 编辑环境变量 <code>vi ~/.bashrc</code>，使环境变量生效 <code>source ~/.bashrc</code>，查看环境变量中的 PATH 等 <code>echo $PATH</code></li>
-<li>远程连接服务器离线跑代码：首先用 <code>sudo apt-get install screen</code> 安装 screen用 <code>screen -S screen名</code> 创建一个 screen，然后运行程序即可，这样就可以关掉连接服务器的软件了。输入 <code>screen -ls</code> 即可查看现有的 screen，输入 <code>screen -r 编号.screen名</code> 就可以重新连接到 screen，需要彻底关闭 screen 时可以使用 <code>kill screen编号</code>即可。</li>
+<li>远程连接服务器离线跑代码：首先用 <code>sudo apt-get install screen</code> 安装 screen用 <code>screen -S screen名</code> 创建一个 screen，然后运行程序即可，这样就可以关掉连接服务器的软件了。输入 <code>screen -ls</code> 即可查看现有的 screen，输入 <code>screen -r 编号.screen名</code> 就可以重新连接到 screen。当意外退出时，用<code>screen -D -r 编号.screen名</code>重新连接到screen。需要彻底关闭 screen 时可以使用 <code>kill screen编号</code>即可。</li>
+<li><code>free -h</code>查看linux系统内存大小</li>
+<li><code>unzip 压缩文件名.zip</code>在linux下解压.zip格式的压缩文件</li>
 </ol>
 
     
