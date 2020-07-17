@@ -6,20 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives | zuzhiang</title>
+  <title>【论文笔记】FlowNet：有监督的光流估计（optical flow estimation）网络 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《FlowNet: Learning Optical Flow with Convolutional Networks》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/page/3/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】FlowNet：有监督的光流估计（optical flow estimation）网络">
+<meta property="og:url" content="zuzhiang.cn/2020/07/17/FlowNet/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《FlowNet: Learning Optical Flow with Convolutional Networks》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/UsmkcQ.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/UsmAXj.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/UsmCh8.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/Usmi9S.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/UsmF1g.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/UsmZBn.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/Usme7q.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/UsmVns.jpg">
+<meta property="og:updated_time" content="2020-07-17T01:39:27.554Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】FlowNet：有监督的光流估计（optical flow estimation）网络">
+<meta name="twitter:description" content="本文是论文《FlowNet: Learning Optical Flow with Convolutional Networks》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/17/UsmkcQ.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,171 +194,124 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-FlowNet" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/24/potograph/" class="archive-article-date">
-        <time datetime="2020-03-24T11:28:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-24</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/24/potograph/">摄影理论笔记</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】FlowNet：有监督的光流估计（optical flow estimation）网络
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/奇技淫巧//" class="article-tag-list-link color5">奇技淫巧</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
 
+<a href="/2020/07/17/FlowNet/" class="archive-article-date">
+        <time datetime="2020-07-17T01:38:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-17</time>
+</a>
 
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《FlowNet: Learning Optical Flow with Convolutional Networks》的阅读笔记。</p>
+<a id="more"></a>
+
+<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>文章提出了一个名为FlowNet的网络，用有监督的方法根据输入的图像对来解决光流估计（optical flow estimation）问题。FlowNet有两种结构，一种是通用结构，另一种包括一个在不同图像位置的关联特征向量的层。又由于现有的数据集的数据量不足够训练CNN，所以又生成了一个合成的Flying Chairs数据集。</p>
+<p>光流估计不仅需要每个像素精确的位置，还需要找到两张输入图之间的关联。这就要求不仅要学习到图像的特征表达，还需要学习到怎样将两张图像中不同的位置相匹配。</p>
+<p>尽管可以用数据增强来扩充数据量，但是现有的光流数据集还是太小了，并且从视频素材中获取光流的ground truth是十分困难的。因此作者生成了一个合成的Flying Chairs数据集。FlowNet每秒大约可以处理10个图像对，达到了实时处理模型中的顶尖水平。下图是FlowNet的网络示意图，有点类似于UNet。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UsmkcQ.jpg" alt></p>
+<h2 id="二、网络结构"><a href="#二、网络结构" class="headerlink" title="二、网络结构"></a>二、网络结构</h2><p>FlowNet的输入是一个图像对，以及对应的光流ground truth。在FlowNet中信息先在收缩路径进行空间压缩，然后在扩张路径得到改善。文章在传统的CNN网络基础上加入了一个关联层（correlation layer）使网络具有匹配的能力，它用来学习和提取不同尺度的强特征，并找到它们之间的关联。</p>
+<h3 id="1-收缩路径"><a href="#1-收缩路径" class="headerlink" title="1. 收缩路径"></a>1. 收缩路径</h3><p>收缩路径的设计有两种方案，一种是将所有输入图像在通道上堆叠（拼接），然后将它们输入到普通的网络中，这种方案被称作FlowNetSimple。另一种方案是将输入图像分别输入到两个独立但结构相同的处理流中，并在后面将两个流处理的结果进行合并。这种方式分别得到图像的特征，再将其合并。采用这种方案的网络被称为FlowNetCorr。</p>
+<p>在FlowNetCorr中采用了关联层来促进网络的匹配过程。给定两个多通道的特征图$f_1，f_2$，其宽、高、通道数分别为$w，h，c$。关联层用来比较每个$f_1$和$f_2$中的patch。第一个特征图中以位置$x_1$ 为中心的patch和第二个特征图中以$x_2$ 为中心的patch之间的关联性定义为：<br>$$<br>c\left(\mathbf{x}<em>{1}, \mathbf{x}</em>{2}\right)=\sum_{\mathbf{o} \in[-k, k] \times[-k, k]}\left\langle\mathbf{f}<em>{1}\left(\mathbf{x}</em>{1}+\mathbf{o}\right), \mathbf{f}<em>{2}\left(\mathbf{x}</em>{2}+\mathbf{o}\right)\right\rangle<br>$$<br>每个patch是大小为$K:=2k+1$的正方形，上述公式和卷积操作类似，不同的是它没有参数。由于以上公式的计算量比较大，所以对最大位移做了限制，并且在两张特征图中引入了步长。给定最大位移$d$，只需要对以位置$x_1$为中心，大小为$D:=2d+1$范围的邻居计算关联性$c(x_1,x_2)$。使用步长$s_1$和$s_2$来对$x_1$进行全局量化，并在以$x_1$为中心的邻域内对$x_2$进行量化。</p>
+<p>收缩路径具有九个卷积层，并且每个卷积层后面跟着ReLU激活函数，其中6个卷积层的步长为2。没有全连接层，这样网络可以接受任意大小的输入图像。第一个卷积层的卷积核大小为$7\times7$，第2，3个为$5\times5$，后面的卷积核为$3\times3$。收缩路径的具体结构如下图所示。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UsmAXj.jpg" alt></p>
+<h3 id="2-扩张路径"><a href="#2-扩张路径" class="headerlink" title="2. 扩张路径"></a>2. 扩张路径</h3><p>pooling操作在CNN中是必要的，它可以让网络聚合较大区域的信息，但是pooling会导致分辨率降低。所以就需要对池化后的比较粗糙的表示（representation）进行改善。在FlowNet中是通过扩张路径来实现的。</p>
+<p>扩张路径主要由多个“上卷积（upconvolutional）”层组成，每个上卷积层包括一个unpooling（作为pooling操作的反操作，用来扩张特征图）和卷积操作。通过这种方式，既保留了来自粗糙特征图的高水平信息，又改善了低层特征图的局部信息。重复该过程四次，但最后的输出还是比原始大小小四倍。又由于更多的分辨率改善并不能提升效果，所以就直接使用双线性上采样来恢复到原始输入大小。扩张路径的结构如下图所示。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UsmCh8.jpg" alt></p>
+<p>作者还使用了变分的方法来代替以上双线性上采样的方法，即先用20次迭代将流场恢复到原始大小，然后在全图像分辨率下再运行5次迭代，并计算图像边界，通过$\alpha=\exp \left(-\lambda b(x, y)^{\kappa}\right)$替换平滑系数来重新检查检测到的边界，其中$b(x,y)$表示在各自的尺度和像素间重采样的薄边界强度。这种方式计算量更大，但是可以获得光滑的亚像素级的精确流场。下面会用一个“+v”的后缀来表示使用这种变分方法得到的结果。下图是采用变分法和FlowNetS的实验结果对比，前者会更好一点。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/Usmi9S.jpg" alt></p>
+<h2 id="三、实验"><a href="#三、实验" class="headerlink" title="三、实验"></a>三、实验</h2><h3 id="1-数据集"><a href="#1-数据集" class="headerlink" title="1. 数据集"></a>1. 数据集</h3><p>使用的已有数据集有Middlebury数据集、KITTI数据集和MPI Sintel数据集（分为Clean和Final两种），并通过仿射变换生成了一个新的合成数据集Flying Chairs。下图是每个数据集的情况。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UsmF1g.jpg" alt></p>
+<p>并且使用了数据增强来增加训练集大小，具体的使用了仿射变换（平移，旋转，缩放，添加高斯噪声，改变亮度、对比度、gamma值和颜色）。下图是数据增强前后的对比图。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UsmZBn.jpg" alt></p>
+<h3 id="2-训练设置"><a href="#2-训练设置" class="headerlink" title="2. 训练设置"></a>2. 训练设置</h3><p>FlowNetC中的关联层中选用参数$k=0，d=20，s_1=1，s_2=2$。使用端点误差（endpoint error，EPE）作为训练的损失函数，它表示预测的流向量和ground truth之间每个像素平均的欧几里得距离。</p>
+<p>选用Adam作为优化器，参数为$\beta_1=0.9，\beta_2=0.999$，mini-batch size为8个图像对，学习率为$1e^{-4}$，在前300k轮迭代后没经过100k次迭代学习率衰减为上次的一半。在FlowNetC中，学习率设为$1e^{-6}$，以防止梯度爆炸，并在10k次迭代后让学习率缓慢接近$1e^{-4}$。</p>
+<p>在正式使用模型时，需要在目标数据集上进行微调，即以学习率$1e^{-6}$学习几千次。后面将用“-ft”的后缀表示使用了微调的模型。</p>
+<h3 id="3-实验结果"><a href="#3-实验结果" class="headerlink" title="3. 实验结果"></a>3. 实验结果</h3><p>下图是各个方法在不同数据集上的实验结果对比图。FlowNetC似乎对大的位移预测有问题。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/Usme7q.jpg" alt></p>
+<p>下图是实验可视化的结果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UsmVns.jpg" alt></p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/07/17/FlowNet/" title="【论文笔记】FlowNet：有监督的光流估计（optical flow estimation）网络" target="_blank">zuzhiang.cn/2020/07/17/FlowNet/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
   </div>
-</article>
-  
+  <div class="article-info article-info-index">
     
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/13/RegNet/" class="archive-article-date">
-        <time datetime="2020-03-13T00:36:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-13</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/13/RegNet/">【论文笔记】Nonrigid Image Registration Using Multi-scale 3D Convolutional Neural Networks</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/11/BIRNet/" class="archive-article-date">
-        <time datetime="2020-03-11T01:21:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-11</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/11/BIRNet/">【论文笔记】双重监督的脑部图像配准网络BIRNet</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/04/DIRNet/" class="archive-article-date">
-        <time datetime="2020-03-04T11:57:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-04</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/04/DIRNet/">【论文笔记】基于深度学习的端到端无监督配准模型——变形图像配准网络（Deformable Image Registration Network, DIRNet）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -361,279 +324,129 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/07/17/FlowNet/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/04/GAN-Registration/" class="archive-article-date">
-        <time datetime="2020-03-04T03:27:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-04</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/15/UnsupervisedEnd-to-endLearningForDeformableMedicalImageRegistration/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】无监督的端到端学习的医学图像配准模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/04/GAN-Registration/">【论文笔记】基于生成对抗网络（GAN）的无监督医学图像配准模型</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】FlowNet：有监督的光流估计（optical flow estimation）网络" -->
+  var giteement = new Giteement({
+    id: '20200717093817',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/28/VoxelMorph/" class="archive-article-date">
-        <time datetime="2020-02-28T06:10:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-28</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/28/VoxelMorph/">【论文笔记】VoxelMorph-无监督医学图像配准模型</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/28/STN/" class="archive-article-date">
-        <time datetime="2020-02-28T06:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-28</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/28/STN/">【论文笔记】Spatial Transformer Networks(STN)-用于医学图像配准的空间变化网络</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/23/MIR/" class="archive-article-date">
-        <time datetime="2020-02-23T13:22:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/23/MIR/">基于深度学习的医学图像配准笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/pytorch-example/" class="archive-article-date">
-        <time datetime="2020-02-21T12:53:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/pytorch-example/">用pytorch实现在MNIST手写数字数据集上的分类任务</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/GAN-example/" class="archive-article-date">
-        <time datetime="2020-02-21T12:51:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/GAN-example/">基于生层对抗网络（GAN）在MNIST手写数字数据集上生成假图片（pytorch版）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +485,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
