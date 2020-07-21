@@ -19,7 +19,16 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://s2.ax1x.com/2020/02/28/3DOasU.jpg">
 <meta property="og:image" content="https://s2.ax1x.com/2020/02/28/3DOlZQ.jpg">
-<meta property="og:updated_time" content="2020-02-29T07:31:34.692Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URzap4.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URzYkT.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URzttU.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URz800.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URzG7V.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URzNhF.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URzd1J.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URz3mq.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/19/URzwc9.jpg">
+<meta property="og:updated_time" content="2020-07-19T08:20:54.940Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】VoxelMorph-无监督医学图像配准模型">
 <meta name="twitter:description" content="本文是无监督的医学图像配准模型——VoxelMorph 的论文笔记。">
@@ -235,6 +244,27 @@
 <h3 id="2-有监督的损失函数"><a href="#2-有监督的损失函数" class="headerlink" title="2. 有监督的损失函数"></a>2. 有监督的损失函数</h3><p>有监督的损失函数包括两部分：一部分是无监督损失，另一部分是两幅图像的分割标签之间的 Dice 损失。有监督的损失函数可以表示为：<br>$$<br>L_a(f,m,s_f,s_m,\phi)=L_{us}(f,m,\phi)+\gamma L_{seg}(s_f,s_m\circ\phi)<br>$$<br>其中 $s_f,s_m$ 分别为 fixed image 和 moving image 对应的分割标签，需要注意的是分割损失只在训练的时候使用，在测试的时候因为没有标签所以不用。</p>
 <p>对于分割损失来说，产生的形变场也会作用在 moving image 的分割标签上，得到 moved image 对应的分割标签，然后计算它与 fixed image 的分割标签之间的 Dice 损失。</p>
 <p>实践证明，在使用了额外的分割信息之后，训练的效果得到了提升。</p>
+<h2 id="六、实验"><a href="#六、实验" class="headerlink" title="六、实验"></a>六、实验</h2><p>所有的实验都是在3D图像上做的，但是为了方便表示，示意图中画的都是2D的。</p>
+<h3 id="1-实验配置"><a href="#1-实验配置" class="headerlink" title="1. 实验配置"></a>1. 实验配置</h3><p>实验选用了有3731张T1权重的脑部MRI的数据集，包括OASIS、ABIDE、ADHD200 、MCIC、PPMI、HABS、Harvard GSP和the FreeSurfer Buckner40数据集。在预处理阶段先将图像重采样为$256\times256\times256$大小，进行仿射空间正则化，并使用FreeSurfer工具提取脑部（去除头骨）并获取分割结果，再将结果图裁剪到$160\times192\times224$大小。训练集、验证集和测试集包含的图像数分别为3231、250和250。评价指标选用的是DICE值，它可以衡量图像的重叠情况。并使用Jacobian矩阵$J_{\phi}(\mathbf{p})=\nabla \phi(\mathbf{p}) \in \mathcal{R}^{3 \times 3}$来捕获体素$p$附近形变场$\phi$的局部属性，计算所有满足$|J_\phi(p)|\le 0$的非背景体素，其中变形不是微分同胚的。使用ANTs软件包里的SyN配准算法和NiftyReg作为两个baselilne，VoxelMorph的设置为：选用学习率为$1e^{-4}$的ADAM优化器，迭代1.5w次。</p>
+<h3 id="2-实验一"><a href="#2-实验一" class="headerlink" title="2. 实验一"></a>2. 实验一</h3><p>实验一做了基于图谱的（atlas-based）配准实验，使用不同的正则化参数$\lambda$训练网络。图谱表示一个参考图像或平均图像，通常是通过联合和反复校准MRI图像数据集并将它们平均在一起来构建的。它和fixed image的作用相同，但是fixed image只是一张图片，而atlas是图像数据集的平均。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URzap4.jpg" alt></p>
+<p>上表展示了采用不同模型的平均DICE值和运行时间，VoxelMorph的DICE值差不多可以和ANTs以及NiftyReg相媲美。在时间上，同样运行在CPU上时，VoxelMorph平均比ANTs快150倍，比NiftyReg快40倍。</p>
+<p>模型的配准效果对比图如下：</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URzYkT.jpg" alt></p>
+<p>下图是采用不同配准方法，脑部不同结构配准效果的DICE值。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URzttU.jpg" alt></p>
+<h3 id="3-实验二"><a href="#3-实验二" class="headerlink" title="3. 实验二"></a>3. 实验二</h3><p>实验二做了超参敏感性分析，下图展示了模型对于平滑正则参数$\lambda$的选择具有较好的鲁棒性。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URz800.jpg" alt></p>
+<h3 id="4-实验三"><a href="#4-实验三" class="headerlink" title="4. 实验三"></a>4. 实验三</h3><p>实验三研究了训练集大小对效果的影响，在该部分选用的是基于MSE的VoxelMorph，使用原训练集不同大小的子集进行训练，当数据集较小时，效果会有轻微的降低，当训练集大小达到一定程度时，再增加训练集大小也不会有明显的提升。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URzG7V.jpg" alt></p>
+<h3 id="5-实验四"><a href="#5-实验四" class="headerlink" title="5. 实验四"></a>5. 实验四</h3><p>实验四展示了模型在具有人工分割标签的数据集上配准效果。在实验二基于谱图的配准模型上测试Buckner40数据集上的配准，这个数据集包含专家手工描绘的解剖结构，在这里用来评估。结果如下表，其中”inst”表示使用了特例优化的。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URzNhF.jpg" alt></p>
+<h3 id="6-实验五"><a href="#6-实验五" class="headerlink" title="6. 实验五"></a>6. 实验五</h3><p>实验五还使用随机的训练图像对作为模型的输入，并在未使用过的测试集上做测试。实组间配准，将VoxelMorph每层的特征数加倍，发现NCC损失比MSE损失更具有鲁棒性。结果如下表所示，其中$\times2$的表示将每层特征数加倍的模型。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URzd1J.jpg" alt></p>
+<h3 id="7-实验六"><a href="#7-实验六" class="headerlink" title="7. 实验六"></a>7. 实验六</h3><p>实验六验证了使用分割标签对结果的影响，一共有30张带有分割标签的图像。使用MSE损失和$\lambda=0.02$进行训练。考虑两种情况，一种是有解剖结构标签的，另一种是有粗分割标签的。下图展示了用FreeSurfer得到分割标签和直接使用带人工分割标签的Buckner40数据集的训练情况，其中分为了只用1张图训练、用15张（一半）图训练、用30张（全部）图训练的结果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URz3mq.jpg" alt></p>
+<p>下图是不同$\lambda$值，不同训练集下的对比结果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/19/URzwc9.jpg" alt></p>
 
     
 

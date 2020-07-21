@@ -6,20 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Category: 医学图像处理 | zuzhiang</title>
+  <title>【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《Unsupervised Deformable Image Registration with Fully Connected Generative Neural Network》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/categories/医学图像处理/page/3/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型">
+<meta property="og:url" content="zuzhiang.cn/2020/07/21/FCNet/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《Unsupervised Deformable Image Registration with Fully Connected Generative Neural Network》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/21/UIINoF.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/21/UIIai4.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/21/UIItdU.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/21/UIIdJJ.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/21/UIIwW9.jpg">
+<meta property="og:updated_time" content="2020-07-21T07:08:30.042Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型">
+<meta name="twitter:description" content="本文是论文《Unsupervised Deformable Image Registration with Fully Connected Generative Neural Network》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/21/UIINoF.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,42 +191,115 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-FCNet" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/23/MIR/" class="archive-article-date">
-        <time datetime="2020-02-23T13:22:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/23/MIR/">基于深度学习的医学图像配准笔记</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/2020/07/21/FCNet/" class="archive-article-date">
+        <time datetime="2020-07-21T07:07:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-21</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《Unsupervised Deformable Image Registration with Fully Connected Generative Neural Network》的阅读笔记。</p>
+<a id="more"></a>
+
+<p>文章提出了一个基于FCN（全卷积网络）的无监督配准模型FCNet。尽管固定图像和浮动图像之间的变形场本质上是高维的，但文章假设这些变形场在实际中形成了低维流形。因此，在该模型中，神经网络由低维向量生成变形场的嵌入。这种低维流形形式避免了其他方法在图像配准过程中面临的与高维搜索空间相关的困难。该模型只需要少量训练集即可训练得到很好的效果。</p>
+<p>图像配准的目标就是通过最大化图像之间相似性来计算固定图像和浮动图像之间的映射。在该模型中，输入是隐藏的低维向量，模型采用双线性插值而非B样条插值，这是第一个用来做无监督图像配准的基于学习的流型嵌入方法。文章的主要贡献有：1. 提出了一个采用低维向量作为输入的无监督网络；2. 通过嵌入生成了空间形变场。</p>
+<p>模型使用FCN作为生成器，用来直接生成形变场，为了按顺序配准每个图像，采用一个低维向量（即隐藏向量（latent vector））作为输入，隐藏向量是通过自动编码器（AE）来获得的，自动编码器就是由编码器和解码器两部分构成的网络结构。由于使用自动编码器会增加时间，随机初始化输入向量。然后通过具有8个全连接层的FCN网络生成二维形变场${dx,dy}$。在优化时，不仅会更新网络参数，还会更新输入的隐藏向量。采用双线性插值或薄板样条插值来代替B样条插值。FCNet的结构示意图如下。</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UIINoF.jpg" alt></p>
+<p>假设${I_i}<em>{i=1}^n$表示一系列要配准的图像，使用一个参数为$\theta$的网络来计算形变场$f_\theta(t_i):R^t\rightarrow R^{N\times N}$，其中$N$是像素的数量，$d$是比$N$小的数，表示向量的维数，文章中使用的是$d=25$。可以将$f_\theta$称为嵌入方程，对于第$i$张图片，网络以$d$维隐藏向量$t_i$作为输入，以形变场$f_\theta(t_i)$作为输出。然后对浮动图像$I_i$进行变形得到配准后的图像$I(f_\theta(t_i))$。图像序列的损失函数如下：<br>$$<br>E</em>{\text {data}}\left(\theta,\left{t_{i}\right}<em>{i=1}^{n}\right)=\sum</em>{i} \mid I_{i}-I_{\operatorname{mov}(i)}\left(f_{\theta}\left(t_{i}\right)\right)|<br>$$<br>其中$I_i$是固定图像，$I_{mov(i)}$是相应的浮动图像。下图表示在一个医学图像序列中固定图像和运动图像的选择，其中DF表示形变场。</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UIIai4.jpg" alt></p>
+<p>为了对网络参数进行正则化，采用了网络权重平方和的平均值MSW进行正则化：<br>$$<br>M S W(\theta)=\frac{1}{N_{w}} \sum_{n=1}^{N_{w}} w_{n}^{2}<br>$$<br>其中$N_w$表示网络权重参数的个数，$w_n$表示向量表示$W$中参数矩阵的元素。优化问题可以写为以下公式：<br>$$<br>E\left(\theta,\left{t_{i}\right}<em>{i=1}^{n}\right)=E</em>{\text {data}}\left(\theta,\left{t_{i}\right}_{i=1}^{n}\right)+\lambda M S W(\theta)<br>$$<br>模型采用Adam作为优化器，学习率为$1e^ {-4}$，batch size为10，$\lambda=0.1$，迭代2000次。</p>
+<p>实验</p>
+<p>将模型在10个病人的100个MR序列的心脏电影短片上做了训练，并与moving mesh correspondence算法做了对比。采用MICCAI的MRI图像数据集ACDC2017（Automated Cardiac Diagnosis Challenge），使用Dice指标（Dice Metric，DM）评价两张图片的相似性，其定义如下：<br>$$<br>D(M, N)=\frac{2(M \cap N)}{M+N}<br>$$<br>其取值范围是[0, 1]，0表示完全不匹配，1表示完全匹配。</p>
+<p>使用完全累积分布函数（the complementary cumulative distribution function ，ccdf）来衡量模型的置信度，其定义如下：<br>$$<br>R(d)=P(D M&gt;d)<br>$$<br>其中$d\in[0,1]$。</p>
+<p>实验结果如下表，Dice的格式为：均值$\pm$标准差。</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UIItdU.jpg" alt></p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UIIdJJ.jpg" alt></p>
+<p>当序列$I_i$被选做浮动图像的时候，$I_{i+1}$被选作固定图像。</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UIIwW9.jpg" alt></p>
+<p>上图中蓝色和红色分别是通过FCNet和baseline模型得到的结果。实在没出来是配准的过程……感觉更像是分割，绝了……</p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
+        </div>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/07/21/FCNet/" title="【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型" target="_blank">zuzhiang.cn/2020/07/21/FCNet/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -232,332 +312,129 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/07/21/FCNet/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/nnU-Net/" class="archive-article-date">
-        <time datetime="2020-02-21T12:38:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/17/show-phi/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">医学图像配准之形变场可视化（绘制形变场）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/nnU-Net/">【论文笔记】基于U-Net的医学图像分割模型nnU-Net（no-new U-Net）</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型" -->
+  var giteement = new Giteement({
+    id: '20200721150731',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/19/nii-DICOM/" class="archive-article-date">
-        <time datetime="2020-02-19T12:40:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-19</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/19/nii-DICOM/">怎样打开并查看.nii和DICOM格式的医学图像</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/19/MIT/" class="archive-article-date">
-        <time datetime="2020-02-19T12:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-19</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/19/MIT/">医学成像技术笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/14/ANTs/" class="archive-article-date">
-        <time datetime="2020-02-14T06:54:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/14/ANTs/">医学图像配准软件 ANTs（Advanced Normalization Tools）的安装和使用说明</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/11/RCN/" class="archive-article-date">
-        <time datetime="2020-02-11T01:54:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-11</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/11/RCN/">【论文笔记】递归级联网络（Recursive Cascaded Networks）论文及VTN（Volume Tweening Network）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/01/U-Net/" class="archive-article-date">
-        <time datetime="2020-02-01T09:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-01</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/01/U-Net/">【论文笔记】U-Net模型-用于医学图像分割的神经网络模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/10/3D-TL/" class="archive-article-date">
-        <time datetime="2019-10-10T01:03:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/10/3D-TL/">周纵苇——三维迁移学习报告笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/categories/医学图像处理/page/2/">&laquo; Prev</a><a class="page-number" href="/categories/医学图像处理/">1</a><a class="page-number" href="/categories/医学图像处理/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
-  
 
 
           </div>
@@ -596,10 +473,10 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
