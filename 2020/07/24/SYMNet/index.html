@@ -6,23 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>zuzhiang</title>
+  <title>【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-    <!-- 辅助函数（Helpers）https://hexo.io/zh-cn/docs/helpers.html#%E6%9D%A1%E4%BB%B6%E5%87%BD%E6%95%B0 -->
-    <meta name="keywords" content="It&#39;s my private blog.">
-  
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《Fast Symmetric Diffeomorphic Image Registration with Convolutional Neural Networks》的阅读笔记。文章中有很多关于数学的描述，包括微分同胚、雅克比矩阵没有看懂，所以这部分内容有所残缺，建议读者直接阅读原文。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/page/6/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准">
+<meta property="og:url" content="zuzhiang.cn/2020/07/24/SYMNet/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《Fast Symmetric Diffeomorphic Image Registration with Convolutional Neural Networks》的阅读笔记。文章中有很多关于数学的描述，包括微分同胚、雅克比矩阵没有看懂，所以这部分内容有所残缺，建议读者直接阅读原文。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX4xmQ.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX47FI.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX4bfP.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX4Ol8.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX4HYt.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX59kn.jpg">
+<meta property="og:updated_time" content="2020-07-24T01:52:11.628Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准">
+<meta name="twitter:description" content="本文是论文《Fast Symmetric Diffeomorphic Image Registration with Convolutional Neural Networks》的阅读笔记。文章中有很多关于数学的描述，包括微分同胚、雅克比矩阵没有看懂，所以这部分内容有所残缺，建议读者直接阅读原文。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/24/UX4xmQ.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -187,34 +192,27 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <script src="/lib/oauthcallback.browser.js"></script>
-  
-  <script>
-    Oauthcallback();
-  </script>
-
-
-  
-    <article id="post-DDPG" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-SYMNet" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class=" article-header">
   
   
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/28/DDPG/">强化学习（7）：深度确定性策略梯度（Deep Deterministic Policy Gradient, DDPG）</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准
     </h1>
   
 
 
   
   
-<a href="/2019/10/28/DDPG/" class="archive-article-date">
-        <time datetime="2019-10-28T13:21:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-28</time>
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/2020/07/24/SYMNet/" class="archive-article-date">
+        <time datetime="2020-07-24T01:51:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
 </a>
 
   
@@ -223,524 +221,103 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>本文主要讲解有关 DDPG 算法的有关内容。</p>
-    
-    <a class="article-more-a" href="/2019/10/28/DDPG/#more">more >></a>
-    
-    
+    <p>本文是论文《Fast Symmetric Diffeomorphic Image Registration with Convolutional Neural Networks》的阅读笔记。文章中有很多关于数学的描述，包括微分同胚、雅克比矩阵没有看懂，所以这部分内容有所残缺，建议读者直接阅读原文。</p>
+<a id="more"></a>
+
+<h2 id="一、摘要"><a href="#一、摘要" class="headerlink" title="一、摘要"></a>一、摘要</h2><p>由于之前的方法忽略了形变场的拓扑保持（topology preservation），并且形变场的平滑性只由全局平滑能量函数来约束，文章提出了一个名为SYMNet的无监督对称图像配准模型，该模型同时估计正向和反向的变换。</p>
+<p>基于深度学习的配准方法中实质微分同胚性（substantial diffeomorphic properties）没有得到保证，即忽略了变换的拓扑保持和可逆性。模型的输出是一对微分同胚映射，用来将输入图像从两条测地线（geodesic path）映射到两幅图像的中间地带（middle ground）。微分同胚是可微的映射，并且存在可微的逆。</p>
+<p>文章的主要贡献有：</p>
+<ul>
+<li>提出了一个快速对称微分同胚图像配准方法来保证变换的拓扑保持和可逆性；</li>
+<li>提出了新的方向一致性正则化，用负的Jacobian行列式来惩罚局部区域；</li>
+<li>文章提出的范式和目标函数很容易在其他地方应用。</li>
+</ul>
+<h2 id="二、-可变形图像配准"><a href="#二、-可变形图像配准" class="headerlink" title="二、 可变形图像配准"></a>二、 可变形图像配准</h2><p>可变形图像（deformable image）配准的目标是建立起图像对之间的一个非线性关系，并且估计一个对齐两张图像的非线性转换。</p>
+<p>可变形图像配准指的是将浮动图像变形以对齐到固定图像的过程，在该过程中两幅图像之间的相似性得到最大化。可变形图像配准是一个非线性配准过程用来建立浮动图像和固定图像之间的密集的体素级的非线性空间关系（dense voxel-wise non-linear spatial correspondence）。</p>
+<p>用$F$和$M$分别表示固定图像和浮动图像，$\phi$来表示形变场，可变形图像配准过程可以表示为：<br>$$<br>\phi^{<em>}=\underset{\phi}{\arg \min } \mathcal{L}<em>{s i m}(F, M(\phi))+\mathcal{L}</em>{r e g}(\phi)<br>$$<br>其中$\phi^{</em>}$表示最优的形变场，$\mathcal{L}<em>{sim}(\cdot,\cdot)$表示不相似性函数，$\mathcal{L}</em>{seg}(\cdot)$表示平滑正则函数，$M(\phi)$表示变形后的浮动图像。</p>
+<h2 id="三、相关工作"><a href="#三、相关工作" class="headerlink" title="三、相关工作"></a>三、相关工作</h2><h3 id="1-微分同胚配准"><a href="#1-微分同胚配准" class="headerlink" title="1. 微分同胚配准"></a>1. 微分同胚配准</h3><p>当前的配准方法通常是将位移场$u$参数化，形变场和位移场的关系为：$\phi(x)=x+u(x)$，其中$x$是恒定变换。这种方式虽然简单，但是对于大的变形来说可能对应的位移场并不存在，所以文章使用的是带有静态速度场的微分同胚变形模型。微分同胚是可微和可逆的，这就保证了平滑的一对一的映射，同时也保留了拓扑性。微分同胚形变场$\phi_t$可以由速度场来生成：<br>$$<br>\frac{d \phi_{t}}{d t}=\boldsymbol{v}^{t}\left(\phi^{t}\right)=\boldsymbol{v}^{t} \circ \phi^{t}<br>$$<br>其中$\circ$是复合运算符（composition operator），$v^t$表示时间$t$时刻的速度场，$\phi^0=Id$是恒等变换。</p>
+<p>形变场可以表示为李代数的一员，并将其指数化以产生时间为1的变形$\phi^{(1)}$，即李群$\phi^{(1)}=\exp(v)$的一员。这表示指数化的流场使得映射是微分同胚和可逆的。给定初始形变场$\phi^{\left(1 / 2^{T}\right)}=x+v(x) / 2^{T}$，其中$T$表示总的时间，那么，$\phi^{(1/2)}$可以通过重现（recurrence）得到：$\phi^{\left(1 / 2^{t-1}\right)}=\phi^{\left(1 / 2^{t}\right)} \circ \phi^{\left(1 / 2^{t}\right)}$。</p>
+<h3 id="2-基于学习的配准"><a href="#2-基于学习的配准" class="headerlink" title="2. 基于学习的配准"></a>2. 基于学习的配准</h3><p>大多数有监督的配准方法采用ground truth形变场或分割图来指导学习过程。文献11（DIRNet）证明了在无监督配准中采用互相关作为相似度评价指标的有效性，文献5（VoxelMorph）通过$L_2$正则损失使得形变场平滑，文献9提出了一个概率微分同胚配准模型。</p>
+<h2 id="四、方法"><a href="#四、方法" class="headerlink" title="四、方法"></a>四、方法</h2><p>大多数基于学习的配准方法都是只从浮动图像映射到固定图像，而忽略了其逆映射（从固定图像映射到浮动图像）。让$X$，$Y$表示两个3D图像，可变形配准问题可以参数化为一个方程：$f_{\theta}(X, Y)=\left(\phi_{X Y}^{(1)}, \phi_{Y X}^{(1)}\right)$，其中$\theta$表示CNN的参数，$\phi_{X Y}^{(1)}=\phi_{X Y}(x, 1)$和$\phi_{Y X}^{(1)}=\phi_{Y X}(y, 1)$分别表示时间为1的从位置$x\in X$变形到$y\in Y$和从位置$y\in Y$变形到$x\in X$的微分同胚形变场。</p>
+<p>文章提出分别学习两个时间为0.5的将$X$和$Y$变形到它们的平均大小$M$的形变场，模型收敛之后，时间为1的将$X$变形到$Y$和将$Y$变形到$X$的形变场就可以通过结合两个估计的时间为0.5的形变场而得到了。从$X$到$Y$的变形可以结构为：$\phi_{X Y}^{(1)}=\phi_{Y X}^{(-0.5)}\left(\phi_{X Y}^{(0.5)}(x)\right)$，从$Y$到$X$的变形可以结构为：$\phi_{XY}^{(1)}=\phi_{X Y}^{(-0.5)}\left(\phi_{Y X}^{(0.5)}(y)\right)$。因此方程$f_\theta$可以重写为：$f_{\theta}(X, Y)=\left(\phi_{Y X}^{(-0.5)}\left(\phi_{X Y}^{(0.5)}(x)\right), \phi_{X Y}^{(-0.5)}\left(\phi_{Y X}^{(0.5)}(y)\right)\right)$。</p>
+<h3 id="1-对称微分同胚神经网络"><a href="#1-对称微分同胚神经网络" class="headerlink" title="1. 对称微分同胚神经网络"></a>1. 对称微分同胚神经网络</h3><p>将方程$f_\theta$参数化为一个全卷积网络（FCN）、缩放层、squaring层和可微的空间变换器（STN），$\phi_{XY}^{(0.5)}$和$\phi_{YX}^{(0.5)}$使用缩放和squaring方法通过估计的速度场$v_{XY}$和$v_{YX}$来计算。FCN网络的结构类似于UNet，是一个5层的编码器-解码器结构，并且有跳跃连接。FCN以拼接的2通道的图像作为输入，以2个密集的（dense）、非线性的速度场$v_{XY}$和$v_{YX}$作为输出。在编码器的每一层，都有两个卷积核大小为$3\times3\times3$，步长分别为1和2的卷积层。在解码器的每一层采用步长为1的卷积核大小分别为$3\times3\times3$的卷积层和步长为1，卷积核为$2\times2\times2$的反卷积层。在解码器的最后两层是卷积核大小为$5\times5\times5$，步长为1的卷积层，并且跟着一个softsign激活函数（$\operatorname{softsign}(x)=\frac{x}{1+|x|}$），然后乘以常数$c$，用来产生两个速度场。乘以常数$c$是为了让速度场的范围在$[-c,c]$之间。实际操作时$c=100$。除了最后一个卷积层，FCN的每一个卷积层后面都跟着一个ReLU激活函数。</p>
+<p>此外，使用空间变换器（STN）实现缩放层和squaring层，并用它对预测的速度场进行积分。</p>
+<p>特别的给定时间步长$T$，初始化$\phi_{X Y}^{\left(1 / 2^{T}\right)}=x+\boldsymbol{v}<em>{X Y}(x) / 2^{T}$和$\phi</em>{YX}^{\left(1 / 2^{T}\right)}=x+\boldsymbol{v}_{YX}(x) / 2^{T}$，通过重现$\phi\left(1 / 2^{t-1}\right)=\phi^{(1 / t)} \circ \phi^{(1 / t)}$计算时间为0.5的形变场，直到$t=1$。</p>
+<p><img src="https://s1.ax1x.com/2020/07/24/UX4xmQ.jpg" alt></p>
+<p>上图是模型的结构示意图，使用FCN来学习从$X，Y$到他们平均大小$M$的对称的时间为0.5的形变场，绿色的路径表示从$X$到$Y$的变换，黄色的路径表示从$Y$到$X$的变换，为了简介没有在图中画出$\mathcal{L}_{mag}$损失。</p>
+<p><img src="https://s1.ax1x.com/2020/07/24/UX47FI.jpg" alt></p>
+<p>上图是FCN网络的结构示意图。</p>
+<h3 id="2-对称相似性"><a href="#2-对称相似性" class="headerlink" title="2. 对称相似性"></a>2. 对称相似性</h3><p>$\mathcal{L}<em>{mean}$是对称平均形状相似性损失，$\mathcal{L}</em>{sim}$是图像的相似性损失，有很多相似性度量，比如正则化的互相关NCC、均方误差MSE、距离的平方和SSD和互相关MI，这里选用的是NCC。让$I$和$J$表示两个输入图像，$\bar{I}(x)$和$\bar{J}(x)$分别是$I$和$J$在位置$x$的局部均值，局部均值通过以$x$为中心，大小为$w^3$，$w=7$的窗口来计算。NCC的定义如下：<br>$$<br>\begin{array}{l}<br>N C C(I, J)=<br>\sum_{x \in \Omega} \frac{\sum_{x_{i}}\left(I\left(x_{i}\right)-\bar{I}(x)\right)\left(J\left(x_{i}\right)-\bar{J}(x)\right)}{\sqrt{\sum_{x_{i}}\left(I\left(x_{i}\right)-\bar{I}(x)\right)^{2} \sum_{x_{i}}\left(J\left(x_{i}\right)-\bar{J}(x)\right)^{2}}}<br>\end{array}<br>$$<br>其中$x_i$表示以$x$为中心的窗口内的位置。</p>
+<p>$\mathcal{L}<em>{sim}$的表示如下：<br>$$<br>\mathcal{L}</em>{s i m}=\mathcal{L}<em>{\text {mean}}+\mathcal{L}</em>{\text {pair}}<br>$$</p>
+<p>$$<br>\mathcal{L}<em>{\text {mean}}=-N \operatorname{CC}\left(X\left(\phi</em>{X Y}^{(0.5)}\right), Y\left(\phi_{Y X}^{(0.5)}\right)\right)<br>$$</p>
+<p>$$<br>\mathcal{L}<em>{\text {pair}}=-N C C\left(X\left(\phi</em>{X Y}^{(1)}\right), Y\right)-N C C\left(Y\left(\phi_{Y X}^{(1)}\right), X\right)<br>$$</p>
+<p>其中，$\mathcal{L}<em>{mean}$用来衡量$X$和$Y$之间的不相似性，它们朝向平均大小$M$，$\mathcal{L}</em>{pair}$衡量变形后的$X$和$Y$以及变形后的$Y$和$X$之间的不相似性。</p>
+<h3 id="3-局部方向一致性"><a href="#3-局部方向一致性" class="headerlink" title="3. 局部方向一致性"></a>3. 局部方向一致性</h3><p>全局正则化会使配准的精度降低，实际上全局正则化不能保证变换的拓扑保持，为了解决这个问题，提出了可选性雅可比行列式正则，以促进预测形变场的局部的方向一致性。可选性雅克比行列式正则损失为：<br>$$<br>\mathcal{L}<em>{J d e t}=\frac{1}{N} \sum</em>{p \in \Omega} \sigma\left(-\left|J_{\phi}(p)\right|\right)<br>$$<br>其中$N$表示$|J_\phi|$中元素的总数量；$\sigma(\cdot)$表示激活函数，这里用的是$\sigma(\cdot)=\max(0,\cdot)$，作用等同于ReLU；$|J_\phi(\cdot)|$表示在位置$p$处形变场$\phi$的雅克比行列式，其公式如下：<br>$$<br>J_{\phi}(p)=\left(\begin{array}{lll}<br>\frac{\partial \phi_{x}(p)}{\partial x} &amp; \frac{\partial \phi_{x}(p)}{\partial y} &amp; \frac{\partial \phi_{x}(p)}{\partial z} \<br>\frac{\partial \phi_{y}(p)}{\partial x} &amp; \frac{\partial \phi_{y}(p)}{\partial y} &amp; \frac{\partial \phi_{y}(p)}{\partial z} \<br>\frac{\partial \phi_{z}(p)}{\partial x} &amp; \frac{\partial \phi_{z}(p)}{\partial y} &amp; \frac{\partial \phi_{z}(p)}{\partial z}<br>\end{array}\right)<br>$$<br>但是并不是用可选性雅克比行列式正则损失代替原来的全局正则化，而是同时使用两者，以产生平滑且拓扑保持的变换。</p>
+<p>接着，使用$\mathcal{L}<em>{r e g}=\sum</em>{p \in \Omega}\left(\left|\nabla \boldsymbol{v}<em>{X Y}(p)\right|</em>{2}^{2}+\left|\nabla \boldsymbol{v}<em>{Y X}(p)\right|</em>{2}^{2}\right)$来加强速度场的平滑，还通过幅值约束（magnitude constraint）$\mathcal{L}<em>{m a g}=\frac{1}{N}\left(\left|\boldsymbol{v}</em>{X Y}\right|<em>{2}^{2}-\right.\left.\left|\boldsymbol{v}</em>{Y X}\right|<em>{2}^{2}\right)$来避免在路径上的偏移。所以总的损失函数为：<br>$$<br>\mathcal{L}(X, Y)=\mathcal{L}</em>{s i m}+\lambda_{1} \mathcal{L}<em>{J d e t}+\lambda</em>{2} \mathcal{L}<em>{r e g}+\lambda</em>{3} \mathcal{L}_{m a g}<br>$$</p>
+<h2 id="五、实验"><a href="#五、实验" class="headerlink" title="五、实验"></a>五、实验</h2><p>在T1权重的脑部MRI数据集OASIS上做了基于图谱的配准实验，先将所有图像重采样到$256\times256\times256$大小，然后使用FreeSurfer做标准的预处理，包括运动校正、去除头骨、仿射空间归一化和皮质下结构分割。然后将图像裁剪为$144\times192\times160$大小。并将数据集划分为255、20、150分别作为训练集、验证集和测试集。随机从测试集选择5个MR图像作为图谱。</p>
+<p>使用Dice相似系数（DSC）和雅克比行列式$|J_\phi|$作为衡量标准。DSC的取值范围是[0,1]，配准的越好对应的DSC值越大。雅克比行列式可以捕捉形变场的局部行为。选用ANTs包中的SyN、VoxelMorph（VM）和DIF-VM作为baseline。使用SGD优化器，学习率为$1e^{-4}$，动量为0.9，$\lambda_1=1000，\lambda_2=3，\lambda_4=0.1$。</p>
+<p><img src="https://s1.ax1x.com/2020/07/24/UX4bfP.jpg" alt></p>
+<p>上图是SYMNet与baseline模型的配准结果对比。</p>
+<p><img src="https://s1.ax1x.com/2020/07/24/UX4Ol8.jpg" alt></p>
+<p>上图是平均DSC值（越高越好）和非正雅克比行列式的平均体素数（越低越好），可以发现SYMNet在DSC上取得最好的效果，在$|J_\phi|$上效果次优。</p>
+<p><img src="https://s1.ax1x.com/2020/07/24/UX4HYt.jpg" alt></p>
+<p>上表展示了局部方向一致性损失的影响。</p>
+<p><img src="https://s1.ax1x.com/2020/07/24/UX59kn.jpg" alt></p>
+<p>上表对比了各种模型运行所需要的时间，可以发现SYMNet所需时间最短。</p>
 
     
 
     
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/28/DDPG/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-        
-        
+      </a>
     </div>
-</aside>
-
-
-
-
-  
-    <article id="post-AC" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/21/AC/">强化学习（6）：Actor-Critic（演员评论家）算法</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/21/AC/" class="archive-article-date">
-        <time datetime="2019-10-21T00:28:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-21</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解有关 Actor-Critic 算法的有关知识。</p>
-    
-    <a class="article-more-a" href="/2019/10/21/AC/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/21/AC/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-PG" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/13/PG/">强化学习（5）：策略梯度（Policy Gradient, PG）算法</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/13/PG/" class="archive-article-date">
-        <time datetime="2019-10-13T02:22:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-13</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解有关 Policy Gradient（PG）算法的相关内容。</p>
-    
-    <a class="article-more-a" href="/2019/10/13/PG/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/13/PG/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-DQN-improve" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/11/DQN-improve/">强化学习（4）：Double DQN、Prioritized Experience Replay DQN和Dueling DQN</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/11/DQN-improve/" class="archive-article-date">
-        <time datetime="2019-10-11T12:46:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解有关Double DQN算法、Prioritized Experience Replay DQN 算法和 Dueling DQN 算法的相关内容。</p>
-    
-    <a class="article-more-a" href="/2019/10/11/DQN-improve/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
     
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/11/DQN-improve/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-DQN" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/10/DQN/">强化学习（3）：Deep Q Network（DQN）算法</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/10/DQN/" class="archive-article-date">
-        <time datetime="2019-10-10T01:04:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解有关 Deep Q Network（DQN）算法的相关内容。</p>
-    
-    <a class="article-more-a" href="/2019/10/10/DQN/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/10/DQN/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-sarsa" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
     
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/10/sarsa/">强化学习（2）：Sarsa 算法及 Sarsa(lambda) 算法</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/10/sarsa/" class="archive-article-date">
-        <time datetime="2019-10-10T01:03:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解 Sarsa 算法以及 Sarsa($\lambda$) 算法的相关内容，同时还会分别附上一个莫烦大神写的例子。</p>
-    
-    <a class="article-more-a" href="/2019/10/10/sarsa/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/10/sarsa/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-3D-TL" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/10/3D-TL/">周纵苇——三维迁移学习报告笔记</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/10/3D-TL/" class="archive-article-date">
-        <time datetime="2019-10-10T01:03:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要是记录周纵苇（U-Net++的作者）大神关于三维迁移学习的报告的笔记。原文请参考<a href="https://media.weibo.cn/article?id=2309404420130099560647&is_all=1&jumpfrom=weibocom#_0&tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">三维迁移学习</a>。</p>
-    
-    <a class="article-more-a" href="/2019/10/10/3D-TL/#more">more >></a>
-    
-    
-
-    
-
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/07/24/SYMNet/" title="【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准" target="_blank">zuzhiang.cn/2020/07/24/SYMNet/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
     
 
   </div>
@@ -761,16 +338,76 @@
 
 
     
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/10/3D-TL/">展开全文 >></a>
-    </p>
+
     
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/07/24/SYMNet/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
 
     
     <div class="clearfix"></div>
   </div>
   </div>
 </article>
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/21/FCNet/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -791,267 +428,38 @@
 
 
 
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <article id="post-Q-Learning" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/10/10/Q-Learning/">强化学习（1）：Q-Learning 算法</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/10/10/Q-Learning/" class="archive-article-date">
-        <time datetime="2019-10-10T01:03:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解有关 Q-Learning 算法的内容，主要包括 on-policy 和 off-policy 的概念、Q-Learning 算法的基本思想和算法流程，最后还会讲解一个莫烦大神的例子。</p>
-    
-    <a class="article-more-a" href="/2019/10/10/Q-Learning/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/10/10/Q-Learning/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
+  <script>
+  <!-- id: "【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准" -->
+  var giteement = new Giteement({
+    id: '20200724095113',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
 
 
-  
-    <article id="post-RL" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/09/28/RL/">强化学习（0）：强化学习的基本概念与马尔科夫决策过程</a>
-	
-    </h1>
-  
 
 
-  
-  
-<a href="/2019/09/28/RL/" class="archive-article-date">
-        <time datetime="2019-09-28T03:47:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-28</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文主要讲解有关强化学习的基本概念以及马尔科夫决策过程的相关内容。</p>
-    
-    <a class="article-more-a" href="/2019/09/28/RL/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/09/28/RL/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HMM" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2019/09/27/HMM/">机器学习（10）：隐马尔可夫模型（HMM）</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/09/27/HMM/" class="archive-article-date">
-        <time datetime="2019-09-27T01:18:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-27</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文将讲解有关隐马尔可夫模型的相关知识，主要包括隐马尔可夫模型的概念、两个基本假设、三个基本问题，以及解决这三个基本问题的前向-后向算法、Baum-Welch 算法和 Viterbi 算法等内容。</p>
-    
-    <a class="article-more-a" href="/2019/09/27/HMM/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/09/27/HMM/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -1089,8 +497,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
