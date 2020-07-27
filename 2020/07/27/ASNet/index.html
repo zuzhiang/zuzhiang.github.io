@@ -6,20 +6,34 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives: 2020 | zuzhiang</title>
+  <title>【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师） | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《Adversarial learning for mono- or multi-modal registration》的阅读笔记，是范敬凡老师的工作，是文章《Adversarial Similarity Network for Evaluating Image Alignment in Deep Learning based Registration》中工作的延续。关于后一篇文章，可以">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/2020/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）">
+<meta property="og:url" content="zuzhiang.cn/2020/07/27/ASNet/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《Adversarial learning for mono- or multi-modal registration》的阅读笔记，是范敬凡老师的工作，是文章《Adversarial Similarity Network for Evaluating Image Alignment in Deep Learning based Registration》中工作的延续。关于后一篇文章，可以">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnc6S.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnySf.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnDYt.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnrfP.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCn6l8.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCngOg.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnRmQ.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnWwj.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnfTs.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCn4kn.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCn5Yq.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnIf0.jpg">
+<meta property="og:updated_time" content="2020-07-27T02:45:32.256Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）">
+<meta name="twitter:description" content="本文是论文《Adversarial learning for mono- or multi-modal registration》的阅读笔记，是范敬凡老师的工作，是文章《Adversarial Similarity Network for Evaluating Image Alignment in Deep Learning based Registration》中工作的延续。关于后一篇文章，可以">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/26/aCnc6S.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,42 +198,152 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-ASNet" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）
+    </h1>
+  
+
+
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
 <a href="/2020/07/27/ASNet/" class="archive-article-date">
         <time datetime="2020-07-27T02:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-27</time>
 </a>
 
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《Adversarial learning for mono- or multi-modal registration》的阅读笔记，是范敬凡老师的工作，是文章《Adversarial Similarity Network for Evaluating Image Alignment in Deep Learning based Registration》中工作的延续。关于后一篇文章，可以查看<a href="https://blog.csdn.net/zuzhiang/article/details/104930261" target="_blank" rel="noopener">我的博客</a>。</p>
+<a id="more"></a>
+
+<p>文章提出了一个基于GAN（生成对抗网络）的无监督配准模型，需要任何ground-truth形变场，也不需要指定相似性度量标准。</p>
+<h2 id="一、相关工作"><a href="#一、相关工作" class="headerlink" title="一、相关工作"></a>一、相关工作</h2><p>配准算法是来获取一个可以配准图像的空间变换，空间变换通常包括线性变换（平移、旋转、缩放、shearing）和非线性变换（体素到体素的关系）。配准问题可以表示为一个获取使得图像不相似性最小的形变场$\phi^ <em>$，表示为下式：<br>$$<br>\phi^{</em>}=\underset{\phi}{\operatorname{argmin}} \operatorname{dissim}\left(I_{M} \circ \phi, I_{F}\right)+\lambda \operatorname{reg}(\phi)<br>$$<br>其中，$I_M$和$I_F$分别表示浮动图像和固定图像；$I_M\circ\phi$表示根据形变场$\phi$变形后的浮动图像；图像的不相似性$dissim(I_M\circ\phi,I_F)$可以定义为SSD、CC/NCC、MI/NMI等；$reg(\phi)$是让形变场保持平滑的正则化项；$\lambda$是平衡权重。形变场的正则化可以通过高斯平滑，使用样条曲线或微分同胚来实现。</p>
+<p>传统的医学图片配准方法通常是高维的数学优化，所以很耗时间。基于深度学习的有监督配准方法多聚焦于预测体素到体素的映射，即密集形变场（dense deformation fields），但是它们效果又被ground-truth形变场所限制。而无监督的配准方法旨在通过最大化图像之间的相似度来学习一个形变场，这里的图像相似度通常采用SSD（平方误差和）、CC（互相关）等，但是很难决定在不同的配准问题中采取哪种特定的相似性度量才会达到最好效果。无监督的方法另一个优点是没有有监督信息，所以节省了内存/显存，进一步同样的显存可以容纳更大的图像，使得大尺度的无标签图像的配准变成可能。</p>
+<h2 id="二、网络结构"><a href="#二、网络结构" class="headerlink" title="二、网络结构"></a>二、网络结构</h2><p>该模型实现了基于patch和基于图像的单模和多模3D图像的配准，单模图像选用的是脑部MR图像，多模选用的是骨盆的MR图像和CT图像。文章的贡献如下：</p>
+<ul>
+<li>与传统的配准方法相比，该方法更鲁棒，更快，并且是端到端的；</li>
+<li>与有监督配准方法相比，该方法不需要ground-truth形变场；</li>
+<li>该方法可以自动学习图像之间的相似性度量，而不需要任何先验假设；</li>
+<li>可以同时处理单模和多模配准问题。</li>
+</ul>
+<p>文章提出的基于GAN的无监督配准模型包括一个配准网络（生成器）、一个判别器和空间变换网络。下图是网络的整体结构示意图。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnc6S.jpg" alt></p>
+<h3 id="1-配准网络"><a href="#1-配准网络" class="headerlink" title="1. 配准网络"></a>1. 配准网络</h3><p>配准网络以两张图片作为输入，输出为和输入大小相同的形变场。配准网络R学习一个形变场，可以记为$R:(I_M,I_F)\rightarrow\phi$，配准网络通过最大化图像间的相似性来训练。</p>
+<p>配准网络是基于U-Net的，在编码器阶段每个卷积的卷积核大小为$3\times3\times3$，并且后面跟着ReLU激活函数，然后使用$2\times2\times2$的最大池化层进行下采样。重复以上步骤两次就是编码器的结构。在解码器阶段，使用$2\times2\times2$的反卷积层进行上采样，每个反卷积层后也跟着一个ReLU激活函数。在编码器和解码器之间有跳跃连接。最终的形变场通过$1\times1\times1$的全卷积层（没有激活函数）来得到。</p>
+<p>下图是配准网络的结构示意图。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnySf.jpg" alt></p>
+<p>下图是基于patch和基于全图像的配准中配准网络的具体结构：</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnDYt.jpg" alt></p>
+<h3 id="2-判别网络"><a href="#2-判别网络" class="headerlink" title="2. 判别网络"></a>2. 判别网络</h3><p>判别器是基于CNN的，判别器用来判别两张图片是否已经对齐，并在训练时将没对齐的信息传递给配准网络（通过反向传播更新配准网络的参数），即图像相似性由判别网络D来决定，判别网络判别两幅图像的相似性，并得到一个相似性概率$p\in[0,1]$，1表示相似，0表示不相似。</p>
+<p>下图是判别器网络的结构示意图，如图所示，每个卷积层是0填充的，并且跟着ReLU激活函数，然后使用两个最大池化，最后使用全连接层加sigmoid激活函数来聚合所有的信息得到最终的输出。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnrfP.jpg" alt></p>
+<h3 id="3-空间变换网络"><a href="#3-空间变换网络" class="headerlink" title="3. 空间变换网络"></a>3. 空间变换网络</h3><p>配准网络和判别器之间由空间变换网络（STN）连接，空间转换层可以根据形变场来对浮动图像做变形，使用三线性插值，该过程可表示为：<br>$$<br>\begin{aligned}<br>I_{W}(x) &amp;=I_{M}(x+\phi(x)) \<br>&amp; \approx \Sigma_{y \in \mathcal{N}(x+\phi(x))} I_{M}(y) \cdot \prod_{d \in{0,1,2}}\left(1-\left|x_{d}+\phi_{d}(x)-y_{d}\right|\right)<br>\end{aligned}<br>$$<br>其中，$I_W$是浮动图像变形后的图像，$x$是体素位置，$y \in \mathcal{N}(x+\phi(x))$是位置$x+\phi(x)$的8体素的立方体邻居，$d$是图像空间的维度。空间转换层没有可训练的参数。</p>
+<h2 id="三、训练"><a href="#三、训练" class="headerlink" title="三、训练"></a>三、训练</h2><p>在训练时，按照以下顺序进行训练：</p>
+<ul>
+<li>先喂给判别器一个参考图像（reference image）和一个固定图像（fixed image），参考图像就是和固定图像很相似的图像，来学习配准好的图像是什么样的；</li>
+<li>喂给判别器一个根据预测的形变场变形后的浮动图像和一个固定图像，让判别器学习没有配准好的图像是什么样的；</li>
+<li>喂给配准网络一个浮动图像和一个固定图像来学习能在判别器得到高分数的形变场。</li>
+</ul>
+<p>当判别器不能区分正例样本和负例样本时，训练就收敛了。</p>
+<h3 id="1-判别器的训练"><a href="#1-判别器的训练" class="headerlink" title="1. 判别器的训练"></a>1. 判别器的训练</h3><p>判别器有两个输入样例，一个是正例$P^+$，即一对配准好的图像；另一个是负例$P^-$，即一对没有配准好的图像，判别器的损失如下：<br>$$<br>\mathcal{L}_{D}(p)=\left{\begin{array}{ll}<br>-\log (p), &amp; \quad c \in P^{+} \<br>-\log (1-p), &amp; c \in P^{-}<br>\end{array}\right.<br>$$<br>其中$p$是判别器的输出，即图像相似性概率；$c$表示输入样例，正例的值应该接近于1，而负例的值应该接近于0。</p>
+<h4 id="正例"><a href="#正例" class="headerlink" title="正例"></a>正例</h4><p>对于单模配准来说，理想的正例样本是两张完全相同的图像，但是这是不现实的，所以选用的参考图像是通过浮动图像和固定图像加权得到的，即：<br>$$<br>I_{R}=\alpha \cdot I_{M}+(1-\alpha) \cdot I_{F}, 0&lt;\alpha&lt;1<br>$$<br>在训练的初始阶段将$\alpha$设为0.2，以弱化相似性的需要，在后期将$\alpha$设为0.1以达到更高的精度。</p>
+<p>对应多模配准来说，参考图像和浮动图像是来自同一模态的，而固定图像来自不同模态。使用同一模态下的少量MR和CT的图像对作为参考图像。</p>
+<p>下图中的(a)、(b)分别表示单模和多模配准中的正例和负例样本。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCn6l8.jpg" alt></p>
+<h3 id="2-配准网络的训练"><a href="#2-配准网络的训练" class="headerlink" title="2. 配准网络的训练"></a>2. 配准网络的训练</h3><p>配准网络中相似性损失定义为：<br>$$<br>\mathcal{L}<em>{R}(p)=-\log (p), c \in P^{-}<br>$$<br>形变场的平滑性定义为：<br>$$<br>\mathcal{L}</em>{\mathrm{reg}}(\phi)=\sum_{v \in \mathbb{R}^{3}} \nabla \phi^{2}(v)<br>$$<br>其中，$v$表示体素位置，此外，反折叠惩（anti-floding）罚项被用作正则项来惩罚较大的折叠（$\nabla\phi(v)+1&lt;0$）。配准网络的总损失如下：<br>$$<br>\mathcal{L}=\mathcal{L}<em>{R}(p)+\lambda \cdot \mathcal{L}</em>{\mathrm{reg}}(\phi)<br>$$<br>其中$\lambda$被设置为1000。</p>
+<h2 id="四、实验"><a href="#四、实验" class="headerlink" title="四、实验"></a>四、实验</h2><h3 id="1-具体实施"><a href="#1-具体实施" class="headerlink" title="1. 具体实施"></a>1. 具体实施</h3><p>该网络实现了基于patch 的和基于图像的配准两种方式，基于patch 的配准使用有重叠的大小为$68\times68\times68$的图像patch作为输入，输出大小为$28\times28\times28$的形变场向量patch。特意只预测中心的形变场，这是因为中心的信息被利用的最好，而边界信息也有所缺失，置信度不高。在获取输入patch的时候，以步长为28取patch块，也就是和输出大小相同，这样就可以保证输出的patch可以无重叠的拼成一个完整的形变场。</p>
+<h3 id="2-实验设置"><a href="#2-实验设置" class="headerlink" title="2. 实验设置"></a>2. 实验设置</h3><p>单模和多模配准中使用的网络结构是相同的，使用的优化器都是Adam，学习率为$1e^{-4}$，每经过50K次迭代以0.5的权重进行衰变。基于patch的配准训练10个epoch，基于图像的训练20个epoch。</p>
+<p>使用的baseline为LCC-demons和SyN模型，使用的相似性度量为SSD和CC。DL-GT表示使用由SyN产生的ground-truth形变场的深度学习配准模型，DL-SSD和DL-CC分别表示选用SSD和CC作为相似性度量的深度学习模型，DL-ASN是本文提出的模型。除非特别说明，所有的基于学习的方法都是基于patch的。选用的数据集有LPBA40、IBSR18、CUMC12和MGH10。</p>
+<p>在单模配准中，在预处理阶段，对图像进行了线性配准（仿射配准），并全部重采样到$224\times224\times160$大小，训练集使用的是LPBA40的30张图像，LPBA40另外10张图像用作验证集，剩余的数据集图像全用作测试集，这样做是为了验证模型的通用性。评价指标为DSC（Dice相似性系数）和ASD（平均表面距离）。</p>
+<p>多模配准时，使用的是22个前列腺癌患者的骨盆MR和CT图像，大小为$224\times192\times96$，使用的相似性度量为MI（互信息），这是因为SSD和CC在多模配种中不适用。在训练阶段，随机选择来自相同患者的10个图像对作为预备图像对，然后选择$15\times15$个来自CT和MR的图像对形成训练集，剩余的7个图像对作用测试集。</p>
+<h3 id="3-实验结果"><a href="#3-实验结果" class="headerlink" title="3. 实验结果"></a>3. 实验结果</h3><p>下图展示了在不同数据集上的配准结果对比，文章所提出的模型在大多数数据集上都取得了最好的效果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCngOg.jpg" alt></p>
+<p>下图对比了基于patch的和基于图像配准方法的效果，可以发现基于patch的效果会更好一点，但是基于patch的配准在训练的时候每个epoch要比基于图像的配准花费的时间长，测试的时候基于patch的所花费的时间约是基于图像的10倍。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnRmQ.jpg" alt></p>
+<p>下图是MGH10数据集的配准结果，黄色区域是差异较为明显的区域。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnWwj.jpg" alt></p>
+<p>下图是多模配准的结果，红色曲线是CT图像的ROI，绿色区域是MR图像中相关的ROI。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnfTs.jpg" alt></p>
+<p>下图是在骨盆数据集上的多模配准结果，DSC的值越大越好，ASD的值越小越好。<img src="https://s1.ax1x.com/2020/07/26/aCn4kn.jpg" alt></p>
+<p>下图是不同深度配准方法的负的雅克比行列式值的平均体素个数，可以发现本文的模型结果最低，效果最好。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCn5Yq.jpg" alt></p>
+<p>下图是不同$\lambda$值对实验结果的影响。</p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aCnIf0.jpg" alt></p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/27/ASNet/">【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）</a>
-	
-    </h1>
-  
+      </a>
+    </div>
+    
 
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/07/27/ASNet/" title="【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）" target="_blank">zuzhiang.cn/2020/07/27/ASNet/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
 
-        <div class="article-info info-on-right">
-          
-          
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -232,408 +356,129 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/07/27/ASNet/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/24/freesurfer/" class="archive-article-date">
-        <time datetime="2020-07-24T07:49:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/24/freesurfer/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">FreeSurfer的安装和使用（脑部图像去除头骨）教程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/24/freesurfer/">FreeSurfer的安装和使用（脑部图像去除头骨）教程</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）" -->
+  var giteement = new Giteement({
+    id: '20200727104233',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/24/SYMNet/" class="archive-article-date">
-        <time datetime="2020-07-24T01:51:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/24/SYMNet/">【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/21/FCNet/" class="archive-article-date">
-        <time datetime="2020-07-21T07:07:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/21/FCNet/">【论文笔记】FCNet：基于全卷积网络（FCN）的无监督配准模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/17/show-phi/" class="archive-article-date">
-        <time datetime="2020-07-17T11:58:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-17</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/17/show-phi/">医学图像配准之形变场可视化（绘制形变场）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/17/FlowNet/" class="archive-article-date">
-        <time datetime="2020-07-17T01:38:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-17</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/17/FlowNet/">【论文笔记】FlowNet：有监督的光流估计（optical flow estimation）网络</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/15/UnsupervisedEnd-to-endLearningForDeformableMedicalImageRegistration/" class="archive-article-date">
-        <time datetime="2020-07-15T05:54:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-15</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/15/UnsupervisedEnd-to-endLearningForDeformableMedicalImageRegistration/">【论文笔记】无监督的端到端学习的医学图像配准模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/13/UNet-pp/" class="archive-article-date">
-        <time datetime="2020-07-13T08:57:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-13</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/13/UNet-pp/">【论文笔记】UNet++：一种用于医学图像分割的嵌套U-Net结构</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/16/AIR-Net/" class="archive-article-date">
-        <time datetime="2020-06-16T13:59:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/06/16/AIR-Net/">【论文笔记】AIR-Net：基于GAN的配准模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/06/06/WSAL/" class="archive-article-date">
-        <time datetime="2020-06-06T07:15:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-06</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/06/06/WSAL/">【论文笔记】WSAL：基于域适应和生成对抗网络的图像分割模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2020/page/2/">2</a><a class="page-number" href="/archives/2020/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2020/page/5/">5</a><a class="extend next" rel="next" href="/archives/2020/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +517,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
