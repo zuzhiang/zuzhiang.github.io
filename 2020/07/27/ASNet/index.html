@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCn4kn.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCn5Yq.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/07/26/aCnIf0.jpg">
-<meta property="og:updated_time" content="2020-07-27T02:45:32.256Z">
+<meta property="og:updated_time" content="2020-07-27T11:23:57.497Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）">
 <meta name="twitter:description" content="本文是论文《Adversarial learning for mono- or multi-modal registration》的阅读笔记，是范敬凡老师的工作，是文章《Adversarial Similarity Network for Evaluating Image Alignment in Deep Learning based Registration》中工作的延续。关于后一篇文章，可以">
@@ -246,7 +246,7 @@
 <p>配准网络是基于U-Net的，在编码器阶段每个卷积的卷积核大小为$3\times3\times3$，并且后面跟着ReLU激活函数，然后使用$2\times2\times2$的最大池化层进行下采样。重复以上步骤两次就是编码器的结构。在解码器阶段，使用$2\times2\times2$的反卷积层进行上采样，每个反卷积层后也跟着一个ReLU激活函数。在编码器和解码器之间有跳跃连接。最终的形变场通过$1\times1\times1$的全卷积层（没有激活函数）来得到。</p>
 <p>下图是配准网络的结构示意图。</p>
 <p><img src="https://s1.ax1x.com/2020/07/26/aCnySf.jpg" alt></p>
-<p>下图是基于patch和基于全图像的配准中配准网络的具体结构：</p>
+<p>下图是基于patch和基于全图像的配准中配准网络和判别器网络（没有标出）的具体结构：</p>
 <p><img src="https://s1.ax1x.com/2020/07/26/aCnDYt.jpg" alt></p>
 <h3 id="2-判别网络"><a href="#2-判别网络" class="headerlink" title="2. 判别网络"></a>2. 判别网络</h3><p>判别器是基于CNN的，判别器用来判别两张图片是否已经对齐，并在训练时将没对齐的信息传递给配准网络（通过反向传播更新配准网络的参数），即图像相似性由判别网络D来决定，判别网络判别两幅图像的相似性，并得到一个相似性概率$p\in[0,1]$，1表示相似，0表示不相似。</p>
 <p>下图是判别器网络的结构示意图，如图所示，每个卷积层是0填充的，并且跟着ReLU激活函数，然后使用两个最大池化，最后使用全连接层加sigmoid激活函数来聚合所有的信息得到最终的输出。</p>
@@ -418,6 +418,15 @@
 
 
 <nav id="article-nav">
+  
+    <a href="/2020/07/27/CIRNet/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型
+        
+      </div>
+    </a>
   
   
     <a href="/2020/07/24/freesurfer/" id="article-nav-older" class="article-nav-link-wrap">

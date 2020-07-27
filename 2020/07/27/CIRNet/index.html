@@ -6,20 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives | zuzhiang</title>
+  <title>【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《UNSUPERVISED THREE-DIMENSIONAL IMAGE REGISTRATION USING A CYCLE CONVOLUTIONAL NEURAL NETWORK》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/page/8/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型">
+<meta property="og:url" content="zuzhiang.cn/2020/07/27/CIRNet/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《UNSUPERVISED THREE-DIMENSIONAL IMAGE REGISTRATION USING A CYCLE CONVOLUTIONAL NEURAL NETWORK》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/27/aFaWon.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/27/aFahiq.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/27/aFa5WV.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/27/aFa4J0.jpg">
+<meta property="og:updated_time" content="2020-07-27T12:39:01.410Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型">
+<meta name="twitter:description" content="本文是论文《UNSUPERVISED THREE-DIMENSIONAL IMAGE REGISTRATION USING A CYCLE CONVOLUTIONAL NEURAL NETWORK》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/27/aFaWon.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,456 +190,251 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-CIRNet" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/15/EM/" class="archive-article-date">
-        <time datetime="2019-09-15T01:59:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-15</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/09/15/EM/">机器学习（7）：EM（期望最大化）算法</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/2020/07/27/CIRNet/" class="archive-article-date">
+        <time datetime="2020-07-27T12:37:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-27</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《UNSUPERVISED THREE-DIMENSIONAL IMAGE REGISTRATION USING A CYCLE CONVOLUTIONAL NEURAL NETWORK》的阅读笔记。</p>
+<a id="more"></a>
+
+<p>文章提出了一个无监督的循环图像配准网络CIRNet，它由两个配准模块组成，两者具有相同的结构，并且共享参数。此外加入了循环一致性损失来为确保预测形变场的精度而提供额外的约束。文章在4D(3D+t)心脏CT数据集和MRI数据集上分别做了实验，验证了模型的有效性。简单来说就是将CycleGAN引入到了VoxelMorph模型中。</p>
+<h2 id="一、配准问题介绍"><a href="#一、配准问题介绍" class="headerlink" title="一、配准问题介绍"></a>一、配准问题介绍</h2><p>有监督的配准方法容易收到有监督信息中存在的误差和错误的影响，基于patch的配准方法训练时更快，但不能充分利用全局信息。</p>
+<p>配准问题可以简化为一个优化问题，即最小化以下能量函数$P$：<br>$$<br>P=S(M(\phi), F)+\operatorname{Reg}(\phi)<br>$$<br>其中，$M$和$F$分别表示浮动图像和固定图像，$\phi$表示形变场，$M(\phi)$表示根据形变场变形后的浮动图像，函数$S(x,y)$表示两幅图像之间的不相似性，$Reg(\phi)$表示形变场的平滑正则化项。</p>
+<h2 id="二、网络结构"><a href="#二、网络结构" class="headerlink" title="二、网络结构"></a>二、网络结构</h2><p>从下图可以看出，CIRNet由两个级联的配准模块$R_1，R_2$组成，两者具有相同的结构，并且共享参数，这样模型参数不会增加很多。</p>
+<p><img src="https://s1.ax1x.com/2020/07/27/aFaWon.jpg" alt></p>
+<p>上图中，$A$和$B$分别表示浮动图像和固定图像，$A(\phi_1)$是根据形变场$\phi_1$变形后的浮动图像，$A(\phi_1\circ\phi_2)$是先根据$\phi_1$变形再根据$\phi_2$变形后的浮动图像，$L_{cyc}$是循环一致性损失。配准模块$R_1$是将浮动图像$A$配准到固定图像$B$，得并使得$A(\phi_1)$与$B$尽可能的像；配准模块$R_2$是将变形后的浮动图像$A(\phi_1)$配准到固定图像$A$，得并使得$A(\phi_1\circ\phi_2)$与$A$尽可能的像。</p>
+<p>CIRNet是在VoxelMorph的基础上加以改进的，所以每个配准模块的结构和VoxelMorph相同，如下图。</p>
+<p><img src="https://s1.ax1x.com/2020/07/27/aFahiq.jpg" alt></p>
+<h2 id="三、损失函数"><a href="#三、损失函数" class="headerlink" title="三、损失函数"></a>三、损失函数</h2><p>网络的损失有三个：$L_{NCC}、L_{cyc}、L_{reg}$。</p>
+<p>归一化的互相关$L_{NCC}$，它用来衡量图像$A(\phi_1)$和图像$B$之间的相似性，它是通过大小为$9\times9\times9$的滑动窗口来计算的，当$L_{NCC}$接近于0时，说明两张图像不相关，反之接近于1时说明两张图像正相关。</p>
+<p>循环一致性损失$L_{cyc}$可以让图像$A(\phi_1\circ\phi_2)$和图像$A$尽可能的相似。此外考虑到两幅图像还应该在灰度值分布上相同，所以在循环一致性损失中加入了$L_2$正则项。其表达式如下：<br>$$<br>L_{c y c}\left(A\left(\phi_{1} \circ \phi_{2}\right), A\right)=\frac{1}{N} \sum_{i \in \Omega}\left(A\left(\phi_{1} \circ \phi_{2}\right)(i)-A(i)\right)^{2}<br>$$<br>其中，$N$是体素的数量，$\Omega$表示图像中的所有体素。</p>
+<p>形变场的平滑正则项损失$L_{reg}$定义如下：<br>$$<br>L_{r e g}(\phi)=\sum_{i \in \Omega} \nabla \phi(i)^{2}<br>$$<br>综上，配准模块$R_1、R_2$的总损失为：<br>$$<br>\begin{aligned}<br>L_{R 1}(A, B)=-&amp; L_{N C C}\left(A\left(\phi_{1}\right), B\right) \<br>&amp;+\alpha L_{r e g}\left(\phi_{1}\right)+\beta L_{c y c}\left(A\left(\phi_{1} \circ \phi_{2}\right), A\right) \<br>L_{R 2}\left(A\left(\phi_{1}\right), A\right) &amp;=-L_{N C C}\left(A\left(\phi_{1} \circ \phi_{2}\right), A\right) \<br>&amp;+\alpha L_{r e g}\left(\phi_{2}\right)+\beta L_{c y c}\left(A\left(\phi_{1} \circ \phi_{2}\right), A\right)<br>\end{aligned}<br>$$<br>其中$\alpha、\beta$是平衡因子。</p>
+<h2 id="四、实验"><a href="#四、实验" class="headerlink" title="四、实验"></a>四、实验</h2><p>第一个数据集是ACDC数据集，是一个4D的心脏电影MRI数据集，第二个数据是心脏的CTA图像。训练时使用Adam作为优化器，学习率在前100个epoch为0.0001，没50个epoch线性减少。batch size在第一个数据集为8，第二个数据集为1。$\alpha=1，\beta=5$。使用的baseline是传统的B样条非刚性配准算法Elastix和基于学习的配准模型VoxelMorph，评价指标选用的是DSC（Dice相似性系数）。</p>
+<p>下图是各个配准方法的对比结果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/27/aFa5WV.jpg" alt></p>
+<p>下图是评价指标和运行时间的对比，可以发现CIRNet取得了最好的效果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/27/aFa4J0.jpg" alt></p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
+        </div>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/07/27/CIRNet/" title="【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型" target="_blank">zuzhiang.cn/2020/07/27/CIRNet/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
+        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/07/27/CIRNet/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/14/MLE/" class="archive-article-date">
-        <time datetime="2019-09-14T02:23:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-14</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/27/ASNet/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】ASNet：基于生成对抗网络（GAN）的无监督单模和多模配准网络（范敬凡老师）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/09/14/MLE/">机器学习番外篇（1）：极大似然估计和最小二乘法</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型" -->
+  var giteement = new Giteement({
+    id: '20200727203754',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/11/sms-bomber/" class="archive-article-date">
-        <time datetime="2019-09-11T12:24:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/09/11/sms-bomber/">短信轰炸机</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/奇技淫巧//" class="article-tag-list-link color5">奇技淫巧</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/11/dl-2/" class="archive-article-date">
-        <time datetime="2019-09-11T06:39:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/09/11/dl-2/">深度学习：自编码器、深度信念网络和深度玻尔兹曼机</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/01/deep-learning/" class="archive-article-date">
-        <time datetime="2019-09-01T13:47:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-01</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/09/01/deep-learning/">深度学习：神经网络的基本概念和算法</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/08/31/SVM/" class="archive-article-date">
-        <time datetime="2019-08-31T06:14:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-31</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/08/31/SVM/">机器学习（6）：支持向量机（SVM）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/08/21/boosting/" class="archive-article-date">
-        <time datetime="2019-08-21T04:31:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/08/21/boosting/">机器学习（5）：提升算法（boosting algorithm）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/08/19/DT&RF/" class="archive-article-date">
-        <time datetime="2019-08-19T02:03:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/08/19/DT&RF/">机器学习（4）：决策树和随机森林</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/08/17/photo/" class="archive-article-date">
-        <time datetime="2019-08-17T12:06:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/08/17/photo/">掌握这些技巧，手机也能拍出美美的照片~</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/奇技淫巧//" class="article-tag-list-link color5">奇技淫巧</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/08/17/clustering/" class="archive-article-date">
-        <time datetime="2019-08-17T11:49:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-17</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/08/17/clustering/">机器学习（3）：聚类算法之K均值算法、层次聚类和密度聚类</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/7/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/9/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +473,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
