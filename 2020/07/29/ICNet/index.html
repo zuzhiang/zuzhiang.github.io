@@ -6,20 +6,32 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives: 2020 | zuzhiang</title>
+  <title>【论文笔记】ICNet：用于无监督医学图像配准的逆一致性模型 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是文章《Inverse-Consistent Deep Networks for Unsupervised Deformable Image Registration》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/2020/page/3/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】ICNet：用于无监督医学图像配准的逆一致性模型">
+<meta property="og:url" content="zuzhiang.cn/2020/07/29/ICNet/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是文章《Inverse-Consistent Deep Networks for Unsupervised Deformable Image Registration》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQcZ9.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQ2I1.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQyqJ.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQsr4.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQgaR.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQWPx.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQfG6.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQhRK.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQose.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/29/amQIMD.jpg">
+<meta property="og:updated_time" content="2020-07-29T12:57:34.364Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】ICNet：用于无监督医学图像配准的逆一致性模型">
+<meta name="twitter:description" content="本文是文章《Inverse-Consistent Deep Networks for Unsupervised Deformable Image Registration》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/07/29/amQcZ9.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,171 +196,137 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-ICNet" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/04/09/wgan/" class="archive-article-date">
-        <time datetime="2020-04-09T06:49:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/04/09/wgan/">【转载】令人拍案叫绝的Wasserstein GAN</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】ICNet：用于无监督医学图像配准的逆一致性模型
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/前人之述备矣//" class="article-tag-list-link color2">前人之述备矣</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
 
+<a href="/2020/07/29/ICNet/" class="archive-article-date">
+        <time datetime="2020-07-29T12:56:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-29</time>
+</a>
 
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是文章《Inverse-Consistent Deep Networks for Unsupervised Deformable Image Registration》的阅读笔记。</p>
+<a id="more"></a>
+
+<p>过去基于学习的配准方法忽略了图像之间转换的逆一致性，并且形变场只被要求局部平滑，不能完全避免形变场的重叠。基于以上两点，提出了一个用于无监督图像配准的逆一致性网络模型ICNet，同时提出了“反重叠约束”来避免形变场的重叠。</p>
+<h2 id="一、配准问题"><a href="#一、配准问题" class="headerlink" title="一、配准问题"></a>一、配准问题</h2><p>用$S$表示源图像（浮动图像），$T$表示目标图像（固定图像），$F_{ST}$表示从图像$S$变到图像$T$的位移场，配准问题可看作是解决以下优化问题：<br>$$<br>\mathcal{F}(\mathbf{S}, \mathbf{T})=\mathcal{L}<em>{\text {similar}}\left(\mathbf{T}, \Phi\left(\mathbf{S}, \mathbf{F}</em>{S T}\right)\right)+\mathcal{R}\left(\mathbf{F}<em>{S T}\right)<br>$$<br>其中$\Phi$表示转换操作，$\Phi(S,F</em>{ST})$表示根据位移场$F_{ST}$变形后的源图像，第一项表示图像之间的相似度，第二项是正则化项。</p>
+<p>传统的基于学习的配准算法输出的转换，即位移场或流（flow）通常是不对称的，也就是说图像之间变换的逆一致性被忽略了。这里的逆一致性简单来说就是在配准时不仅要将图像$A$配准到图像$B$，同时还应该将图像$B$配准到图像$A$。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQcZ9.jpg" alt></p>
+<p>上图中分别是当形变场平滑约束使用较大权重和较小权重时的结果。</p>
+<h2 id="二、I网络结构"><a href="#二、I网络结构" class="headerlink" title="二、I网络结构"></a>二、I网络结构</h2><p>在本文中用$A$表示源图像，$B$表示目标图像，$F_{AB}$表示从图像$A$到图像$B$的位移场，$F_{BA}$表示从图像$B$到图像$A$的位移场。位移场中每个元素是一个三维向量，分别表示在$x，y，z$轴方向的体素从原图像到新图像的位移。变形后的$A$和$B$被记作$\tilde{A}$和$\tilde{B}$。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQ2I1.jpg" alt></p>
+<p>上图中图(a)是ICNet的网络结构，图(b)是FCN的网络结构，图(c)是逆网络的结构。</p>
+<p>在ICNet中使用两个FCN来预测两个位移场$F_{AB}$和$F_{BA}$。第一个FCN的目的是根据位移场$F_{AB}$将$A$朝$B$对齐，并得到变形后的图像$\tilde{A}$，第二个FCN的目的是根据位移场$F_{BA}$将$B$朝$A$对齐，并得到变形后的图像$\tilde{B}$。两个FCN的结构相同，参数共享，说白了就是用的同一个FCN。</p>
+<p>FCN采用的和UNet类似的结构，n表示FCN中一开始的过滤器的个数，收缩路径的每一步包括一个$3\times3\times3$，步长为1的卷积操作和一个$3\times3\times3$，步长为2的卷积操作（用作下采样）。扩张路径的每一步包括一个$2\times2\times2$，步长为2的反卷积操作用作上采样，并跟着一个拼接操作，将收缩路径和扩张路径的特征图拼接，然后是一个$3\times3\times3$，步长为1的卷积。每个卷积操作后都跟着一个ReLU激活函数，在FCN的最后一层，先用Tanh激活函数将输出值的范围限制在[-1,1]，然后再乘以$\tau$，将输出值限制在$[-\tau, \tau]$，$\tau$表示最大的位移。</p>
+<p>使用网格采样模块（即空间变换网络，STN）获得变形后的图像，STN采用的是双线性插值，所以是可微的。此外，使用一个逆网络来基于逆一致性损失$Loss_{inv}1和Loss_{inv}2$，并根据位移场$F_{AB}$生成一个估计的逆位移场$\tilde F_{BA}$。具体的，使用网格采样策略来基于$F_{AB}$和$-F_{AB}$生成逆位移场$\tilde F_{BA}$。对于位移场$F_{AB}$，首先获得它的负的位移场$-F_{AB}$，然后将它们喂入STN中获得估计的逆位移场$\tilde F_{BA}$。同理可获得$\tilde F_{AB}$。</p>
+<h2 id="三、损失函数"><a href="#三、损失函数" class="headerlink" title="三、损失函数"></a>三、损失函数</h2><h3 id="1-逆一致性约束"><a href="#1-逆一致性约束" class="headerlink" title="1. 逆一致性约束"></a>1. 逆一致性约束</h3><p>逆一致性约束定义如下：<br>$$<br>\mathcal{L}<em>{i n v}=\left|\mathbf{F}</em>{A B}-\widetilde{\mathbf{F}}<em>{A B}\right|</em>{F}^{2}+\left|\mathbf{F}<em>{B A}-\widetilde{\mathbf{F}}</em>{B A}\right|<em>{F}^{2}\<br>\begin{array}{l}<br>\widetilde{\mathbf{F}}</em>{A B}=\mathcal{G}\left(\mathbf{F}<em>{B A},-\mathbf{F}</em>{B A}\right) \<br>\widetilde{\mathbf{F}}<em>{B A}=\mathcal{G}\left(\mathbf{F}</em>{A B},-\mathbf{F}_{A B}\right)<br>\end{array}<br>$$<br>其中，$\mathcal{G}$是STN产生的映射，$||\cdot||_F$表示矩阵的弗罗贝纽斯（Frobenius）正则。</p>
+<h3 id="2-反重叠约束"><a href="#2-反重叠约束" class="headerlink" title="2. 反重叠约束"></a>2. 反重叠约束</h3><p>反重叠约束：<br>$$<br>\begin{aligned}<br>\left.\mathcal{L}<em>{\text {ant }}=\Sigma</em>{p \in \Omega} \Sigma_{i \in{x, y, z}}\right. &amp; \delta\left(\nabla \mathbf{F}<em>{A B}^{i}(p)+1\right)\left|\nabla \mathbf{F}</em>{A B}^{i}(p)\right|^{2} \<br>&amp;+\delta\left(\nabla \mathbf{F}<em>{B A}^{i}(p)+1\right)\left|\nabla \mathbf{F}</em>{B A}^{i}(p)\right|^{2}<br>\end{aligned}<br>$$<br>其中，$\nabla F^i_{AB}(p)$是位移场$F_{AB}$中体素$p$在第$i$个轴的梯度，$\delta(Q)$是用来惩罚位移场中有重叠的位置的梯度的指示函数。如果$Q\le0，\delta(Q)=|Q|$，反之，$\delta(Q)=0$。</p>
+<p>如果在位置$p$沿着第$i$个轴处有重叠，即$\nabla F^i_{AB}(p)+1\le0$，则增加惩罚$\nabla F^i_{AB}(p)+1$在该位置的梯度上，以让梯度变得小，反之，如果$\nabla F^i_{AB}(p)+1&gt;0$，即没有重叠，则不做惩罚。</p>
+<h3 id="3-平滑约束"><a href="#3-平滑约束" class="headerlink" title="3. 平滑约束"></a>3. 平滑约束</h3><p>平滑约束的定义如下：<br>$$<br>\mathcal{L}<em>{s m o}=\Sigma</em>{p \in \Omega}\left(\left|\nabla \mathbf{F}<em>{A B}(p)\right|</em>{2}^{2}+\left|\nabla \mathbf{F}<em>{B A}(p)\right|</em>{2}^{2}\right)<br>$$<br>其中，$\nabla F_{AB}(p)$是体素$p$处的位移场$F_{AB}$的梯度，$\nabla F_{BA}(p)$是体素$p$处的位移场$F_{BA}$的梯度，$||\cdot||_2$表示向量的$L_2$正则。</p>
+<h3 id="4-图像相似性度量"><a href="#4-图像相似性度量" class="headerlink" title="4. 图像相似性度量"></a>4. 图像相似性度量</h3><p>使用MSD（mean squared distance）作为图像的相似性度量，该损失用来衡量图像之间的大小差异，其定义如下：<br>$$<br>\mathcal{L}<em>{s i m}=|\mathbf{B}-\widetilde{\mathbf{A}}|</em>{F}^{2}+|\mathbf{A}-\widetilde{\mathbf{B}}|<em>{F}^{2}<br>$$<br>其中，$\widetilde{\mathbf{A}}=\mathcal{G}\left(\mathbf{F}</em>{A B}, \mathbf{A}\right)$，$\widetilde{\mathbf{B}}=\mathcal{G}\left(\mathbf{F}_{B A}, \mathbf{B}\right)$，$\mathcal{G}$是由STN得到的映射函数。</p>
+<h3 id="5-总损失"><a href="#5-总损失" class="headerlink" title="5. 总损失"></a>5. 总损失</h3><p>ICNet的总损失如下：<br>$$<br>\begin{aligned}<br>\mathcal{L}(\mathbf{A}, \mathbf{B}) &amp;=\mathcal{L}<em>{s i m}+\alpha \mathcal{L}</em>{s m o} \<br>&amp;+\beta \mathcal{L}<em>{i n v}+\gamma \mathcal{L}</em>{a n t}<br>\end{aligned}<br>$$<br>其中$\alpha，\beta，\gamma$是平衡因子。</p>
+<h2 id="四、实验"><a href="#四、实验" class="headerlink" title="四、实验"></a>四、实验</h2><h3 id="1-预处理"><a href="#1-预处理" class="headerlink" title="1. 预处理"></a>1. 预处理</h3><p>在图像的预处理阶段，要对图像做空间正则化和灰度值正则化。空间正则化包括颅骨去除、小脑移除，并将它们线性对齐到Colin27模板，然后将图像重采样到相同的分辨率（$1mm\times1mm\times1mm$），再将其剪裁到相同大小（$144\times192\times160$）。灰度值正则化包括先使用直方图匹配算法将灰度直方图匹配到Colin27模板，并进行z-score正则化（减均值，除以标准差），以让图像的均值和标准差分别为0和1。</p>
+<h3 id="2-实验设置"><a href="#2-实验设置" class="headerlink" title="2. 实验设置"></a>2. 实验设置</h3><p>在实现时，使用Adam作为优化器，学习率为$5e^{-4}$，使用ADNI-1数据集，随机划分10%的数据作为验证集，剩余的作为训练集，迭代次数为4w次。</p>
+<p>在实验中进行两个任务来衡量配准的效果：脑组织分割和解剖学地标检测；实验使用的baseline有Demons、SyN和基于无监督学习的深度学习方法DL（使用MMSE，minimum mean squared error作为相似性度量）。将不适用逆一致性约束的ICNet记为ICNet-1，将不使用反重叠约束的ICNet记为ICNet-2。</p>
+<p>在ADNI-2数据集中选用5个MR图像作为图谱，使用多数投票策略进行基于多图谱的分割，以进行脑组织分割任务。在地标检测中，每个图谱中的地标先被映射到指定的测试图像，因此给定测试图像，就得到了5个变形后的地标位置（对于每个地标来说），然后计算5个位置的平均位置得到最终的地标位置。</p>
+<p>在ICNet中，$\gamma$被设置为$10^5$，$\alpha，\beta$被限制在$[10^{-5}，10^{-4}，…，10^5]$范围内。在ICNet-1中$\beta=0，\gamma=10^5$，在ICNet-2中$\gamma=0$。FCN一开始的过滤器的通道数$n=8$，$\tau=7$。在脑组织分割任务中，使用的度量指标为DSC（dice similarity coefficient）、SEN（sensitivity）、PPV（positive predictive value）、ASD（average symmetric surface distance）、HD（Hausdorff distance）。在地标检测任务中，通过计算预测地标位置和ground truth位置之间的欧几里得距离来计算地标检测的误差。ACC、SEN、PPV越高说明效果越好，ASD、HD和检测误差越小说明效果越好。</p>
+<h3 id="3-实验结果"><a href="#3-实验结果" class="headerlink" title="3. 实验结果"></a>3. 实验结果</h3><p><img src="https://s1.ax1x.com/2020/07/29/amQyqJ.jpg" alt></p>
+<p>上图是训练和验证的损失，红色的表示训练损失，绿色的表示验证损失，四个图分布是相似度、平滑度、逆一致性和反重叠损失。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQsr4.jpg" alt></p>
+<p>上图分别表示原图；三种分割组织图，其中CSF是脑脊液，GM是灰质，WM是白质；五个解剖学地标（用不同颜色的块表示）。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQgaR.jpg" alt></p>
+<p>上图是三个脑组织的分割结果，可以发现ICNet在绝大多数分割和衡量指标上都达到了最优结果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQWPx.jpg" alt></p>
+<p>上图是六种算法的配准结果，红色和黄色箭头分别表示左右颞平面。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQfG6.jpg" alt></p>
+<p>上图是六个算法在地标检测时的误差，ICNet在3个地标和平均误差中都取得了最优效果。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQhRK.jpg" alt></p>
+<p>上图是各个算法的测试时间对比。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQose.jpg" alt></p>
+<p>上图是不同权重系数下的形变场情况。</p>
+<p><img src="https://s1.ax1x.com/2020/07/29/amQIMD.jpg" alt></p>
+<p>上图是两种模型不使用反重叠约束的情况。</p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/07/29/ICNet/" title="【论文笔记】ICNet：用于无监督医学图像配准的逆一致性模型" target="_blank">zuzhiang.cn/2020/07/29/ICNet/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
   </div>
-</article>
-  
+  <div class="article-info article-info-index">
     
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/04/09/Go/" class="archive-article-date">
-        <time datetime="2020-04-09T02:12:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/04/09/Go/">《聂卫平围棋道场之小喵小汪学围棋》系列视频笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/附庸风雅//" class="article-tag-list-link color5">附庸风雅</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/04/08/LARA/" class="archive-article-date">
-        <time datetime="2020-04-08T02:09:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-08</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/04/08/LARA/">【论文笔记】LARA：基于GAN的解决冷启动问题的推荐系统</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/学习笔记//" class="article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/04/05/deform-GAN/" class="archive-article-date">
-        <time datetime="2020-04-05T02:35:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-05</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/04/05/deform-GAN/">【论文笔记】基于GAN的三维医学图像跨模态配准模型 Deform-GAN</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -361,279 +339,129 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/07/29/ICNet/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/04/04/cycleGAN/" class="archive-article-date">
-        <time datetime="2020-04-04T02:09:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/27/CIRNet/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】CIRNet：基于CycleGAN的无监督循环配准模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/04/04/cycleGAN/">【论文笔记】cycleGAN：《Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks》</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】ICNet：用于无监督医学图像配准的逆一致性模型" -->
+  var giteement = new Giteement({
+    id: '20200729205647',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/04/02/GAN-circle/" class="archive-article-date">
-        <time datetime="2020-04-02T02:47:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/04/02/GAN-circle/">【论文笔记】GAN-circle：从低分辨率图像生成高分辨率图像的半监督GAN模型</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/04/02/VBird-Linux/" class="archive-article-date">
-        <time datetime="2020-04-02T02:47:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/04/02/VBird-Linux/">《鸟哥的Linux私房菜：基础版》笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/学习笔记//" class="article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/24/potograph/" class="archive-article-date">
-        <time datetime="2020-03-24T11:28:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-24</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/24/potograph/">摄影理论笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/奇技淫巧//" class="article-tag-list-link color5">奇技淫巧</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/13/RegNet/" class="archive-article-date">
-        <time datetime="2020-03-13T00:36:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-13</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/13/RegNet/">【论文笔记】Nonrigid Image Registration Using Multi-scale 3D Convolutional Neural Networks</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/03/11/BIRNet/" class="archive-article-date">
-        <time datetime="2020-03-11T01:21:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-11</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/03/11/BIRNet/">【论文笔记】双重监督的脑部图像配准网络BIRNet</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2020/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/2020/">1</a><a class="page-number" href="/archives/2020/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/2020/page/4/">4</a><a class="page-number" href="/archives/2020/page/5/">5</a><a class="extend next" rel="next" href="/archives/2020/page/4/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +500,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
