@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRHUO.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awR5K1.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRf29.jpg">
-<meta property="og:updated_time" content="2020-08-04T03:14:44.731Z">
+<meta property="og:updated_time" content="2020-08-04T05:50:41.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型">
 <meta name="twitter:description" content="本文是论文《FAIM – A ConvNet Method for Unsupervised 3D Medical Image Registration》的阅读笔记。">
@@ -248,7 +248,7 @@
 <p><img src="https://s1.ax1x.com/2020/08/04/awR5K1.jpg" alt></p>
 <p>为了研究网络怎么平衡高准确率和第重叠区域，在上图(b)中绘制了平均dice得分与重叠位置的平均数量。</p>
 <p><img src="https://s1.ax1x.com/2020/08/04/awRf29.jpg" alt></p>
-<p>Probabilistic VoxelMorph不是使用显式的损失来控制重叠，而是在一个集成层（integration layer）使用展开和缩放（square and scale）算法来迭代计算由UNet产生的速度场的组成，以得到最终的变形。此外还将Prob-VoxelMorph的backbone从UNet改成了FAIM，来验证backbone的不同而造成的影响，可以发现backbone的不同不会导致太大的差异。上图对比了VM、FAIM、以UNet为backbone的Prob-VM和以FAIM为backbone的Prob-VM。</p>
+<p>Probabilistic VoxelMorph不是使用显式的损失来控制重叠，而是在一个积分层（integration layer）使用展开和缩放（square and scale）算法来迭代计算由UNet产生的速度场的组成，以得到最终的变形。此外还将Prob-VoxelMorph的backbone从UNet改成了FAIM，来验证backbone的不同而造成的影响，可以发现backbone的不同不会导致太大的差异。上图对比了VM、FAIM、以UNet为backbone的Prob-VM和以FAIM为backbone的Prob-VM。</p>
 
     
 
@@ -384,6 +384,15 @@
 
 
 <nav id="article-nav">
+  
+    <a href="/2020/08/04/Prob-VoxelMorph/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【论文笔记】Prob-VoxelMorph：保证形变场微分同胚性并防止形变场重叠的医学图像配准模型
+        
+      </div>
+    </a>
   
   
     <a href="/2020/08/01/Cycle-Consistent-Registration/" id="article-nav-older" class="article-nav-link-wrap">
