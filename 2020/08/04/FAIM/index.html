@@ -6,23 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>zuzhiang</title>
+  <title>【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-    <!-- 辅助函数（Helpers）https://hexo.io/zh-cn/docs/helpers.html#%E6%9D%A1%E4%BB%B6%E5%87%BD%E6%95%B0 -->
-    <meta name="keywords" content="It&#39;s my private blog.">
-  
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《FAIM – A ConvNet Method for Unsupervised 3D Medical Image Registration》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/page/4/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型">
+<meta property="og:url" content="zuzhiang.cn/2020/08/04/FAIM/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《FAIM – A ConvNet Method for Unsupervised 3D Medical Image Registration》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRIDx.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRob6.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awR7VK.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRhvR.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRHUO.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awR5K1.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRf29.jpg">
+<meta property="og:updated_time" content="2020-08-04T03:14:44.731Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型">
+<meta name="twitter:description" content="本文是论文《FAIM – A ConvNet Method for Unsupervised 3D Medical Image Registration》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/04/awRIDx.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -187,871 +193,258 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-FAIM" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
-    <script src="/lib/oauthcallback.browser.js"></script>
+  
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型
+    </h1>
+  
+
+
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/2020/08/04/FAIM/" class="archive-article-date">
+        <time datetime="2020-08-04T03:13:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-04</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《FAIM – A ConvNet Method for Unsupervised 3D Medical Image Registration》的阅读笔记。</p>
+<a id="more"></a>
+
+<p>文章提出了一个用于3D医学图像的无监督配准模型FAIM（FAst IMage registration），相比于VoxelMorph，FAIM拥有更少的可学习参数，但是能达到更好的性能。此外FAIM提出了一个负的雅克比行列式的惩罚性损失（防重叠正则化项），以使得预测的形变场具有更少的重叠，重叠的部分表示形变是不可逆的。文章相应的代码见<a href="https://github.com/dykuang/Medical-image-registration" target="_blank" rel="noopener">FAIM代码</a>。</p>
+<h2 id="一、相关工作"><a href="#一、相关工作" class="headerlink" title="一、相关工作"></a>一、相关工作</h2><p><img src="https://s1.ax1x.com/2020/08/04/awRIDx.jpg" alt></p>
+<p>已有的基于学习的配准方法通常不能保证预测的形变场是微分同胚的，即可逆和可微的。由于形变场很多地方可能是重叠的，表明该转换是不可逆的。图是是通过VoxelMorph配准得到图像，deformation图中红色的部分表示形变场中重叠的部分，即雅克比行列式为负的地方。</p>
+<p> 空间转换网络（STN）一开始只是用于2D图像的仿射和薄板样条变换，后来才逐渐用于3D的图像变换。配准是为了优化一个参数化的转换$\phi$，使得从源图像$S(x)$转换得到的图像$S\circ\phi^{-1}(x)$与目标图像$T(x)$尽可能的相似。在FAIM中，使用位移场$u(x)$来参数化转换$\phi$，即$S\circ\phi^{-1}(x)=S(x+u(x))$。位移的3D向量场通过空间变换模型（spatial deformation module，SDM）得到。</p>
+<h2 id="二、FAIM"><a href="#二、FAIM" class="headerlink" title="二、FAIM"></a>二、FAIM</h2><p><img src="https://s1.ax1x.com/2020/08/04/awRob6.jpg" alt></p>
+<p>网络模型结构如上图所示，SDM的第一层收到了GoogLeNet的Inception模型的启发，该层可以对比和捕获不同空间尺度的信息。在每个卷积层的后面都跟着一个PReLU激活函数，最后一个卷积层除外，它后面跟着的是一个线性激活函数来产生位移场。采样模型首先根据位移场产生一个采样网格，然后用它来对源图像通过插值的方法进行采样，得到变形后的图像。在SDM中，使用步长&gt;1的卷积来减小特征图的大小，而不是使用最大池化层。Transposed卷积层用作上采样。并且SDM中还有3个跳跃连接操作。相比于VoxelMorph中使用的Unet网络结构，FAIM中的SDM的参数减少了约30%。</p>
+<p><img src="https://s1.ax1x.com/2020/08/04/awR7VK.jpg" alt></p>
+<p>上图是训练损失，其中$L_{image}$是基于互相关（CC）的图像相似度损失，$R_1$是使得预测的位移场平滑的正则项，$R_2$是惩罚具有较多负的雅克比行列式的形变场的正则项。</p>
+<h2 id="三、实验"><a href="#三、实验" class="headerlink" title="三、实验"></a>三、实验</h2><p>实验使用的是MindBoggle101数据集，该数据集包括三个子数据集：</p>
+<ul>
+<li>NKI-RS-22</li>
+<li>NKI-TRT-20</li>
+<li>OASIS-TRT-20</li>
+</ul>
+<p>将NKI-RS-22和NKI-TRT-20作为训练集，将OASIS-TRT-20作为测试集。使用FreeSurfer对所有图像进行预处理，然后使用其DK皮层分组图谱自动标记皮层。每个图像都是$182\times218\times182$大小的，然后裁剪到$144\times180\times144$大小，这些图像已经对齐到MNI152空间，还需要将其灰度值归一化到[0, 1]的范围。</p>
+<p>实验具体设置为$\alpha=1$，epoch=10，选用学习率为$1e^{-4}$的Adam优化器，使用VoxelMorph作为baseline，使用Dice值作为评价指标。预测形变场$\phi$的质量通过雅克比行列式$det(\nabla\phi^{-1}(x))$为负数的位置的数量来进行评估，即$\mathcal{N}:=\sum \delta\left(\operatorname{det}\left(D \phi^{-1}\right)&lt;0\right)$。</p>
+<p><img src="https://s1.ax1x.com/2020/08/04/awRhvR.jpg" alt></p>
+<p>上图是FAIM预测的形变场对应的雅克比行列式图，四张图分别表示在$\beta$不同取值下的情况，红色的部分表示有重叠（行列式值为负数），蓝色的部分表示行列式值为正。在正则项没有使用的时候，即$\beta=0$时，形变场中有很多位置的雅克比行列式是负数，当$\beta=10^{-5}$时，该数量就会骤减。</p>
+<p><img src="https://s1.ax1x.com/2020/08/04/awRHUO.jpg" alt></p>
+<p>上图是不同$\beta$取值情况下，VoxelMorph和FAIM模型配准的Dice和$N$的均值情况。</p>
+<p><img src="https://s1.ax1x.com/2020/08/04/awR5K1.jpg" alt></p>
+<p>为了研究网络怎么平衡高准确率和第重叠区域，在上图(b)中绘制了平均dice得分与重叠位置的平均数量。</p>
+<p><img src="https://s1.ax1x.com/2020/08/04/awRf29.jpg" alt></p>
+<p>Probabilistic VoxelMorph不是使用显式的损失来控制重叠，而是在一个集成层（integration layer）使用展开和缩放（square and scale）算法来迭代计算由UNet产生的速度场的组成，以得到最终的变形。此外还将Prob-VoxelMorph的backbone从UNet改成了FAIM，来验证backbone的不同而造成的影响，可以发现backbone的不同不会导致太大的差异。上图对比了VM、FAIM、以UNet为backbone的Prob-VM和以FAIM为backbone的Prob-VM。</p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
+        </div>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/08/04/FAIM/" title="【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型" target="_blank">zuzhiang.cn/2020/08/04/FAIM/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/08/04/FAIM/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/01/Cycle-Consistent-Registration/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】用循环一致性避免形变场重叠的医学图像配准网络</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
+  
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
   <script>
-    Oauthcallback();
+  <!-- id: "【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型" -->
+  var giteement = new Giteement({
+    id: '20200804111311',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
   </script>
 
 
-  
-    <article id="post-cycleGAN" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/04/04/cycleGAN/">【论文笔记】cycleGAN：《Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks》</a>
-	
-    </h1>
-  
 
 
-  
-  
-<a href="/2020/04/04/cycleGAN/" class="archive-article-date">
-        <time datetime="2020-04-04T02:09:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
 
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是 cycleGAN 论文《Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks》的阅读笔记。</p>
-    
-    <a class="article-more-a" href="/2020/04/04/cycleGAN/#more">more >></a>
-    
-    
 
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/04/04/cycleGAN/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GAN-circle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/04/02/GAN-circle/">【论文笔记】GAN-circle：从低分辨率图像生成高分辨率图像的半监督GAN模型</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/04/02/GAN-circle/" class="archive-article-date">
-        <time datetime="2020-04-02T02:47:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是关于论文《CT Super-resolution GAN Constrained by the Identical, Residual, and Cycle Learning Ensemble (GAN-CIRCLE)》的阅读笔记，本来是想看有关cycle-GAN 的内容，但是错找成了 GAN-Circle 的论文。</p>
-    
-    <a class="article-more-a" href="/2020/04/02/GAN-circle/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/04/02/GAN-circle/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-potograph" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/03/24/potograph/">摄影理论笔记</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/03/24/potograph/" class="archive-article-date">
-        <time datetime="2020-03-24T11:28:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-24</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是在中国大学慕课网上观看的<a href="https://www.icourse163.org/learn/ECJTU-1206614801#" target="_blank" rel="noopener">轻松学摄影课程</a>的笔记，主要是为自己补充一点摄影理论。</p>
-    
-    <a class="article-more-a" href="/2020/03/24/potograph/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/奇技淫巧//" class="article-tag-list-link color5">奇技淫巧</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/03/24/potograph/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-RegNet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/03/13/RegNet/">【论文笔记】Nonrigid Image Registration Using Multi-scale 3D Convolutional Neural Networks</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/03/13/RegNet/" class="archive-article-date">
-        <time datetime="2020-03-13T00:36:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-13</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是关于论文 Nonrigid Image Registration Using Multi-scale 3D Convolutional Neural Networks 的笔记。</p>
-    
-    <a class="article-more-a" href="/2020/03/13/RegNet/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/03/13/RegNet/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-BIRNet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/03/11/BIRNet/">【论文笔记】双重监督的脑部图像配准网络BIRNet</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/03/11/BIRNet/" class="archive-article-date">
-        <time datetime="2020-03-11T01:21:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-11</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是论文 BIRNet：Brain image registration using dual-supervised fully convolutional networks 的阅读笔记。</p>
-    
-    <a class="article-more-a" href="/2020/03/11/BIRNet/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/03/11/BIRNet/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-DIRNet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/03/04/DIRNet/">【论文笔记】基于深度学习的端到端无监督配准模型——变形图像配准网络（Deformable Image Registration Network, DIRNet）</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/03/04/DIRNet/" class="archive-article-date">
-        <time datetime="2020-03-04T11:57:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-04</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是论文 End-to-End Unsupervised Deformable Image Registration with a Convolutional Neural Network 的阅读笔记。</p>
-    
-    <a class="article-more-a" href="/2020/03/04/DIRNet/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/03/04/DIRNet/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GAN-Registration" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/03/04/GAN-Registration/">【论文笔记】基于生成对抗网络（GAN）的无监督医学图像配准模型</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/03/04/GAN-Registration/" class="archive-article-date">
-        <time datetime="2020-03-04T03:27:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-04</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是论文 Adversarial Similarity Network for Evaluating Image Alignment in Deep Learning based Registration（基于深度学习的配准中用相似性对抗网络来评估图像的对齐）的阅读笔记。</p>
-    
-    <a class="article-more-a" href="/2020/03/04/GAN-Registration/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/03/04/GAN-Registration/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-VoxelMorph" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/02/28/VoxelMorph/">【论文笔记】VoxelMorph-无监督医学图像配准模型</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/02/28/VoxelMorph/" class="archive-article-date">
-        <time datetime="2020-02-28T06:10:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-28</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是无监督的医学图像配准模型——VoxelMorph 的论文笔记。</p>
-    
-    <a class="article-more-a" href="/2020/02/28/VoxelMorph/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/02/28/VoxelMorph/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-STN" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/02/28/STN/">【论文笔记】Spatial Transformer Networks(STN)-用于医学图像配准的空间变化网络</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/02/28/STN/" class="archive-article-date">
-        <time datetime="2020-02-28T06:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-28</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是用于医学图像配准的空间变化网络（Spatial Transformer Networks, STN）的论文笔记。</p>
-    
-    <a class="article-more-a" href="/2020/02/28/STN/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/02/28/STN/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MIR" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class=" article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	      <a class="article-title" href="/2020/02/23/MIR/">基于深度学习的医学图像配准笔记</a>
-	
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/02/23/MIR/" class="archive-article-date">
-        <time datetime="2020-02-23T13:22:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>本文是基于深度学习的医学图像配准相关知识的笔记，不设计到传统的方法，也不涉及具体模型。</p>
-    
-    <a class="article-more-a" href="/2020/02/23/MIR/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/02/23/MIR/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -1089,8 +482,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
