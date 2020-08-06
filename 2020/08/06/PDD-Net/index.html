@@ -6,20 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives: 2020 | zuzhiang</title>
+  <title>【论文笔记】PDD-Net（概率密度位移网络）：弱监督的3D医学图像配准网络 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《Closing the Gap between Deep and Conventional Image Registration using Probabilistic Dense Displacement Networks》的阅读笔记，论文相关的代码见：PDD-Net。文章中的新鲜名次太多，看完也是稀里糊涂的。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/2020/page/5/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】PDD-Net（概率密度位移网络）：弱监督的3D医学图像配准网络">
+<meta property="og:url" content="zuzhiang.cn/2020/08/06/PDD-Net/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《Closing the Gap between Deep and Conventional Image Registration using Probabilistic Dense Displacement Networks》的阅读笔记，论文相关的代码见：PDD-Net。文章中的新鲜名次太多，看完也是稀里糊涂的。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/06/acba4O.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/06/acb5vj.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/06/acbwCD.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/06/acbUUK.jpg">
+<meta property="og:updated_time" content="2020-08-06T06:15:40.068Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】PDD-Net（概率密度位移网络）：弱监督的3D医学图像配准网络">
+<meta name="twitter:description" content="本文是论文《Closing the Gap between Deep and Conventional Image Registration using Probabilistic Dense Displacement Networks》的阅读笔记，论文相关的代码见：PDD-Net。文章中的新鲜名次太多，看完也是稀里糊涂的。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/06/acba4O.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,171 +190,118 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-PDD-Net" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/GAN-example/" class="archive-article-date">
-        <time datetime="2020-02-21T12:51:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/GAN-example/">基于生层对抗网络（GAN）在MNIST手写数字数据集上生成假图片（pytorch版）</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】PDD-Net（概率密度位移网络）：弱监督的3D医学图像配准网络
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
 
+<a href="/2020/08/06/PDD-Net/" class="archive-article-date">
+        <time datetime="2020-08-06T06:14:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-06</time>
+</a>
 
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《Closing the Gap between Deep and Conventional Image Registration using Probabilistic Dense Displacement Networks》的阅读笔记，论文相关的代码见：<a href="https://github.com/multimodallearning/pdd_net" target="_blank" rel="noopener">PDD-Net</a>。文章中的新鲜名次太多，看完也是稀里糊涂的。</p>
+<a id="more"></a>
+
+<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>PDD-Net从名字就可以看出是“拼多多”公司提出的一个网络~好吧……并不是，PDD-Net是probabilistic dense displacement network的缩写。</p>
+<p>相比于传统配准方法，基于学习的配准方法的劣势在于只能处理小的、低复杂度的变形。文章使用概率密度位移优化（probabilistic dense displacement optimisation）来解决该问题，概率密度位移优化已经在大变形配准任务上取得了很好的表现。文章设计了一个具有近似最小卷积（min-convolutions）和平均场（mean-field）的弱监督网络。该网络包括很少的可训练参数。</p>
+<p>文章假设：病人间的大形变场很难通过没有使用复杂多阶段变形管道的深度连续回归网络来建模。文章的贡献有：更好的利用了通过引入了明确考虑到配准问题6D本性的可微分约束正则项来采样得到的概率密度位移的优势。因此，文章将卷积特征学习从空间变换的拟合中分离出来，使用用于正则化的平均场推理和用于计算标签间相容性的近似最小卷积。该模型是第一个结合了离散DLIR（Deep learnig based image registration）和可微分的平均场正则的方法。该模型具有较少的可训练参数，可以捕获大形变场，并且可以通过少量带有标签的图像进行训练并达到较高的准确度。此外还引入了一个非局部标签损失。</p>
+<h2 id="二、方法"><a href="#二、方法" class="headerlink" title="二、方法"></a>二、方法</h2><p>$I_F，I_M$分别表示固定图像和浮动图像，$\varphi$表示形变场，$f$表示特征映射，将空间坐标定义为连续变量$x\in(-1,+1)^3$并且使用三线性插值来从离散网格中进行采样。$\varphi$通过$k\in|K|$个粗糙网格的控制点参数化。位移$d$的范围被离散位移空间所约束，线性间距为$\mathcal{L}=q\cdot{-1,-\frac{6}{7},-\frac{5}{7},…,+\frac{5}{7},+\frac{6}{7},+1}^3$，其中$q$是一个定义捕获范围的常量，$|\mathcal{L}|=3375$。网络模型可以预测一个位移概率$K\in\R^3\times\mathcal{L}\in\R^3$的6D张量，其中每个控制点中$\mathcal{L}$的4-6维的和是1。</p>
+<p><img src="https://s1.ax1x.com/2020/08/06/acba4O.jpg" alt></p>
+<p>PDD-Net的网络结构如上图所示，主要有4个部分组成，其中变形卷积层（Feature CNN）可以提取固定图像和浮动图像的特征；相关层（Correlation Layer）为每个3D网格点计算一个密度位移空间，以生成一个6D的差异图；空间过滤器作用于维度4-6（Min-Convolution）和维度1-3（Mean-field inference）以促进平滑；使用softmax在维度4-6上获得的概率转换分布（Spatial transform）应用在非局部标签损失上，并且转换成一个3D位移场。这四个部分下面也会一一详细介绍。</p>
+<h3 id="1-卷积特征学习网络"><a href="#1-卷积特征学习网络" class="headerlink" title="1. 卷积特征学习网络"></a>1. 卷积特征学习网络</h3><p>用来学习从输入灰度值到一个密度特征体（dense feature volume）的非线性映射。使用Obelisk方法，该方法包括一个3D可变形卷积和可训练的偏移量，然后是一个用于捕捉空间背景的$1\times1$的MLP。文章还在Obelisk层之前增加了一个$5\times5\times5$的卷积核来学习边缘特征。该网络有64个空间滤波器偏移量和总共120k个可训练参数，共享参数，用来根据固定图像和浮动图像产生$f(I_F)$和$f(I_M)$。</p>
+<h3 id="2-密度位移差异相关层"><a href="#2-密度位移差异相关层" class="headerlink" title="2. 密度位移差异相关层"></a>2. 密度位移差异相关层</h3><p>给定从上一层得到的特征表示，该层的作用是为非线性变换的每个控制点指定一个向量$d$，以找到一个正则化的位移场以最大化固定图像和变形后的浮动图像之间的相似度。使用负的均方误差（MSE）来获得差异$\mathcal{D}(\mathbf{k}, \mathbf{d})=-\frac{1}{|c|} \sum_{c}\left(f_{c}\left(I_{F}\right)<em>{\mathbf{k}}-f</em>{c}\left(I_{M}\right)_{\mathbf{k}+\mathbf{d}}\right)^{2}$的6D张量。位移场的捕获范围$q$被设为0.4。</p>
+<h3 id="3-使用最小卷积和平均场推断的正则化"><a href="#3-使用最小卷积和平均场推断的正则化" class="headerlink" title="3. 使用最小卷积和平均场推断的正则化"></a>3. 使用最小卷积和平均场推断的正则化</h3><p>之前的DLIR通常通过损失项来保证形变场的空间平滑，PDD-Net将正则化约束作为网络结构的一部分。在马尔科夫随机场（MRF）配准中经常用基于位移平方差$\mathcal{R}\left(\mathbf{d}<em>{i}, \mathbf{d}</em>{j}\right)=\left|\mathbf{d}<em>{i}-\mathbf{d}</em>{j}\right|^{2}$的扩散型正则化作为位移的惩罚，即通过置信度传播（loopy belief propagation，LBP）进行优化。由于LBP需要多轮迭代来产生最优结果，所以不适用于作为展开的网络层。文章使用快速平均场推断（迭代两次）用于离散优化，它包括两个交替的过程：独立作用于空间控制点的标签兼容性转换，以及使用平均池化层（步长为1）实现的基于过滤器的消息传递。</p>
+<h3 id="4-概率转换损失和有监督标签"><a href="#4-概率转换损失和有监督标签" class="headerlink" title="4. 概率转换损失和有监督标签"></a>4. 概率转换损失和有监督标签</h3><p>可以进一步利用位移抽样的概率性质，并基于非局部均值加权来指定监督标签损失项，即首先使用在位移上计算的softmax将正则化部分（按$\alpha_6$缩放）的负输出转换为伪概率。接下来，在相同的空间位移位置对浮动图像分割的one-hot表示进行采样，并将这些向量乘以估计的概率，以计算分割的标签损失，即和ground truth的one-hot表示之间的MSE损失。通过概率估计值与位移标签的加权平均值乘以图像分辨率的三线性插值，得到连续值三维位移场。在位移场的所有3个空间梯度$\lambda \cdot\left(\left|\nabla \varphi_{1}\right|^{2}+\left|\nabla \varphi_{2}\right|^{2}+\left|\nabla \varphi_{3}\right|^{3}\right)$上使用扩散正则化惩罚，以实现平滑变换（雅可比标准差较低）和精确结构对准之间的平衡。</p>
+<h2 id="三、实验"><a href="#三、实验" class="headerlink" title="三、实验"></a>三、实验</h2><p><img src="https://s1.ax1x.com/2020/08/06/acb5vj.jpg" alt></p>
+<p>使用的数据集是具有10个对比度增强的3D CT图像的VISCERAL3数据集，图像中9中解剖结构被人工标注出来，具体情况如上图所示。使用3折交叉验证。图像被重采样到各向同性的$1.5mm^3$的体素大小，图像尺寸为$233\times168\times286$，没有进行任何的预对齐。</p>
+<p>选用传统配准方法NiftyReg和deeds作为baseline。并在数据集上训练弱监督的DLIR方法——Label-Reg，此时为了减少内存占用，将图像分辨率减少到$2.2mm$并且初始通道数减半改为16。</p>
+<p>使用pytorch实现了FlowNet-C的3D扩展，该模型有一个Obelisk特征提取层、一个密度相关层和一个有$|\mathcal{L}|=3375$个输入通道的正则网络，有5个3D卷积层组成，每个卷积后有一个batch-norm和PReLU操作，输出是3D位移场。为了得到有意义的结果，在Obelisk层的输出后增加一个语义分割损失是有必要的。</p>
+<p>其他设置为：$\lambda=1.5$，使用学习率为0.01的Adam优化器，迭代训练1500次。</p>
+<p><img src="https://s1.ax1x.com/2020/08/06/acbwCD.jpg" alt></p>
+<p>由上图可知，PDD-Net比DLIR方法Label Reg和FlowNet-C的性能高出约15%，并缩小了与传统方法NiftyReg和deades的差距。消融也证明了PDD-Net有以下优点：1）使用学习的Obelisk特征与手工制作的自相似上下文（SSC）描述符；2）使用平均场推断；3）使用非局部标签损失。此外，pdd+inst还实施了快速实例级优化。</p>
+<p><img src="https://s1.ax1x.com/2020/08/06/acbUUK.jpg" alt></p>
+<p>上图展示了配准后各个解剖结构分割标签的对齐情况。</p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/08/06/PDD-Net/" title="【论文笔记】PDD-Net（概率密度位移网络）：弱监督的3D医学图像配准网络" target="_blank">zuzhiang.cn/2020/08/06/PDD-Net/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
   </div>
-</article>
-  
+  <div class="article-info article-info-index">
     
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/notes/" class="archive-article-date">
-        <time datetime="2020-02-21T12:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/notes/">随笔-随时更新</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/随笔//" class="article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/resource/" class="archive-article-date">
-        <time datetime="2020-02-21T12:39:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/resource/">资源免费共享-随时更新</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/随笔//" class="article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/21/nnU-Net/" class="archive-article-date">
-        <time datetime="2020-02-21T12:38:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/21/nnU-Net/">【论文笔记】基于U-Net的医学图像分割模型nnU-Net（no-new U-Net）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -361,279 +314,129 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/08/06/PDD-Net/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/19/nii-DICOM/" class="archive-article-date">
-        <time datetime="2020-02-19T12:40:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-19</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/04/Prob-VoxelMorph/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】Prob-VoxelMorph：保证形变场微分同胚性并防止形变场重叠的医学图像配准模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/19/nii-DICOM/">怎样打开并查看.nii和DICOM格式的医学图像</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】PDD-Net（概率密度位移网络）：弱监督的3D医学图像配准网络" -->
+  var giteement = new Giteement({
+    id: '20200806141405',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/19/MIT/" class="archive-article-date">
-        <time datetime="2020-02-19T12:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-19</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/19/MIT/">医学成像技术笔记</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/14/ANTs/" class="archive-article-date">
-        <time datetime="2020-02-14T06:54:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/14/ANTs/">医学图像配准软件 ANTs（Advanced Normalization Tools）的安装和使用说明</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/14/GAN/" class="archive-article-date">
-        <time datetime="2020-02-14T01:08:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/14/GAN/">生成对抗网络(GAN)</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/11/RCN/" class="archive-article-date">
-        <time datetime="2020-02-11T01:54:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-11</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/11/RCN/">【论文笔记】递归级联网络（Recursive Cascaded Networks）论文及VTN（Volume Tweening Network）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/02/01/U-Net/" class="archive-article-date">
-        <time datetime="2020-02-01T09:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-01</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/02/01/U-Net/">【论文笔记】U-Net模型-用于医学图像分割的神经网络模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2020/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/2020/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2020/page/3/">3</a><a class="page-number" href="/archives/2020/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/2020/page/6/">6</a><a class="extend next" rel="next" href="/archives/2020/page/6/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +475,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
