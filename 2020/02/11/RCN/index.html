@@ -24,7 +24,12 @@
 <meta property="og:image" content="https://s2.ax1x.com/2020/02/18/3F1DPA.jpg">
 <meta property="og:image" content="https://s2.ax1x.com/2020/02/18/3F1cKf.jpg">
 <meta property="og:image" content="https://s2.ax1x.com/2020/02/18/3F1faQ.png">
-<meta property="og:updated_time" content="2020-03-17T12:12:35.701Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/09/aT6BfU.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/09/aT6sl4.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/09/aT66X9.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/09/aT60YT.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/09/aT6y6J.jpg">
+<meta property="og:updated_time" content="2020-08-09T08:42:15.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】递归级联网络（Recursive Cascaded Networks）论文及VTN（Volume Tweening Network）">
 <meta name="twitter:description" content="本文是递归级联网络和 VTN 网络论文，及其代码的一些解读。">
@@ -270,6 +275,23 @@
 <p>$$<br>k_2k_3+k_1k_3+k_1k_2=\sum_{1\leq i&lt;j\leq3}(c_{ii}c_{jj}-c_{ij}c_{ji}=\sigma_2)<br>$$</p>
 <p>$$<br>k_1k_2k_3=|C|=\sigma_3<br>$$</p>
 <p>所有待优化的目标函数变为：<br>$$<br>\sigma_1+\frac{\sigma_2}{\sigma_3}<br>$$<br>这个函数的最小值为 6，代码中减去 6 是为了让最小值成为 0。</p>
+<hr>
+<p>2020.0809更新</p>
+<h2 id="四、实验"><a href="#四、实验" class="headerlink" title="四、实验"></a>四、实验</h2><p>基础网络可以是VTN或者VoxelMorph，前者最多可以级联10次，后者最多可以级联5次。在肝脏CT图像和脑部MRI图像上做了实验。在CT数据集上是从数据集中随便拿两张图片做配准，而在MRI数据集上是将其他图片配准到一个固定的图谱（atlas）。选用的肝脏CT数据集有：MSD、BFH、SLIVER、LiTS、LSPIG，脑部MRI数据集有：ADNI、ABIDE、ADHD、LPBA，LPBA数据集用作测试，其他用作训练。</p>
+<p>在VTN中相关系数被用作相似度度量标准，batch size设为4，需要迭代训练10w次，选用Adam优化器，初始学习率为$10^{-4}$，之后经过$6\times10^4$次迭代减半，再经过$8\times10^4$次迭代减半。</p>
+<p>选用的baseline为VTN、VoxelMorph以及SyN、Elastix B-spline模型。使用Dice值来衡量模型的效果，其公式如下：<br>$$<br>\operatorname{Dice}(A, B)=2 \cdot \frac{|A \cap B|}{|A|+|B|}<br>$$<br>此外在某些数据集中是有地标标注信息的，所以可以将配准后地标点的平均距离作为额外的衡量标准。</p>
+<p>在预处理阶段，先将所有图像中不必要的部分裁掉，然后重采样到$128\times128\times128$大小。脑部MRI图像还需要先用FreeSurfer去除头骨。</p>
+<p><img src="https://s1.ax1x.com/2020/08/09/aT6BfU.jpg" alt></p>
+<p>上图展示了在LPBA数据集上配准结果，第四行的分割中一共有5个解剖结构，蓝色代表固定图像的分割，红色的代表配准后图像的分割。</p>
+<p><img src="https://s1.ax1x.com/2020/08/09/aT6sl4.jpg" alt></p>
+<p>从上表1可以发现，递归级联网络的效果超过了其他的模型，并且其效果不受基础网络的限制。</p>
+<p><img src="https://s1.ax1x.com/2020/08/09/aT66X9.jpg" alt></p>
+<p>上表展示了当级联次数不同时，模型的表现，可以发现当VTN级联3次时，已经超过了表1中的VTN(ADDD) 模型了。当级联越多时，进行配准需要的时间也会线性增加。</p>
+<p><img src="https://s1.ax1x.com/2020/08/09/aT60YT.jpg" alt></p>
+<p>上图中横坐标是级联次数，纵坐标是效果，可以发现当级联次数越多时，效果是逐渐提升的。</p>
+<p><img src="https://s1.ax1x.com/2020/08/09/aT6y6J.jpg" alt></p>
+<p>由于级联块的参数是共享的，所以可以级联到很深，上图中$2\times5$之类的就表示有5个参数共享的级联块，重复了2次。</p>
+<p>此外还将VoxelMorph的通道数double进行了实验，发现效果有提升，但是不如递归级联网络，并且参数量变为了原来的4倍。</p>
 
     
 
