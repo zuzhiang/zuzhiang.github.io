@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX4Ol8.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX4HYt.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/07/24/UX59kn.jpg">
-<meta property="og:updated_time" content="2020-07-24T01:52:11.628Z">
+<meta property="og:updated_time" content="2020-08-17T02:22:48.917Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】SYMNet：基于CNN的快速对称微分同胚图像配准">
 <meta name="twitter:description" content="本文是论文《Fast Symmetric Diffeomorphic Image Registration with Convolutional Neural Networks》的阅读笔记。文章中有很多关于数学的描述，包括微分同胚、雅克比矩阵没有看懂，所以这部分内容有所残缺，建议读者直接阅读原文。">
@@ -245,6 +245,7 @@
 <p>特别的给定时间步长$T$，初始化$\phi_{X Y}^{\left(1 / 2^{T}\right)}=x+\boldsymbol{v}<em>{X Y}(x) / 2^{T}$和$\phi</em>{YX}^{\left(1 / 2^{T}\right)}=x+\boldsymbol{v}_{YX}(x) / 2^{T}$，通过重现$\phi\left(1 / 2^{t-1}\right)=\phi^{(1 / t)} \circ \phi^{(1 / t)}$计算时间为0.5的形变场，直到$t=1$。</p>
 <p><img src="https://s1.ax1x.com/2020/07/24/UX4xmQ.jpg" alt></p>
 <p>上图是模型的结构示意图，使用FCN来学习从$X，Y$到他们平均大小$M$的对称的时间为0.5的形变场，绿色的路径表示从$X$到$Y$的变换，黄色的路径表示从$Y$到$X$的变换，为了简介没有在图中画出$\mathcal{L}_{mag}$损失。</p>
+<p>据我自己的理解，$\phi^{(0.5)}<em>{YX}$表示从图像$Y$到$X$的形变场，$\phi^{(0.5)}</em>{XY}$表示从$X$到$Y$的形变场，上图中的ss表示softsign激活函数，c表示常数，这两者上面提到过。而$\phi^{(-0.5)}<em>{YX}$表示从$\phi^{(0.5)}</em>{YX}$得到的逆形变场，即从$X$到$Y$的形变场，具体操作是先对$V_{YX}$取相反数，得到$-V_{YX}$，然后经过softsign激活函数，得到逆形变场$\phi^{(-0.5)}_{YX}$，然后乘以常数c，然后和图像$X$一同送入ST中，得到变换后的图像。另一个逆形变场的生成过程与之类似。</p>
 <p><img src="https://s1.ax1x.com/2020/07/24/UX47FI.jpg" alt></p>
 <p>上图是FCN网络的结构示意图。</p>
 <h3 id="2-对称相似性"><a href="#2-对称相似性" class="headerlink" title="2. 对称相似性"></a>2. 对称相似性</h3><p>$\mathcal{L}<em>{mean}$是对称平均形状相似性损失，$\mathcal{L}</em>{sim}$是图像的相似性损失，有很多相似性度量，比如正则化的互相关NCC、均方误差MSE、距离的平方和SSD和互相关MI，这里选用的是NCC。让$I$和$J$表示两个输入图像，$\bar{I}(x)$和$\bar{J}(x)$分别是$I$和$J$在位置$x$的局部均值，局部均值通过以$x$为中心，大小为$w^3$，$w=7$的窗口来计算。NCC的定义如下：<br>$$<br>\begin{array}{l}<br>N C C(I, J)=<br>\sum_{x \in \Omega} \frac{\sum_{x_{i}}\left(I\left(x_{i}\right)-\bar{I}(x)\right)\left(J\left(x_{i}\right)-\bar{J}(x)\right)}{\sqrt{\sum_{x_{i}}\left(I\left(x_{i}\right)-\bar{I}(x)\right)^{2} \sum_{x_{i}}\left(J\left(x_{i}\right)-\bar{J}(x)\right)^{2}}}<br>\end{array}<br>$$<br>其中$x_i$表示以$x$为中心的窗口内的位置。</p>

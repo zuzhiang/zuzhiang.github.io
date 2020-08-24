@@ -6,20 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives | zuzhiang</title>
+  <title>【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《Networks for Joint Affine and Non-parametric Image Registration》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/page/7/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型">
+<meta property="og:url" content="zuzhiang.cn/2020/08/24/AVSM/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《Networks for Joint Affine and Non-parametric Image Registration》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwaVvn.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwUHAO.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwUbND.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwUjgA.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwaSDP.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwUq4e.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwUzut.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwUX3d.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/23/dwUvjI.jpg">
+<meta property="og:updated_time" content="2020-08-24T01:55:25.389Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型">
+<meta name="twitter:description" content="本文是论文《Networks for Joint Affine and Non-parametric Image Registration》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/23/dwaVvn.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,343 +195,160 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-AVSM" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/11/08/MRC/" class="archive-article-date">
-        <time datetime="2019-11-08T00:39:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-08</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/11/08/MRC/">NLP 作业：机器阅读理解（MRC）综述</a>
-	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/学习笔记//" class="article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
 
+<a href="/2020/08/24/AVSM/" class="archive-article-date">
+        <time datetime="2020-08-24T01:54:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-24</time>
+</a>
 
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《Networks for Joint Affine and Non-parametric Image Registration》的阅读笔记。</p>
+<a id="more"></a>
+
+<p>文章提出了一个名为AVSM（Affine-vSVF-Mapping）的端到端3D医学图像配准模型，该模型结合了仿射配准和矢量动量参数化静态速度场模型（ a vector momentum-parameterized stationary velocity field（vSVF） model）。模型有三个阶段（stage），在第一阶段，通过多步的仿射网络来预测一个仿射变换参数；在第二阶段，使用类UNet网络生成一个动量，从而可以通过平滑计算出一个速度场；在第三阶段，使用一个独立的基于图的vSVF组件来基于当前转换映射做无参的微调。</p>
+<h2 id="一、相关工作"><a href="#一、相关工作" class="headerlink" title="一、相关工作"></a>一、相关工作</h2><p>当图像具有相似的灰度值分布时，通常采用MSE来评估灰度值的相似性；而在多模配准中，NCC和MI指标会更合适。</p>
+<p>微分同胚转换可以通过优化足够平滑的速度场来实现，此时，空间转换可以通过积分来恢复（通过积分得到逆转换）。这样的方法包括LDDMM和Diffeomorphic Demons等。</p>
+<p>由于空间转换网络（STN）在配准模型中的使用，实现了模型的端到端的训练。</p>
+<p>现有的基于深度学习的配准模型存在诸多局限：</p>
+<ul>
+<li>这些方法通常会假定图像已经实现预配准过，即进行过刚性或仿射配准。这种预对齐可以通过特定的网络或标准数值优化的方式来进行，在前一种方法中，配准方法不再是端到端的，在后一种方法中，预配准成为了计算的瓶颈；</li>
+<li>很多方法受限于内存/显存的大小，通常可以通过改为对2D图像会对3D patch进行配准以减少资源开销；</li>
+<li>这些方法没有进行迭代的改进（refinement）。</li>
+</ul>
+<p>本文的贡献有：</p>
+<ul>
+<li>提出了一个新颖的矢量动量参数化的静态速度场配准模型，矢量动量长允许将平滑和转换参数的预测解构，因此可以得到足够平滑的速度场以及适用于大位移的微分同胚；</li>
+<li>模型是端到端的，并且结合了仿射配准和vSVF配准；</li>
+<li>在仿射配准和vSVF配准组件中都采用了多步配准的方法，从而改善了配准的效果；</li>
+<li>结果只经过一次配准映射得到，避免了多次插值而带来的误差；</li>
+<li>在仿射配准和vSVF配准组件中都采用了逆一致性损失，从而让模型忽略输入图像的顺序，即从A配准到B和从B配准到A的结果相似。</li>
+</ul>
+<p><img src="https://s1.ax1x.com/2020/08/23/dwaVvn.jpg" alt></p>
+<p>AVSM的网络架构如上图所示，在仿射配准阶段，采用多步的仿射网络来预测仿射变换参数；在vSVF配准阶段，使用类UNet网络产生一个动量，并由此计算一个速度场，然后初始映射和动量被喂到vSVF组件中来产生最终的转换映射。在以上过程中源图像只做一次插值，由此也避免了图像模糊。</p>
+<p>在处理3D图像时，如果图像的大小只有原图的一半，则需要的计算和内存/显存只有原来的$\frac{1}{8}$。</p>
+<h2 id="二、方法"><a href="#二、方法" class="headerlink" title="二、方法"></a>二、方法</h2><h3 id="1-多步仿射网络"><a href="#1-多步仿射网络" class="headerlink" title="1. 多步仿射网络"></a>1. 多步仿射网络</h3><p>现有的大多数无参数配准方法由于有正则项惩罚，所以对仿射变换不是不变的，因此在无参配准之前通常会先进行预配准，即仿射配准，以考虑全局的大位移和旋转。</p>
+<p>模型应该足够灵活以同时适应小的和大的仿射变形。所以采用多步的方法得到最终的仿射变换，这种策略显著的提高了模型精度和稳定性。</p>
+<p><img src="https://s1.ax1x.com/2020/08/23/dwUHAO.jpg" alt></p>
+<p>上图是多步仿射配准的网络结构。多步仿射配准网络是一个多次出现的网络，以逐渐的改进仿射变换。为了避免多次三线性插值带来的数值不稳定性和数值消散，文章采用的是直接更新仿射参数而不是在中间步骤对图像进行重采样。用$\Gamma=(A \quad b)$来表示仿射参数，其中$A\in\R^{d\times d}$表示线性转换矩阵，$b\in\R^{d}$表示位移，$d$是图像的维度。仿射参数更新的规则如下：<br>$$<br>\begin{array}{l}<br>A_{(t)}=\tilde{A}<em>{(t)} A</em>{(t-1)}, b_{(t)}=\tilde{A}<em>{(t)} b</em>{(t-1)}+\tilde{b}<em>{(t)} \<br>\text {s.t.} \quad A</em>{(0)}=I, b_{(0)}=0<br>\end{array}<br>$$<br>其中，$\tilde A_{(t)}，A_{(t)}$表示第$t$步的线性变换矩阵输出和合成结果。相似的，$ \tilde b_{(t)}，b_{(t)}$表示第$t$步的仿射变换参数输出和合成结果。仿射映射可以通过下式得到：$\Phi_{a}^{-1}(x, \Gamma)=A_{\left(t_{\text {last}}\right)} x+b_{\left(t_{\text {last}}\right)}$。</p>
+<h3 id="2-多步仿射网络的损失"><a href="#2-多步仿射网络的损失" class="headerlink" title="2. 多步仿射网络的损失"></a>2. 多步仿射网络的损失</h3><p>损失包括三部分：图像相似性损失$L_{a-sim}$，正则项$L_{a-reg}$和鼓励变换对称的损失$L_{a-sym}$。让$I_0$和$I_1$分别表示源图像和目标图像，上标$^{st}$和$^{ts}$分别表示从$I_0$到$I_1$的配准和从$I_1$到$I_0$的配准。</p>
+<h4 id="1）图像相似性损失-L-a-s-i-m-left-I-0-I-1-Phi-a-1-right"><a href="#1）图像相似性损失-L-a-s-i-m-left-I-0-I-1-Phi-a-1-right" class="headerlink" title="1）图像相似性损失$L_{a-s i m}\left(I_{0}, I_{1}, \Phi_{a}^{-1}\right)$"></a>1）图像相似性损失$L_{a-s i m}\left(I_{0}, I_{1}, \Phi_{a}^{-1}\right)$</h4><p>可以是NCC、LNCC（localized NCC）、MSE等。本文使用的是mk-LNCC（multi-kernel LNCC）。让$V$ 表示图像的体积，$x_i,y_i$表示配准后的源图像和目标图像中的第$i$个体素，$N_s$表示大小为$s\times s\times s$的滑动窗口的个数，$\zeta_{j}^{s}$表示中心点在第$j$个体素的窗口，$\bar{x_j},\bar{y_j}$表示配准后源图像和目标图像在窗口$\zeta^8_j$内的灰度值的平均值。窗口大小为$s$的LNCC记为$k_s$，其定义如下：<br>$$<br>\kappa_{s}(x, y)=\frac{1}{N_{s}} \sum_{j} \frac{\sum_{i \in \zeta_{j}^{s}}\left(x_{i}-\bar{x}<em>{j}\right)\left(y</em>{i}-\bar{y}<em>{j}\right)}{\sqrt{\sum</em>{i \in \zeta_{j}^{s}}\left(x_{i}-\bar{x}<em>{j}\right)^{2} \sum</em>{i \in \zeta_{j}^{s}}\left(y_{i}-\bar{y}_{j}\right)^{2}}}<br>$$<br>定义mk-LNCC为具有不同窗口大小的LNCC的加权和。</p>
+<p>图像相似性损失为：<br>$$<br>\begin{array}{l}<br>L_{a-s i m}\left(I_{0}, I_{1}, \Gamma\right)=\sum_{i} \omega_{i} \kappa_{s_{i}}\left(I_{0} \circ \Phi_{a}^{-1}, I_{1}\right) \<br>\text { s.t. } \Phi_{a}^{-1}(x, \Gamma)=A x+b \text { and } \sum_{i} \omega_{i}=1, w_{i} \geq 0<br>\end{array}<br>$$</p>
+<h4 id="2）正则项损失-L-a-reg-Gamma"><a href="#2）正则项损失-L-a-reg-Gamma" class="headerlink" title="2）正则项损失$L_{a-reg}(\Gamma)$"></a>2）正则项损失$L_{a-reg}(\Gamma)$</h4><p>惩罚合成仿射变换与恒等变换的偏差：<br>$$<br>L_{a-r e g}(\Gamma)=\lambda_{a r}\left(|A-I|<em>{F}^{2}+|b|</em>{2}^{2}\right)<br>$$<br>其中$|\cdot|<em>F$表示Frobenius正则，$\lambda</em>{ar}\geq0$是依赖于epoch的权重系数，在训练开始时较大，以限制大的形变，然后逐渐衰减到0。</p>
+<h4 id="3）对称损失-L-a-sym-Gamma-Gamma-ts"><a href="#3）对称损失-L-a-sym-Gamma-Gamma-ts" class="headerlink" title="3）对称损失$L_{a-sym}(\Gamma,\Gamma^{ts})$"></a>3）对称损失$L_{a-sym}(\Gamma,\Gamma^{ts})$</h4><p>鼓励配准的逆一致性，即鼓励从源图像到目标图像的变换是从目标图像到源图像变换的逆变换，用公式表示为：$\left.A^{t s}(A x+b)+b^{t s}=x\right):L_{a-s y m}\left(\Gamma, \Gamma^{t s}\right)=\lambda_{a s}\left(\left|A^{t s} A-I\right|<em>{F}^{2}+\left|A^{t s} b+b^{t s}\right|</em>{2}^{2}\right)$，其中$\lambda_{as}\geq0$。</p>
+<p>总损失为：<br>$$<br>\begin{aligned}<br>\mathcal{L}<em>{a}\left(I</em>{0}, I_{1}, \Gamma, \Gamma^{t s}\right)=&amp; \ell_{a}\left(I_{0}, I_{1}, \Gamma\right)+\ell_{a}\left(I_{1}, I_{0}, \Gamma^{t s}\right) \<br>&amp;+L_{a-s y m}\left(\Gamma, \Gamma^{t s}\right)<br>\end{aligned}<br>$$<br>其中$\ell_{a}\left(I_{0}, I_{1}, \Gamma\right)=L_{a-s i m}\left(I_{0}, I_{1}, \Gamma\right)+L_{a-r e g}(\Gamma)$。</p>
+<h3 id="3-矢量动量参数化SVF"><a href="#3-矢量动量参数化SVF" class="headerlink" title="3. 矢量动量参数化SVF"></a>3. 矢量动量参数化SVF</h3><h4 id="1）vSVF方法"><a href="#1）vSVF方法" class="headerlink" title="1）vSVF方法"></a>1）vSVF方法</h4><p>为了捕获大的变形并保证微分同胚变换，通常使用流体机制的配准算法。此时，转换映射$\phi^3$可以通过速度场$v(x,t)$对时间积分来得到。控制微分方程为：$\Phi_{t}(x, t)=v(\Phi(x, t), t), \Phi(x, 0)=\Phi_{(0)}(x)$，其中$\Phi_{(0)}$是初始映射。对于足够平滑的速度场来说，可以获得一个微分同胚变换，通过对不平衡进行惩罚而保证速度场的平滑性，即：<br>$$<br>\begin{array}{l}<br>v^{<em>}=\underset{v}{\operatorname{argmin}} \lambda_{v r} \int_{0}^{1}|v|<em>{L}^{2} \mathrm{d} t+\operatorname{sim}\left[I</em>{0} \circ \Phi^{-1}(1), I_{1}\right] \<br>\text { s.t. } \quad \Phi_{t}^{-1}+D \Phi^{-1} v=0 \quad \text { and } \quad \Phi^{-1}(0)=\Phi_{(0)}^{-1}<br>\end{array}<br>$$<br>其中$D$表示雅克比行列式，$|v|^2_L=\left\langle L^{\dagger} L v, v\right\rangle$是通过微分操作$L$和其共轭$L^\dagger$所定义的空间正则。由于动量$m=L^\dagger Lv$，正则又可以表示为：$|v|_{L}^{2}=\langle m, v\rangle$。SVF配准算法是直接优化速度场$v$，而本文提出一个矢量动量SVF（vSVF）方程，其表达式如下：<br>$$<br>\begin{array}{l}<br>m^{</em>}=\underset{m_{0}}{\operatorname{argmin}} \lambda_{v r}\left\langle m_{0}, v_{0}\right\rangle+\operatorname{Sim}\left[I_{0} \circ \Phi^{-1}(1), I_{1}\right], \text { s.t. } \<br>\Phi_{t}^{-1}+D \Phi^{-1} v=0, \Phi^{-1}(0)=\Phi_{(\cap)}^{-1}, v_{0}=\left(L^{\dagger} L\right)^{-1} m_{0}<br>\end{array}<br>$$<br>其中，$m_0$表示矢量动量，$\lambda_{vr}&gt;0$是常数，该方程可以看作是简化的矢量动量参数化的LDDMM方程。该方程的有点事它允许我们通过深度网络来预测动量而显式的控制空间平滑，进而产生平滑的速度场，而不是直接预测速平滑的度场。</p>
+<h4 id="2）vSVF配准网络"><a href="#2）vSVF配准网络" class="headerlink" title="2）vSVF配准网络"></a>2）vSVF配准网络</h4><p><img src="https://s1.ax1x.com/2020/08/23/dwUbND.jpg" alt></p>
+<p>上图是vSVF配准网络框架，分为两部分：一是动量生成网络，以配准后的源图像和目标图像作为输入，输出低分辨率的动量；二是vSVF配准部分。预测的动量和下采样的初始化映射被输入到vSVF单元，然后输出最后经过上采样得到全分辨率的转换映射。在vSVF单元中，通过对动量进行平滑而得到速度场，然后用它来解对流方程$\Phi_{(\tau) t}^{-1}+D \Phi_{(\tau)}^{-1} v=0$，然后得到最终的变换映射。初始映射可以是仿射映射，也可以是通过之前的vSVF步骤得到的映射。</p>
+<p><strong>动量生成网络</strong></p>
+<p>使用四阶Runge-Kutta方法来对时间积分并将所有具有中心差分的空间导数离散化。因此，减少了内存的需要，网络输出的是低分辨率的动量。在实操时，移除了UNet中解码器的最后一层，以产生低分辨率的动量。</p>
+<p><strong>vSVF的损失</strong></p>
+<p>损失也分为三部分，相似性损失和仿射网络中的相同，正则项损失用来乘法速度场，即：<br>$$<br>L_{v-r e g}\left(m_{0}\right)=\lambda_{v r}|v|<em>{L}^{2}=\lambda</em>{v r}\left\langle m_{0}, v_{0}\right\rangle<br>$$<br>其中，$v_0=(L^\dagger L)^{-1}m_0$，把$(L^\dagger L)^{-1}$看作是具有多高斯核的卷积。</p>
+<p>对称性损失<br>$$<br>L_{v-s y m}\left(\Phi^{-1},\left(\Phi^{t s}\right)^{-1}\right)=\lambda_{v s}\left|\Phi^{-1} \circ\left(\Phi^{t s}\right)^{-1}-i d\right|<em>{2}^{2}<br>$$<br>其中$id$表示恒等映射，$\lambda</em>{vs}\geq0$表示对称权重，$(\Phi^{ts})^{-1}$表示从目标图像到源图像的配准映射，$\Phi^{-1}$表示从源图像到目标图像的配准映射。</p>
+<p>总损失：<br>$$<br>\begin{aligned}<br>\mathcal{L}<em>{v}\left(I</em>{0}, I_{1}, \Phi^{-1},\left(\Phi^{t s}\right)^{-1}, m_{0}, m_{0}^{t s}\right)=\ell_{v}\left(I_{0}, I_{1}, \Phi^{-1}, m_{0}\right) \<br>+\ell_{v}\left(I_{1}, I_{0},\left(\Phi^{t s}\right)^{-1}, m_{0}^{t s}\right) \<br>+L_{v-s y m}\left(\Phi^{-1},\left(\Phi^{t s}\right)^{-1}\right)<br>\end{aligned}<br>$$<br>其中，$\ell_{v}\left(I_{0}, I_{1}, \Phi^{-1}, m_{0}\right)=L_{v-\operatorname{sim}}\left(I_{0}, I_{1}, \Phi^{-1}\right)+L_{v-r e g}\left(m_{0}\right)$</p>
+<p>具有T步的vSVF模型，其总损失为：<br>$$<br>\begin{array}{c}<br>\sum_{\tau=1}^{T} \mathcal{L}<em>{v}\left(I</em>{0}, I_{1}, \Phi_{(\tau)}^{-1}, \Phi_{(\tau)}^{t s}, m_{0}(\tau), m_{0(\tau)}^{t s}\right) \quad \text { s.t.t. } \<br>\Phi_{(\tau)}^{-1}(x, 0)=\Phi_{(\tau-1)}^{-1}(x, 1) \<br>\left(\Phi_{(\tau)}^{t s}\right)^{-1}(x, 0)=\left(\Phi_{(\tau-1)}^{t s}\right)^{-1}(x, 1)<br>\end{array}<br>$$</p>
+<h2 id="三、训练"><a href="#三、训练" class="headerlink" title="三、训练"></a>三、训练</h2><h3 id="1-多步仿射网络的训练"><a href="#1-多步仿射网络的训练" class="headerlink" title="1. 多步仿射网络的训练"></a>1. 多步仿射网络的训练</h3><p>首先训练一个单步的网络，然后用它的参数来初始化多步的网络。在纵向的配准中，训练一个3步的仿射网络，而在测试的时候使用七步的网络；在跨物体配准中，训练一个5步的仿射网络，在测试的时候使用七步的网络。仿射对称因子$\lambda_{as}$设为10。仿射正则因子是依赖于epoch的，其定义为：<br>$$<br>\lambda_{a r}:=\frac{C_{a r} K_{a r}}{K_{a r}+e^{n / K_{a r}}}<br>$$<br>其中，$C_{ar}$是常数，$K_{ar}$用来控制衰减率，$n$是epoch数，$K_{ar}$设为4，$C_{ar}$设为10。</p>
+<h3 id="2-动量生成网络的训练"><a href="#2-动量生成网络的训练" class="headerlink" title="2. 动量生成网络的训练"></a>2. 动量生成网络的训练</h3><p>使用10步和多高斯核（标准差为{0.05, 0.1, 0.15, 0.2, 0.25}）以及相关权重{j0.067, 0.133, 0.2, 0.267, 0.333}。在训练时都是训练两步，正则化因子$\lambda_{vr}$设为10，对称因子$\lambda_{vs}$设为$1e^{-4}$。每个实验有200个epoch，每个epoch有400个batch，一个batch包括一对图像。学习率为$5e^{-4}$，没60个epoch衰减为原来的0.5。使用mk-LNCC作为图像相似性指标，$(w,w)={(0,3, S/4),(0.7, S/2)}$，其中$S$表示最小的图像维度，滑动窗口的步长设为$S/4$，采用因子为2的空洞卷积。</p>
+<h2 id="四、实验"><a href="#四、实验" class="headerlink" title="四、实验"></a>四、实验</h2><h3 id="1-实验设置"><a href="#1-实验设置" class="headerlink" title="1. 实验设置"></a>1. 实验设置</h3><p>数据集选用的是OAI（Osteoarthritis Initiative）MR数据集，预处理时将灰度值归一化，然后去除小于0.1%和大于99.9%的灰度值。所有图像重采样到$192\times192\times80$大小。将无标签的数据按7:3划分为训练集和验证集。使用Dice值来评价配准的结果。选用SyN，Demons，NiftyReg和VoxelMorph作为baseline。</p>
+<h3 id="2-基于优化的多尺度仿射配准"><a href="#2-基于优化的多尺度仿射配准" class="headerlink" title="2. 基于优化的多尺度仿射配准"></a>2. 基于优化的多尺度仿射配准</h3><p>开始时，对低分辨率的图像预测一个粗略的仿射参数，然后使用它作为更高分辨率的初始化参数。使用学习率为$1e^{-4}$的随机梯度下降优化器，三个图像尺寸分别为原图大小的$k\in{0.25, 0.5, 1.0}$，每个迭代200，200，50次。使用mk-LNCC作为相似性准则。在尺寸为1.0时，参数设为$(w,s)={(0.3, S_k/4),(0.7, S_k/2)}$，在尺寸为0.5和0.25时，参数为$(w,s)={(1.0, S_k/2)}$。</p>
+<h3 id="3-基于优化的多尺度vSVF配准"><a href="#3-基于优化的多尺度vSVF配准" class="headerlink" title="3. 基于优化的多尺度vSVF配准"></a>3. 基于优化的多尺度vSVF配准</h3><p>采用仿射映射作为初始映射，采用和多尺度仿射配准相同的多尺度策略。采用LBGFS优化器，尺度为${0.25, 0.5, 1.0}$，每个尺度迭代60次，使用mk-LNCC作为相似性指标。</p>
+<h3 id="4-实验结果"><a href="#4-实验结果" class="headerlink" title="4. 实验结果"></a>4. 实验结果</h3><p><img src="https://s1.ax1x.com/2020/08/23/dwUjgA.jpg" alt></p>
+<p>上图是AVSM的结果图，前五行分别为源图像、目标图像、配准后的图像、具有变形网格的配准后图像和多步仿射配准的图像。后三行为源标签、目标标签、AVSM配准后的标签。</p>
+<p><img src="https://s1.ax1x.com/2020/08/23/dwaSDP.jpg" alt></p>
+<p>上图是不同配准方法的效果对比表，Affine-opt和vSVF-opt表示基于优化的多尺度仿射和vSVF配准。实验结果显示本文的AVSM模型在跨物体配准中的表现超过了其他方法，在纵向配准中，AVSM的效果也足够好，但是略差于基于优化的方法。这可能是因为形变是微妙的，或者源图像和目标图像非常相似，所以数值优化方法可能更好的对齐。</p>
+<p><img src="https://s1.ax1x.com/2020/08/23/dwUq4e.jpg" alt></p>
+<p>上图是更直观的表示，越高的越好。</p>
+<p>当没有初始的仿射对齐时，VoxelMorph的效果不佳，只有进行了仿射对齐时，VoxelMorph才会达到很好的效果。</p>
+<p>为了衡量变化映射的平滑性，使用雅克比行列式来估计：$J_{\phi}(x):=\mid D \phi^{-1}(x)|$，当${x:J_\phi(x)&lt;0}$时，表示重叠。</p>
+<p><img src="https://s1.ax1x.com/2020/08/23/dwUzut.jpg" alt></p>
+<p>上图是消融实验的结果表，在消融实验部分，发现引入多步和逆一致性提升了仿射配准的性能，相比于使用NCC，本文使用的mk-LNCC效果更好。</p>
+<p><img src="https://s1.ax1x.com/2020/08/23/dwUX3d.jpg" alt></p>
+<p>使用$\ln(\frac{1}{|V|}|\Phi^{-1}\circ(\Phi^{ts})^{-1}-id|^2_2$来衡量对称性，其中$V$表示图像体积大小，$\Phi$表示通过仿射变换和可变形变换合成的映射。上图显示了有对称损失和无对称损失时的配准结果。</p>
+<p>由于不同的方法对边界的处理不同，所以本文只对离边界10体素远的图像进行衡量。</p>
+<p><img src="https://s1.ax1x.com/2020/08/23/dwUvjI.jpg" alt></p>
+<p>具有2步训练的多步vSVF配准结果，从左图可以看出效果随着step的增加而提升，右图显示同时重叠也增加。</p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </a>
+    </div>
+    
+
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/08/24/AVSM/" title="【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型" target="_blank">zuzhiang.cn/2020/08/24/AVSM/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
+
   </div>
-</article>
-  
+  <div class="article-info article-info-index">
     
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/28/DDPG/" class="archive-article-date">
-        <time datetime="2019-10-28T13:21:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-28</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/28/DDPG/">强化学习（7）：深度确定性策略梯度（Deep Deterministic Policy Gradient, DDPG）</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/21/AC/" class="archive-article-date">
-        <time datetime="2019-10-21T00:28:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-21</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/21/AC/">强化学习（6）：Actor-Critic（演员评论家）算法</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/13/PG/" class="archive-article-date">
-        <time datetime="2019-10-13T02:22:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-13</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/13/PG/">强化学习（5）：策略梯度（Policy Gradient, PG）算法</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/11/DQN-improve/" class="archive-article-date">
-        <time datetime="2019-10-11T12:46:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/11/DQN-improve/">强化学习（4）：Double DQN、Prioritized Experience Replay DQN和Dueling DQN</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/10/DQN/" class="archive-article-date">
-        <time datetime="2019-10-10T01:04:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/10/DQN/">强化学习（3）：Deep Q Network（DQN）算法</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/10/sarsa/" class="archive-article-date">
-        <time datetime="2019-10-10T01:03:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/10/sarsa/">强化学习（2）：Sarsa 算法及 Sarsa(lambda) 算法</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/10/3D-TL/" class="archive-article-date">
-        <time datetime="2019-10-10T01:03:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/10/3D-TL/">周纵苇——三维迁移学习报告笔记</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -533,107 +361,129 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/08/24/AVSM/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/10/10/Q-Learning/" class="archive-article-date">
-        <time datetime="2019-10-10T01:03:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/16/RegNet-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】RegNet：人工合成位移向量场的3D医学图像配准网络</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/10/10/Q-Learning/">强化学习（1）：Q-Learning 算法</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型" -->
+  var giteement = new Giteement({
+    id: '20200824095451',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2019/09/28/RL/" class="archive-article-date">
-        <time datetime="2019-09-28T03:47:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-28</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2019/09/28/RL/">强化学习（0）：强化学习的基本概念与马尔科夫决策过程</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/强化学习//" class="article-tag-list-link color5">强化学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><a class="page-number" href="/archives/page/10/">10</a><a class="extend next" rel="next" href="/archives/page/8/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +522,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
