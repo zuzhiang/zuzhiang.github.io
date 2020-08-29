@@ -6,21 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>随笔-随时更新 | zuzhiang</title>
+  <title>【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型） | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="本文是自己的一些随笔，记录一些比较关键的，以后可以用到的知识点。">
+  <meta name="description" content="本文是关于论文《CBAM: Convolutional Block Attention Module》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="随笔-随时更新">
-<meta property="og:url" content="zuzhiang.cn/2020/02/21/notes/index.html">
+<meta property="og:title" content="【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型）">
+<meta property="og:url" content="zuzhiang.cn/2020/08/29/CBAM/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="本文是自己的一些随笔，记录一些比较关键的，以后可以用到的知识点。">
+<meta property="og:description" content="本文是关于论文《CBAM: Convolutional Block Attention Module》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-08-28T01:33:25.102Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/29/d7PJ3D.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/29/d7P34K.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/29/d7PYge.jpg">
+<meta property="og:updated_time" content="2020-08-29T06:13:30.126Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随笔-随时更新">
-<meta name="twitter:description" content="本文是自己的一些随笔，记录一些比较关键的，以后可以用到的知识点。">
+<meta name="twitter:title" content="【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型）">
+<meta name="twitter:description" content="本文是关于论文《CBAM: Convolutional Block Attention Module》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/29/d7PJ3D.png">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -185,14 +189,14 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-notes" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-CBAM" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class=" article-header">
   
   
     <h1 class="article-title" itemprop="name">
-      随笔-随时更新
+      【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型）
     </h1>
   
 
@@ -204,8 +208,8 @@
               <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
         </span>
 
-<a href="/2020/02/21/notes/" class="archive-article-date">
-        <time datetime="2020-02-21T12:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
+<a href="/2020/08/29/CBAM/" class="archive-article-date">
+        <time datetime="2020-08-29T06:11:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-29</time>
 </a>
 
   
@@ -214,74 +218,19 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>本文是自己的一些随笔，记录一些比较关键的，以后可以用到的知识点。</p>
+    <p>本文是关于论文《CBAM: Convolutional Block Attention Module》的阅读笔记。</p>
 <a id="more"></a>
 
-<h2 id="python中使用参数"><a href="#python中使用参数" class="headerlink" title="python中使用参数"></a>python中使用参数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> argparse <span class="keyword">import</span> ArgumentParser</span><br><span class="line"></span><br><span class="line">parser = ArgumentParser() <span class="comment"># 创建一个解析对象</span></span><br><span class="line"><span class="comment"># 参数一般包括：短参数、长参数、数据类型（type）、默认值（default）、帮助信息（help）、参数值范围（choices）、是否必须（require）、action。</span></span><br><span class="line"><span class="comment"># action选项中常用的是 action="store_true"，它表示只要运行时该变量有传参就将该变量设为True</span></span><br><span class="line"><span class="comment"># 具体例子如下</span></span><br><span class="line">parser.add_argument(<span class="string">'-b'</span>,<span class="string">'--batch_size'</span>, type=int, default=<span class="number">5</span>, help=<span class="string">"Batch size in training."</span>, choices=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>], require=<span class="literal">True</span>, action=<span class="string">'store_true'</span>) <span class="comment">#添加命令行参数和选项</span></span><br><span class="line">parser.parse_args() <span class="comment"># 进行解析</span></span><br><span class="line">batch_size=args.batch_sise</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若文件名为test.py，则在命令行中输入 test.py --help 即可查看所有支持的参数</span></span><br></pre></td></tr></table></figure>
+<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>深度学习中的注意力机制是模仿人类的注意力产生的，当我们在看一副图像时，图像中有些地方（比如人物照中的人的面部）会引起我们的注意力，而其他地方则可能会忽视。这相当于给整幅图像加了一个可视化的权重。注意力机制可以分为通道注意力和空间注意力等。简单来说，注意力机制就是给每个通道或整个空间特征图乘以一个权重，以表示它们的重要性。</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d7PJ3D.png" alt></p>
+<p>CBAM包含两部分，一是通道的注意力，二是空间的注意力。CBAM可以用以下公式表示：<br>$$<br>\begin{aligned}<br>\mathbf{F}^{\prime} &amp;=\mathbf{M}<em>{\mathbf{c}}(\mathbf{F}) \otimes \mathbf{F} \<br>\mathbf{F}^{\prime \prime} &amp;=\mathbf{M}</em>{\mathbf{s}}\left(\mathbf{F}^{\prime}\right) \otimes \mathbf{F}^{\prime}<br>\end{aligned}<br>$$<br>其中，$F$是特征图，$M_c$和$M_s$分别表示基于通道的和基于空间的注意力，$\otimes$表示逐元素相乘，$F^\prime$和$F^{\prime\prime}$分别表示进行了通道注意力和空间注意力后的输出特征图。由于CBAM模块的输入和输出大小相同，所以它可以插入到已有模型的任意位置。</p>
+<h2 id="二、通道注意力模块"><a href="#二、通道注意力模块" class="headerlink" title="二、通道注意力模块"></a>二、通道注意力模块</h2><p><img src="https://s1.ax1x.com/2020/08/29/d7P34K.jpg" alt></p>
+<p>通道注意力模块先对输入特征图在空间维度分别进行最大池化和平均池化，然后分别经过一个共享权重的MLP（多层感知机） ，然后将两者的输出做逐元素的相加，再经过sigmoid激活函数，得到通道注意力权重，将该权重和输入特征图做逐元素的乘法，就实现了通道上的注意力机制。</p>
+<p>在空间维度分别进行最大池化和平均池化，其实就是只保留通道的维度，其他维度为1，得到一个一维的矢量，然后再经过共享权重的MLP，MLP由两层卷积操作组成，第一个卷积后使用ReLU激活函数，第二个卷积后使用sigmoid激活函数得到输出权重，然后将每个通道乘以其对应的权重。上述过程可以表示为：<br>$$<br>\begin{aligned}<br>\mathbf{M}<em>{\mathbf{c}}(\mathbf{F}) &amp;=\sigma(\operatorname{MLP}(A \operatorname{vg} \operatorname{Pool}(\mathbf{F}))+M L P(\operatorname{Max} \operatorname{Pool}(\mathbf{F}))) \<br>&amp;=\sigma\left(\mathbf{W}</em>{\mathbf{1}}\left(\mathbf{W}<em>{\mathbf{0}}\left(\mathbf{F}</em>{\mathbf{a v g}}^{\mathbf{c}}\right)\right)+\mathbf{W}<em>{\mathbf{1}}\left(\mathbf{W}</em>{\mathbf{0}}\left(\mathbf{F}<em>{\mathbf{m a x}}^{\mathbf{c}}\right)\right)\right)<br>\end{aligned}<br>$$<br>其中$\sigma$表示sigmoid激活函数，$W_0$和$W_1$分别表示两个卷积操作，$F</em>{avg}^c$和$F_{max}^c$分别表示平均池化和最大池化。</p>
+<h2 id="三、空间注意力模块"><a href="#三、空间注意力模块" class="headerlink" title="三、空间注意力模块"></a>三、空间注意力模块</h2><p><img src="https://s1.ax1x.com/2020/08/29/d7PYge.jpg" alt></p>
+<p>先对输入特征图做基于通道的最大池化和平均池化操作，将得到的两个特征图做基于通道的拼接，再对其进行卷积操作和sigmoid激活函数，得到通道数为1，特征图大小和输入相同的注意力权重，再与输入特征图做逐元素的乘法，就完成了空间注意力机制。该过程可以表示为：<br>$$<br>\begin{aligned}<br>\mathbf{M}<em>{\mathbf{s}}(\mathbf{F}) &amp;=\sigma\left(f^{7 \times 7}([\text {AvgPool}(\mathbf{F}) ; \operatorname{Max} \operatorname{Pool}(\mathbf{F})])\right) \<br>&amp;\left.=\sigma\left(f^{7 \times 7}\left(\mathbf{F}</em>{\mathbf{a v g}}^{\mathbf{s}} ; \mathbf{F}_{\mathbf{m a x}}^{\mathbf{s}}\right]\right)\right)<br>\end{aligned}<br>$$<br>其中$f^{7\times7}$表示卷积核大小为$7\times7$的卷积操作。</p>
+<h2 id="四、代码"><a href="#四、代码" class="headerlink" title="四、代码"></a>四、代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CBAM_Module</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, dim, in_channels, ratio, kernel_size)</span>:</span></span><br><span class="line">        super(CBAM_Module, self).__init__()</span><br><span class="line">        self.avg_pool = getattr(nn, <span class="string">"AdaptiveAvgPool&#123;0&#125;d"</span>.format(dim))(<span class="number">1</span>)</span><br><span class="line">        self.max_pool = getattr(nn, <span class="string">"AdaptiveMaxPool&#123;0&#125;d"</span>.format(dim))(<span class="number">1</span>)</span><br><span class="line">        conv_fn = getattr(nn, <span class="string">"Conv&#123;0&#125;d"</span>.format(dim))</span><br><span class="line">        self.fc1 = conv_fn(in_channels, in_channels // ratio, kernel_size=<span class="number">1</span>, padding=<span class="number">0</span>)</span><br><span class="line">        self.relu = nn.ReLU()</span><br><span class="line">        self.fc2 = conv_fn(in_channels // ratio, in_channels, kernel_size=<span class="number">1</span>, padding=<span class="number">0</span>)</span><br><span class="line">        self.sigmoid = nn.Sigmoid()</span><br><span class="line">        <span class="keyword">assert</span> kernel_size <span class="keyword">in</span> (<span class="number">3</span>, <span class="number">7</span>), <span class="string">'kernel size must be 3 or 7'</span></span><br><span class="line">        padding = <span class="number">3</span> <span class="keyword">if</span> kernel_size == <span class="number">7</span> <span class="keyword">else</span> <span class="number">1</span></span><br><span class="line">        self.conv = conv_fn(<span class="number">2</span>, <span class="number">1</span>, kernel_size=kernel_size, stride=<span class="number">1</span>, padding=padding)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="comment"># Channel attention module:（Mc(f) = σ(MLP(AvgPool(f)) + MLP(MaxPool(f)))）</span></span><br><span class="line">        module_input = x</span><br><span class="line">        avg = self.fc2(self.relu(self.fc1(self.avg_pool(x))))</span><br><span class="line">        mx = self.fc2(self.relu(self.fc1(self.max_pool(x))))</span><br><span class="line">        x = self.sigmoid(avg + mx)</span><br><span class="line">        x = module_input * x</span><br><span class="line">        <span class="comment"># Spatial attention module:Ms (f) = σ( f7×7( AvgPool(f) ; MaxPool(F)] )))</span></span><br><span class="line">        module_input = x</span><br><span class="line">        avg = torch.mean(x, dim=<span class="number">1</span>, keepdim=<span class="literal">True</span>)</span><br><span class="line">        mx, _ = torch.max(x, dim=<span class="number">1</span>, keepdim=<span class="literal">True</span>)</span><br><span class="line">        x = torch.cat((avg, mx), dim=<span class="number">1</span>)</span><br><span class="line">        x = self.sigmoid(self.conv(x))</span><br><span class="line">        x = module_input * x</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
 
-<h2 id="python处理-json"><a href="#python处理-json" class="headerlink" title="python处理 json"></a>python处理 json</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">主要使用两个函数：</span></span><br><span class="line"><span class="string">	json.dump()：对json文件进行写入</span></span><br><span class="line"><span class="string">	json.dumps()：将python的数据类型转化为字符串</span></span><br><span class="line"><span class="string">	json.load()：对json文件进行读取</span></span><br><span class="line"><span class="string">	json.loads()：将字符串转化为python的数据类型</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">json.dumps(obj,sort_keys=False)	# sort_keys参数可以用来决定转换后的json是否按key值排序</span></span><br><span class="line"><span class="string">	python 原始类型向 json 类型的转化对照表：</span></span><br><span class="line"><span class="string">		python              json</span></span><br><span class="line"><span class="string">		--------------------------</span></span><br><span class="line"><span class="string">		dict                object</span></span><br><span class="line"><span class="string">        list, tuple	        array</span></span><br><span class="line"><span class="string">        str, unicode        string</span></span><br><span class="line"><span class="string">        int, long, float    number</span></span><br><span class="line"><span class="string">        True                true</span></span><br><span class="line"><span class="string">        False               false</span></span><br><span class="line"><span class="string">        None                null	</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">json.loads(obj)</span></span><br><span class="line"><span class="string">	json 原始类型向 python 类型的转化对照表：</span></span><br><span class="line"><span class="string">		json                python</span></span><br><span class="line"><span class="string">		-----------------------------</span></span><br><span class="line"><span class="string">        object              dict</span></span><br><span class="line"><span class="string">        array               list</span></span><br><span class="line"><span class="string">        string              unicode</span></span><br><span class="line"><span class="string">        number (int)        int, long</span></span><br><span class="line"><span class="string">        number (real)       float</span></span><br><span class="line"><span class="string">        true                True</span></span><br><span class="line"><span class="string">        false               False</span></span><br><span class="line"><span class="string">        null                None	</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">test_dict = &#123;<span class="string">'bigberg'</span>: [<span class="number">7600</span>, &#123;<span class="number">1</span>: [[<span class="string">'iPhone'</span>, <span class="number">6300</span>], [<span class="string">'Bike'</span>, <span class="number">800</span>], [<span class="string">'shirt'</span>, <span class="number">300</span>]]&#125;]&#125;</span><br><span class="line">json_str = json.dumps(test_dict) <span class="comment"># python类型转字符串</span></span><br><span class="line">new_dict = json.loads(json_str) <span class="comment"># 字符串转python类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入 JSON 数据</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.json'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    json.dump(data, f) <span class="comment"># # data为python的字典类型</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.json'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = json.load(f) <span class="comment"># data为python的字典类型</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="python中arg和-kwargs的区别"><a href="#python中arg和-kwargs的区别" class="headerlink" title="python中arg和*kwargs的区别"></a>python中<em>arg和*</em>kwargs的区别</h2><p>这两个是python中的可变参数。<code>*args</code> 表示任意多个无名参数，它是一个tuple；<code>**kwargs</code> 表示任意多个关键字参数，它是一个dict。当 arg、<em>args、*</em>wkargs 同时使用时，必须按照该顺序，否则会报错。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'args = '</span>, args</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'kwargs = '</span>, kwargs</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'---------------------------------------'</span></span><br><span class="line">    <span class="keyword">return</span> kwargs <span class="comment"># 返回值是一个字典</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    foo(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">    foo(a=<span class="number">1</span>,b=<span class="number">2</span>,c=<span class="number">3</span>)</span><br><span class="line">    foo(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>, a=<span class="number">1</span>,b=<span class="number">2</span>,c=<span class="number">3</span>)</span><br><span class="line">    foo(<span class="string">'a'</span>, <span class="number">1</span>, <span class="literal">None</span>, a=<span class="number">1</span>, b=<span class="string">'2'</span>, c=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以上代码的输出为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">args =  (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>) </span><br><span class="line">kwargs =  &#123;&#125; </span><br><span class="line">--------------------------------------- </span><br><span class="line">args =  () </span><br><span class="line">kwargs =  &#123;<span class="string">'a'</span>: <span class="number">1</span>, <span class="string">'c'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125; </span><br><span class="line">--------------------------------------- </span><br><span class="line">args =  (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>) </span><br><span class="line">kwargs =  &#123;<span class="string">'a'</span>: <span class="number">1</span>, <span class="string">'c'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125; </span><br><span class="line">--------------------------------------- </span><br><span class="line">args =  (<span class="string">'a'</span>, <span class="number">1</span>, <span class="literal">None</span>) </span><br><span class="line">kwargs =  &#123;<span class="string">'a'</span>: <span class="number">1</span>, <span class="string">'c'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="string">'2'</span>&#125; </span><br><span class="line">---------------------------------------</span><br></pre></td></tr></table></figure>
-
-<h2 id="python中NiBabel模块的使用"><a href="#python中NiBabel模块的使用" class="headerlink" title="python中NiBabel模块的使用"></a>python中NiBabel模块的使用</h2><p>NiBabel模块可以对常见的医学和神经影像文件格式进行读写，比如.nii.gz格式的文件。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用pip install nibabel来安装</span></span><br><span class="line"><span class="keyword">import</span> nibabel <span class="keyword">as</span> nib</span><br><span class="line"></span><br><span class="line">img = nib.load(file_name) <span class="comment">#加载图像</span></span><br><span class="line">img.shape <span class="comment">#图像形状</span></span><br><span class="line">print(img.affine) <span class="comment">#把图像矩阵转换为RAS+坐标系的仿射变换矩阵</span></span><br><span class="line">print(img.header) <span class="comment">#图像的头，包含很多信息</span></span><br><span class="line">print(img.header.get_data_shape()) <span class="comment">#图像矩阵的shape</span></span><br><span class="line">print(img.header.get_data_dtype()) <span class="comment">#图像矩阵的数据类型</span></span><br><span class="line">img.get_data() <span class="comment">#获取图像数据</span></span><br><span class="line">img.affine.shape <span class="comment">#仿射变换</span></span><br><span class="line">img.to_filename(save_path) <span class="comment">#保存图像</span></span><br><span class="line">nib.save(img, save_path) <span class="comment">#保存图像</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="python中的generator"><a href="#python中的generator" class="headerlink" title="python中的generator"></a>python中的generator</h2><p>generator是一个特殊的函数，它与普通函数相比有以下区别：</p>
-<ul>
-<li>generator函数包含一个以上的yield声明，用yield来返回值；</li>
-<li>generator函数被调用的时候，会返回一个iterator对象，但是函数并不会立即开始执行；</li>
-<li>__iter__()和__next__()方法被自动实现，所以可以使用next()函数对返回的此iterator对象进行迭代，也可直接使用for循环来迭代；</li>
-<li>一旦一个generator 执行到yield语句，generator函数暂停，程序控制流被转移到调用方；</li>
-<li>在对generator的连续调用之间，generator的本地变量和状态会被保存；</li>
-<li>最终，generator函数终止，再调用generator会引发StopIteration异常；</li>
-</ul>
-<p>generator函数中也允许使用return，但是return 后不允许有返回值。return和yield的区别在于，return声明彻底结束一个函数，而yield声明是暂停函数，保存它的所有状态，并且后续被调用后会继续执行。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">L = [x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)] <span class="comment">#返回的是列表</span></span><br><span class="line">g = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)) <span class="comment">#返回的是generator</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="TFRecords文件的读取和生成"><a href="#TFRecords文件的读取和生成" class="headerlink" title="TFRecords文件的读取和生成"></a>TFRecords文件的读取和生成</h2><p>TFRecords是一种tensorflow的内定标准文件格式，其实质是二进制文件。TFRecords文件方便复制和移动，能够很好的利用内存，无需单独标记文件，适用于大量数据的顺序读取，是tensorflow“从文件里读取数据”的一种官方推荐方法。</p>
-<h4 id="1-TFRecords文件的生成"><a href="#1-TFRecords文件的生成" class="headerlink" title="1. TFRecords文件的生成"></a>1. TFRecords文件的生成</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成TFRecord Writer，path是输出的路径，options是文件保存的压缩格式，有三种可选：</span></span><br><span class="line"><span class="comment"># 1. TFRecordCompressionType.ZLIB</span></span><br><span class="line"><span class="comment"># 2. TFRecordCompressionType.GZIP</span></span><br><span class="line"><span class="comment"># 3. TFRecordCompressionType.NONE</span></span><br><span class="line"><span class="comment"># 默认最后一种，即不做任何压缩</span></span><br><span class="line">writer=tf.python_io.TFRecordWriter(path,options=<span class="literal">None</span>) </span><br><span class="line"><span class="comment"># 要保存的数据按如下方式组织（由外到内）：最外层是features，一个features包含一个字典，字典的每个值是一个feature。feature将一个列表编码为特定的形式，列表类型通常有BytesList, FloatList, Int64List。</span></span><br><span class="line">feature = &#123;</span><br><span class="line">    <span class="string">"width"</span>:tf.train.Feature(int64_list=tf.train.Int64List(value=[width])),</span><br><span class="line">    <span class="string">"weights"</span>:tf.train.Feature(float_list=tf.train.FloatList(value=[weights])),</span><br><span class="line">    <span class="string">"image_raw"</span>:tf.train.Feature(bytes_list=tf.train.BytesList(value=[image_raw]))</span><br><span class="line">&#125;</span><br><span class="line">features = tf.train.Features(feature=feature)</span><br><span class="line"><span class="comment"># 使用tf.train.Example将features编码数据封装成特定的PB协议格式</span></span><br><span class="line">example = tf.train.Example(features=features)</span><br><span class="line"><span class="comment"># 将example数据系列化为字符串，并将其写入协议缓冲区</span></span><br><span class="line">writer.write(example.SerializeToString())</span><br><span class="line"><span class="comment"># 关闭TFRecords文件操作接口</span></span><br><span class="line">writer.close()</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-TFRecords文件的读取"><a href="#2-TFRecords文件的读取" class="headerlink" title="2. TFRecords文件的读取"></a>2. TFRecords文件的读取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成文件队列，file_list是包含多个精确到文件名路径的列表</span></span><br><span class="line">data_queue = tf.train.string_input_producer(file_list,shuffle=<span class="literal">False</span>) </span><br><span class="line">reader = tf.TFRecordReader() <span class="comment">#生成TFRecord Reader</span></span><br><span class="line">_,serialized_example = reader.read(data_queue) <span class="comment"># 读取TFRecord文件</span></span><br><span class="line"><span class="comment"># 解析得到序列化的example</span></span><br><span class="line">features = tf.parse_single_example(</span><br><span class="line">    serialized_example,</span><br><span class="line">    features=&#123;</span><br><span class="line">    <span class="string">"float_val"</span>:tf.FixedLenFeature([], tf.float),</span><br><span class="line">    <span class="string">"width"</span>:tf.FixedLenFeature([], tf.int64),</span><br><span class="line">    <span class="string">"height"</span>:tf.FixedLenFeature([], tf.int64),</span><br><span class="line">    <span class="string">"image_raw"</span>:tf.FixedLenFeature([], tf.string)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 得到的features是一个字典，通过指定的key来获取相应的数据即可，如果是图像的话，需要解码才能得到原始图片</span></span><br><span class="line">image=tf.decode_raw(features[<span class="string">"image_raw"</span>],tf.float32)</span><br></pre></td></tr></table></figure>
-
-<h2 id="torch-utils-data-DataLoader"><a href="#torch-utils-data-DataLoader" class="headerlink" title="torch.utils.data.DataLoader"></a>torch.utils.data.DataLoader</h2><p>参考文章：<a href="https://zhuanlan.zhihu.com/p/28200166" target="_blank" rel="noopener">Pytorch笔记05-自定义数据读取方式 torch.utils.data.Dataset与Dataloader</a>。</p>
-<p><code>torch.utils.data.DataLoader(dataset, batch_size, suffle, num_workers, drop_last)</code></p>
-<ul>
-<li><code>dataset</code>：用来加载数据的数据集</li>
-<li><code>batch_size</code>：默认为1</li>
-<li><code>shuffle</code>：是否打乱数据，默认为False</li>
-<li><code>num_workers</code>：子进程数，默认为0，即只有主进程</li>
-<li><code>drop_last</code>：如果数据集大小不能被batch size整除，则去除最后一组不完整的batch，默认为False</li>
-</ul>
-<p>需要注意的两点是，这种方式的返回值自动转变成torch.Tensor类型，比如下面的例子中我在Dataset类中返回的是numpy数组，但是在取数据集的数据时得到的却是torch.Tensor类型。第二就是当在DataLoader中设置了batch_size参数后，会自动帮你增加batch对应的维度，如果自己手动添加的话就重复了。</p>
-<p>例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> glob</span><br><span class="line"><span class="keyword">import</span> torch.utils.data <span class="keyword">as</span> Data</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">通过继承Data.Dataset，实现将一组Tensor数据对封装成Tensor数据集</span></span><br><span class="line"><span class="string">至少要重载__init__，__len__和__getitem__方法</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dataset</span><span class="params">(Data.Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, path)</span>:</span></span><br><span class="line">        <span class="comment"># 初始化</span></span><br><span class="line">        self.files = glob.glob(path)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 返回数据集的大小</span></span><br><span class="line">        <span class="keyword">return</span> len(self.files)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        <span class="comment"># 索引数据集中的某个数据，还可以对数据进行预处理</span></span><br><span class="line">        <span class="comment"># 下标index参数是必须有的，名字任意</span></span><br><span class="line">        img_arr = sitk.GetArrayFromImage(sitk.ReadImage(self.files[index]))[..., np.newaxis]</span><br><span class="line">        <span class="keyword">return</span> img_arr, img_arr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DS = Dataset(path=<span class="string">"./*.nii"</span>)</span><br><span class="line">print(DS[<span class="number">0</span>])  <span class="comment"># 通过下标直接取数据</span></span><br><span class="line">print(len(DS))  <span class="comment"># 通过len()获取数据集大小</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DataLoader将Dataset或其子类封装成一个迭代器，这个迭代器可以迭代输出Dataset的内容</span></span><br><span class="line"><span class="comment"># 可不在Dataset类中实现数据打乱，而是在DataLoader中实现</span></span><br><span class="line">DL = Data.DataLoader(DS, batch_size=<span class="number">2</span>, shuffle=<span class="literal">True</span>, num_workers=<span class="number">2</span>, drop_last=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 迭代获取数据集的数据</span></span><br><span class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> DL:</span><br><span class="line">    print(x, <span class="string">"   "</span>, y)</span><br><span class="line"><span class="comment"># 或者用以下方式取</span></span><br><span class="line">x,y=iter(tensor_dataloader).next()</span><br></pre></td></tr></table></figure>
-
-<h2 id="python知识点"><a href="#python知识点" class="headerlink" title="python知识点"></a>python知识点</h2><ol>
-<li>当有函数嵌套时，外层函数的返回值往往是内层函数，并且在内层函数只可以在外层函数里访问</li>
-<li>通过 @property 装饰器，可以直接通过方法名来访问方法，不需要在方法名后添加一对“（）”</li>
-</ol>
-<h2 id="其他知识点"><a href="#其他知识点" class="headerlink" title="其他知识点"></a>其他知识点</h2><ol>
-<li>Dice 损失类似于交并比，有两个mask，记为X和Y，其Dice损失为$Dice=2\times\frac{X\cap Y}{|X|+|Y|}$</li>
-<li>WinEdt 中 Tex 编译的快捷键为 <code>ctrl+shift+P</code>，当出现报错信息时 l.30 中字母 l 后面的即出错的行数，输入 e 可以定位到对应的行，输入 Enter 查看下一个错误信息，输入 s 忽略所有报错信息。</li>
-<li>变形场（deformation field）是指能使流体在运动中发生形状变化，尤其是伸展（收缩）和切变的速度场。</li>
-<li>用 <code>nvidia-smi</code> 命令查看显卡使用情况，<code>watch -n 1 nvidia-smi</code>动态查看显卡使用情况</li>
-<li>ubuntu查看版本信息：<code>lsb_release -a</code>，查看 CUDA 版本 <code>nvcc --version</code> 或 <code>cat /usr/local/cuda/version.txt</code></li>
-<li>linux 编辑环境变量 <code>vi ~/.bashrc</code>，使环境变量生效 <code>source ~/.bashrc</code>，查看环境变量中的 PATH 等 <code>echo $PATH</code></li>
-<li>远程连接服务器离线跑代码：首先用 <code>sudo apt-get install screen</code> 安装 screen用 <code>screen -S screen名</code> 创建一个 screen，然后运行程序即可，这样就可以关掉连接服务器的软件了。输入 <code>screen -ls</code> 即可查看现有的 screen，输入 <code>screen -r 编号.screen名</code> 就可以重新连接到 screen。当意外退出时，用<code>screen -D -r 编号.screen名</code>重新连接到screen。需要彻底关闭 screen 时可以使用 <code>kill screen编号</code>即可。</li>
-<li><code>free -h</code>查看linux系统内存大小</li>
-<li><code>unzip 压缩文件名.zip</code>在linux下解压.zip格式的压缩文件</li>
-<li>IDEA中快捷输入：<ul>
-<li><code>psvm+Enter</code>：public static void main(){}</li>
-<li><code>sout</code>：System.out.println();</li>
-<li><code>Ctrl+J</code>：代码补全提示</li>
-<li><code>Ctrl+insert</code>：快速生成getter和setter方法</li>
-</ul>
-</li>
-</ol>
 
     
 
@@ -328,7 +277,7 @@
           </li>
           <li>
             <strong>本文链接：</strong>
-            <a href="zuzhiang.cn/2020/02/21/notes/" title="随笔-随时更新" target="_blank">zuzhiang.cn/2020/02/21/notes/</a>
+            <a href="zuzhiang.cn/2020/08/29/CBAM/" title="【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型）" target="_blank">zuzhiang.cn/2020/08/29/CBAM/</a>
           </li>
           <li>
             <strong>版权声明： </strong>
@@ -341,11 +290,6 @@
   </div>
   <div class="article-info article-info-index">
     
-    <div class="article-pop-out tagcloud">
-      <i class="icon-tuding"></i>
-      <a class="article-tag-list-link color3">置顶</a>
-    </div>
-    
     
     
 	<div class="article-category tagcloud">
@@ -353,7 +297,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/随笔//" class="article-tag-list-link color3">随笔</a>
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
         		</li>
       		
 		</ul>
@@ -408,7 +352,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/02/21/notes/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/08/29/CBAM/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -423,18 +367,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2020/02/21/GAN-example/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          基于生层对抗网络（GAN）在MNIST手写数字数据集上生成假图片（pytorch版）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/02/21/resource/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">资源免费共享-随时更新</div>
+    <a href="/2020/08/24/AVSM/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -472,9 +407,9 @@
     <script src="/lib/giteement.browser.js"></script>
   
   <script>
-  <!-- id: "随笔-随时更新" -->
+  <!-- id: "【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型）" -->
   var giteement = new Giteement({
-    id: '20200221203930',
+    id: '20200829141137',
     owner: 'zuzhiang',
     repo: 'zuzhiang',
     backcall_uri: 'https://zuzhiang.github.io',
