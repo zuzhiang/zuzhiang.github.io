@@ -6,20 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="zuzhiang.cn">
-  <title>Archives | zuzhiang</title>
+  <title>【论文笔记】CycleMorph：使用循环一致性的2D/3D/多尺度微分同胚图像配准模型 | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="It&apos;s my private blog.">
+  <meta name="description" content="本文是论文《CycleMorph: Cycle Consistent Unsupervised Deformable Image Registration》的阅读笔记。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zuzhiang">
-<meta property="og:url" content="zuzhiang.cn/archives/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】CycleMorph：使用循环一致性的2D&#x2F;3D&#x2F;多尺度微分同胚图像配准模型">
+<meta property="og:url" content="zuzhiang.cn/2020/09/04/CycleMorph/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="It&apos;s my private blog.">
+<meta property="og:description" content="本文是论文《CycleMorph: Cycle Consistent Unsupervised Deformable Image Registration》的阅读笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAAXef.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAALOP.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAAjw8.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAAvTS.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAESYQ.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAAzFg.jpg">
+<meta property="og:updated_time" content="2020-09-04T13:26:59.366Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zuzhiang">
-<meta name="twitter:description" content="It&apos;s my private blog.">
+<meta name="twitter:title" content="【论文笔记】CycleMorph：使用循环一致性的2D&#x2F;3D&#x2F;多尺度微分同胚图像配准模型">
+<meta name="twitter:description" content="本文是论文《CycleMorph: Cycle Consistent Unsupervised Deformable Image Registration》的阅读笔记。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/04/wAAXef.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
   
@@ -184,42 +192,127 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-CycleMorph" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class=" article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
+    <h1 class="article-title" itemprop="name">
+      【论文笔记】CycleMorph：使用循环一致性的2D/3D/多尺度微分同胚图像配准模型
+    </h1>
+  
+
+
+  
+  
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
 <a href="/2020/09/04/CycleMorph/" class="archive-article-date">
         <time datetime="2020-09-04T13:26:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
 </a>
 
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>本文是论文《CycleMorph: Cycle Consistent Unsupervised Deformable Image Registration》的阅读笔记。</p>
+<a id="more"></a>
+
+<p>现有的既又深度学习的配准方法通常不能保证拓扑保持（preservation of topology），为了解决这个问题，文章提出了一个名为CycleMorph的模型，使用循环一致性来提供一个隐式的正则来保留拓扑结构。此外，该模型可以实现2D或3D图像以及多尺度图像的配准。</p>
+<h2 id="一、相关工作"><a href="#一、相关工作" class="headerlink" title="一、相关工作"></a>一、相关工作</h2><h3 id="1-CycleMorph使用循环一致性来"><a href="#1-CycleMorph使用循环一致性来" class="headerlink" title="1. CycleMorph使用循环一致性来"></a>1. CycleMorph使用循环一致性来</h3><p>在该模型中训练两个卷积神经网络$G_X$和$G_Y$，$G_X$产生从源域图像到目标域图像的正向形变场$\phi_{XY}$，$G_Y$产生从目标域图像到源域图像的逆向形变场$\phi_{YX}$。</p>
+<p>为了解决3D图像太大而导致显存放不下的情况，采用了先对下采样的图像进行粗糙的大变形，然后再对局部的patch进行变形。</p>
+<h3 id="2-微分同胚图像配准"><a href="#2-微分同胚图像配准" class="headerlink" title="2. 微分同胚图像配准"></a>2. 微分同胚图像配准</h3><p>在经典的变分图像配准方法中，配准问题的能量方程可以表示为：<br>$$<br>\mathcal{L}(X, Y, \phi)=\mathcal{L}<em>{s i m}(\mathcal{T}(X, \phi), Y)+\mathcal{L}</em>{r e g}(\phi)<br>$$<br>其中，$X,Y$分别表示浮动图像和固定图像，$\phi$表示位移向量场，$\mathcal T$表示根据形变场$\phi$将$X$变形到$Y$的变换函数（空间变换层），$\mathcal L_{sim}$是衡量图像相似性的相似项，$\mathcal{L}_{reg}$是使得形变场平滑的正则项。</p>
+<p>微分同胚图像配准为向量场$\phi$施加了一个约束，使得可变形映射是微分同胚。微分同胚变形保证了两个图像之间的变形是连续、可微、拓扑保持的。微分同胚图像配准算法的例子有LDDMM和SyN。</p>
+<p>无监督的图像配准方法通常没有为一致性增加一个约束，从而可能会产生形变场重叠的问题。</p>
+<h3 id="3-一致性图像配准"><a href="#3-一致性图像配准" class="headerlink" title="3. 一致性图像配准"></a>3. 一致性图像配准</h3><p>当参数有限时，微分同胚图像配准算法中的形变场通常是离散的。因此，估计的形变$F: X \mapsto Y$和估计的形变$R: Y \mapsto X$的逆是不相等的。在一致性图像配准中，这个问题通过逆一致性$R\simeq F^{-1}$而减轻了。</p>
+<h2 id="二、CycleMorph"><a href="#二、CycleMorph" class="headerlink" title="二、CycleMorph"></a>二、CycleMorph</h2><p><img src="https://s1.ax1x.com/2020/09/04/wAAXef.jpg" alt></p>
+<p>上图是CycleMorph网络的结构示意图。</p>
+<h3 id="1-损失函数"><a href="#1-损失函数" class="headerlink" title="1. 损失函数"></a>1. 损失函数</h3><p>模型通过优化以下损失函数来训练：<br>$$<br>\min <em>{G</em>{X}, G_{Y}} \mathcal{L}\left(X, Y, G_{X}, G_{Y}\right)<br>$$<br>其中<br>$$<br>\begin{aligned}<br>\mathcal{L}\left(X, Y, G_{X}, G_{Y}\right)=&amp; \mathcal{L}<em>{r e g i s t}\left(X, Y, G</em>{X}\right) \<br>&amp;+\mathcal{L}<em>{r e g i s t}\left(Y, X, G</em>{Y}\right) \<br>&amp;+\alpha \mathcal{L}<em>{c y c l e}\left(X, Y, G</em>{X}, G_{Y}\right) \<br>&amp;+\beta \mathcal{L}<em>{i d e n t i t y}\left(X, Y, G</em>{X}, G_{Y}\right)<br>\end{aligned}<br>$$<br><img src="https://s1.ax1x.com/2020/09/04/wAALOP.jpg" alt></p>
+<p>上图是网络中三个损失的示意图。$\mathcal{L}<em>{regist}$是配准损失，它包括图像相似性损失和形变场的正则项损失两部分，图像相似性采用的是局部互相关，正则项损失采用的是$L_2$正则损失，所以<br>$$<br>\begin{array}{l}<br>\mathcal{L}</em>{\text {regist}}\left(X, Y, G_{X}\right) \<br>\quad=-\left(\mathcal{T}\left(X, \phi_{X Y}\right) \otimes Y\right)+\lambda \sum\left|\nabla \phi_{X Y}\right|^{2}<br>\end{array}<br>$$<br>其中$\lambda$是超参数，$\otimes$表示局部互相关，其定义为：<br>$$<br>A \otimes B=\sum_{\mathbf{v} \in \Omega} \frac{\left(\sum_{\mathbf{v}<em>{i}}\left(A\left(\mathbf{v}</em>{i}\right)-\bar{A}(\mathbf{v})\right)\left(B\left(\mathbf{v}<em>{i}\right)-\bar{B}(\mathbf{v})\right)\right)^{2}}{\left(\sum</em>{\mathbf{v}<em>{i}}\left(A\left(\mathbf{v}</em>{i}\right)-\bar{A}(\mathbf{v})\right)^{2}\right)\left(\sum_{\mathbf{v}<em>{i}}\left(B\left(\mathbf{v}</em>{i}\right)-\bar{B}(\mathbf{v})\right)^{2}\right)}<br>$$<br>其中，$\Omega$表示整个3D图像，$\bar{A}(v)$和$\bar{B}(v)$表示图像$A(v)$和$B(v)$的局部均值，$v_i$迭代在体素$v$周围大小为$w\times w\times w$（2D图像时为$w\times w$）的范围迭代计算，其中$w=9$。</p>
+<p>$\mathcal{L}<em>{cycle}$是循环一致性损失，源域图像$X$先通过$G_X$被配准得到$\hat{Y}$，再通过$G_Y$配准得到$\tilde{X}$，计算$X$和$\tilde{X}$之间的循环一致性损失；同理目标域图像$Y$先通过$G_Y$被配准得到$\hat{X}$，再通过$G_X$配准得到$\tilde{Y}$，计算$Y$和$\tilde{Y}$之间的循环一致性损失。上述过程可以表示为：<br>$$<br>(X, Y) \simeq\left(\mathcal{T}\left(\hat{Y}, \hat{\phi}</em>{Y X}\right), \mathcal{T}\left(\hat{X}, \hat{\phi}<em>{X Y}\right)\right)<br>$$<br>其中<br>$$<br>(\hat{Y}, \hat{X}):=\left(\mathcal{T}\left(X, \phi</em>{X Y}\right), \mathcal{T}\left(Y, \phi_{Y X}\right)\right)<br>$$<br>所以，循环一致性损失可以通过下式计算：<br>$$<br>\begin{array}{l}<br>\mathcal{L}<em>{\text {cycle}}\left(X, Y, G</em>{X}, G_{Y}\right) \<br>\quad=\left|\mathcal{T}\left(\hat{Y}, \hat{\phi}<em>{Y X}\right)-X\right|</em>{1}+\left|\mathcal{T}\left(\hat{X}, \hat{\phi}<em>{X Y}\right)-Y\right|</em>{1}<br>\end{array}<br>$$<br>其中，$|\cdot|_1$表示$L_1$范式。</p>
+<p>$\mathcal{L}<em>{identity}$是恒等损失表示当固定图像和浮动图像为同一个时，两者之间不会有任何变形。因此该损失避免了不必要的变形，使得形变场在静态区域的预测更加稳定。该损失可以表示为：<br>$$<br>\begin{array}{l}<br>\mathcal{L}</em>{\text {identity}}\left(X, Y, G_{X}, G_{Y}\right) \<br>=-\left(\mathcal{T}\left(Y, G_{X}(Y, Y)\right) \otimes Y\right)-\left(\mathcal{T}\left(X, G_{Y}(X, X)\right) \otimes X\right)<br>\end{array}<br>$$<br>其中$\otimes$表示局部互相关。</p>
+<h3 id="2-空间变换层"><a href="#2-空间变换层" class="headerlink" title="2. 空间变换层"></a>2. 空间变换层</h3><p>对于3D图像来说，使用三线性插值，可以表示为：<br>$$<br>\begin{array}{l}<br>\mathcal{T}(X, \phi) \<br>=\sum_{q \in \mathcal{N}(p+\phi(p))} X(q) \prod_{d \in{i, j, k}}\left(1-\left|p_{d}+\phi\left(p_{d}\right)-p_{d}\right|\right)<br>\end{array}<br>$$<br>其中，$p$表示像素下标，$\mathcal{N}(p+\phi(p))$表示在$p+\phi(p)$周围的8像素的立方体邻居，$d$是3D图像空间的三个方向。当为2D图像配准时，采用的是双线性插值。</p>
+<h3 id="3-多尺度配准"><a href="#3-多尺度配准" class="headerlink" title="3. 多尺度配准"></a>3. 多尺度配准</h3><p><img src="https://s1.ax1x.com/2020/09/04/wAAjw8.jpg" alt></p>
+<p>上图是多尺度配准的示意图，训练时多尺度配准采用先做全局配准，后做局部配准。全局图像配准模型首先在下采样的图像对上进行训练，然后通过对形变场进行上采样得到全尺寸的变形后的图像，然后对变形后图像的patch进行局部图像配准的训练。</p>
+<p>在测试阶段，由于要进行两次线性插值，所以两个配准网络会导致误差的累计，从而降低配准的精度。所以采取了全局配准和局部配准先得到各自的形变场，然后再将形变场相加，只做一次线性插值。</p>
+<h2 id="三、实验"><a href="#三、实验" class="headerlink" title="三、实验"></a>三、实验</h2><h3 id="1-数据集"><a href="#1-数据集" class="headerlink" title="1. 数据集"></a>1. 数据集</h3><p>三个任务三个数据集，2D配准任务使用的是面部表情图像Radboud Faces Database（RaFD）数据集，3D配准任务使用的是OASIS-3脑部MRI数据集，多尺度配准使用的是肝脏CT数据集。不同任务所采用的参数就不再赘述。</p>
+<p>实验采用的baseline有Elastix，SyN，VoxelMorph和MS-DIRNet。</p>
+<h3 id="2-评价指标"><a href="#2-评价指标" class="headerlink" title="2. 评价指标"></a>2. 评价指标</h3><p>使用形变场的雅克比行列式中非负数的百分比来衡量形变场的重叠程度：<br>$$<br>\left|J_{\phi}(\mathbf{v})\right|=|\nabla \phi(\mathbf{v})| \leq 0<br>$$<br>其中$v$表示体素位置，$|\cdot|$表示矩阵的行列式，当雅克比矩阵的行列式的值都是正数时，形变场是微分同胚的。</p>
+<p>在面部表情数据集中有ground-truth标签，衡量其配准后的归一化均方误差损失（NMSE）和结构相似性损失（SSIM）；在脑部MR数据集中有脑部结构的分割标签，衡量其配准后的DICE值，其表达式如下：<br>$$<br>\operatorname{Dice}(A, B)=\frac{2 T P}{2 T P+F P+F N}<br>$$<br>其中$TP,FP,FN$分别表示正阳例、负阳例、负阴例像素的个数。</p>
+<p>在肝脏CT数据集中有地标点信息，衡量其在配准后的目标配准损失（TRE），TRE可以通过平均欧几里得距离来计算：<br>$$<br>T R E(A, B)=\frac{1}{N} \sum_{i=1}^{N}\left|a_{i}-b_{i}\right|<br>$$<br>其中$N$是地标点的数目，$a_i，b_i$是浮动图像和固定图像中第$i$个地标坐标向量。</p>
+<h3 id="3-实验结果"><a href="#3-实验结果" class="headerlink" title="3. 实验结果"></a>3. 实验结果</h3><p><img src="https://s1.ax1x.com/2020/09/04/wAAvTS.jpg" alt></p>
+<p>上图是在面部表情数据集上的实验结果。</p>
+<p><img src="https://s1.ax1x.com/2020/09/04/wAESYQ.jpg" alt></p>
+<p>上图是在脑部MR数据上的配准结果。</p>
+<p><img src="https://s1.ax1x.com/2020/09/04/wAAzFg.jpg" alt></p>
+<p>上图是不同配准方法在脑部MR数据集上的配准结果的对比表。</p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/alipay.jpg">
+                    <span class="reward-type">支付宝</span>
+                  </div>
+                  
+                  
+                  <div class="reward-box-item">
+                    <img class="reward-img" src="/img/weixin.png">
+                    <span class="reward-type">微信</span>
+                  </div>
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/09/04/CycleMorph/">【论文笔记】CycleMorph：使用循环一致性的2D/3D/多尺度微分同胚图像配准模型</a>
-	
-    </h1>
-  
+      </a>
+    </div>
+    
 
+    
+      <div> 
+        <ul class="post-copyright">
+          <li>
+            <strong>本文作者：</strong>
+            俎志昂
+          </li>
+          <li>
+            <strong>本文链接：</strong>
+            <a href="zuzhiang.cn/2020/09/04/CycleMorph/" title="【论文笔记】CycleMorph：使用循环一致性的2D/3D/多尺度微分同胚图像配准模型" target="_blank">zuzhiang.cn/2020/09/04/CycleMorph/</a>
+          </li>
+          <li>
+            <strong>版权声明： </strong>
+            本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+          </li>
+        </ul>
+      </div>
+    
 
-        <div class="article-info info-on-right">
-          
-          
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -232,408 +325,129 @@
 	</div>
 
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http:zuzhiang.cn/2020/09/04/CycleMorph/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/29/CBAM/" class="archive-article-date">
-        <time datetime="2020-08-29T06:11:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-29</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/29/CBAM/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+  <div id="giteement-ctn"></div>
   
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/29/CBAM/">【论文笔记】CBAM：Convolutional Block Attention Module（卷积块注意力模型）</a>
-	
-    </h1>
+    <link rel="stylesheet" href="/lib/default.css">
+    <script src="/lib/giteement.browser.js"></script>
   
+  <script>
+  <!-- id: "【论文笔记】CycleMorph：使用循环一致性的2D/3D/多尺度微分同胚图像配准模型" -->
+  var giteement = new Giteement({
+    id: '20200904212628',
+    owner: 'zuzhiang',
+    repo: 'zuzhiang',
+    backcall_uri: 'https://zuzhiang.github.io',
+    oauth_uri: 'https://cors-anywhere.herokuapp.com/https://gitee.com/oauth/token',
+    oauth: {
+      client_id: '6aaa45515a337a2f5d89585e9fc23143546ee82bddef4bc1babd2ec9f91f089d',
+      client_secret: '836bc1849638ac5fed8cfe44a9a20a45392fa3d70f0e351cf9d71e49b1517a68'
+    },
+  })
+  giteement.render('giteement-ctn')
+  </script>
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/24/AVSM/" class="archive-article-date">
-        <time datetime="2020-08-24T01:54:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-24</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/24/AVSM/">【论文笔记】AVSM：结合了仿射配准和vSVF配准的医学图像配准模型</a>
-	
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/16/RegNet-1/" class="archive-article-date">
-        <time datetime="2020-08-16T13:08:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-16</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/16/RegNet-1/">【论文笔记】RegNet：人工合成位移向量场的3D医学图像配准网络</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/09/LDIR/" class="archive-article-date">
-        <time datetime="2020-08-09T03:06:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/09/LDIR/">【论文笔记】同时进行线性配准和可变形配准的医学图像配准网络模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/06/PDD-Net/" class="archive-article-date">
-        <time datetime="2020-08-06T06:14:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-06</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/06/PDD-Net/">【论文笔记】PDD-Net（概率密度位移网络）：弱监督的3D医学图像配准网络</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/04/Prob-VoxelMorph/" class="archive-article-date">
-        <time datetime="2020-08-04T06:21:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-04</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/04/Prob-VoxelMorph/">【论文笔记】Prob-VoxelMorph：保证形变场微分同胚性并防止形变场重叠的医学图像配准模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/04/FAIM/" class="archive-article-date">
-        <time datetime="2020-08-04T03:13:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-04</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/04/FAIM/">【论文笔记】FAIM（FAst IMage registration）：使用负雅克比行列式防止形变场重叠的医学图像配准模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/01/Cycle-Consistent-Registration/" class="archive-article-date">
-        <time datetime="2020-08-01T08:14:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-01</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/08/01/Cycle-Consistent-Registration/">【论文笔记】用循环一致性避免形变场重叠的医学图像配准网络</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/07/29/ICNet/" class="archive-article-date">
-        <time datetime="2020-07-29T12:56:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-29</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	      <a class="archive-article-title" href="/2020/07/29/ICNet/">【论文笔记】ICNet：用于无监督医学图像配准的逆一致性模型</a>
-	
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/医学图像处理//" class="article-tag-list-link color2">医学图像处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/10/">10</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -672,8 +486,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
