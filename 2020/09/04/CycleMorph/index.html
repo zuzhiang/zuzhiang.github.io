@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAAvTS.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAESYQ.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/09/04/wAAzFg.jpg">
-<meta property="og:updated_time" content="2020-09-04T13:26:59.366Z">
+<meta property="og:updated_time" content="2020-09-14T02:45:39.902Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】CycleMorph：使用循环一致性的2D&#x2F;3D&#x2F;多尺度微分同胚图像配准模型">
 <meta name="twitter:description" content="本文是论文《CycleMorph: Cycle Consistent Unsupervised Deformable Image Registration》的阅读笔记。">
@@ -225,7 +225,7 @@
 <a id="more"></a>
 
 <p>现有的既又深度学习的配准方法通常不能保证拓扑保持（preservation of topology），为了解决这个问题，文章提出了一个名为CycleMorph的模型，使用循环一致性来提供一个隐式的正则来保留拓扑结构。此外，该模型可以实现2D或3D图像以及多尺度图像的配准。</p>
-<h2 id="一、相关工作"><a href="#一、相关工作" class="headerlink" title="一、相关工作"></a>一、相关工作</h2><h3 id="1-CycleMorph使用循环一致性来"><a href="#1-CycleMorph使用循环一致性来" class="headerlink" title="1. CycleMorph使用循环一致性来"></a>1. CycleMorph使用循环一致性来</h3><p>在该模型中训练两个卷积神经网络$G_X$和$G_Y$，$G_X$产生从源域图像到目标域图像的正向形变场$\phi_{XY}$，$G_Y$产生从目标域图像到源域图像的逆向形变场$\phi_{YX}$。</p>
+<h2 id="一、相关工作"><a href="#一、相关工作" class="headerlink" title="一、相关工作"></a>一、相关工作</h2><h3 id="1-CycleMorph的循环一致性"><a href="#1-CycleMorph的循环一致性" class="headerlink" title="1. CycleMorph的循环一致性"></a>1. CycleMorph的循环一致性</h3><p>在该模型中训练两个卷积神经网络$G_X$和$G_Y$，$G_X$产生从源域图像到目标域图像的正向形变场$\phi_{XY}$，$G_Y$产生从目标域图像到源域图像的逆向形变场$\phi_{YX}$。</p>
 <p>为了解决3D图像太大而导致显存放不下的情况，采用了先对下采样的图像进行粗糙的大变形，然后再对局部的patch进行变形。</p>
 <h3 id="2-微分同胚图像配准"><a href="#2-微分同胚图像配准" class="headerlink" title="2. 微分同胚图像配准"></a>2. 微分同胚图像配准</h3><p>在经典的变分图像配准方法中，配准问题的能量方程可以表示为：<br>$$<br>\mathcal{L}(X, Y, \phi)=\mathcal{L}<em>{s i m}(\mathcal{T}(X, \phi), Y)+\mathcal{L}</em>{r e g}(\phi)<br>$$<br>其中，$X,Y$分别表示浮动图像和固定图像，$\phi$表示位移向量场，$\mathcal T$表示根据形变场$\phi$将$X$变形到$Y$的变换函数（空间变换层），$\mathcal L_{sim}$是衡量图像相似性的相似项，$\mathcal{L}_{reg}$是使得形变场平滑的正则项。</p>
 <p>微分同胚图像配准为向量场$\phi$施加了一个约束，使得可变形映射是微分同胚。微分同胚变形保证了两个图像之间的变形是连续、可微、拓扑保持的。微分同胚图像配准算法的例子有LDDMM和SyN。</p>
@@ -387,6 +387,15 @@
 
 
 <nav id="article-nav">
+  
+    <a href="/2020/09/15/registration/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          基于深度学习的单模医学图像配准综述（附VoxelMorph配准实例）
+        
+      </div>
+    </a>
   
   
     <a href="/2020/08/29/CBAM/" id="article-nav-older" class="article-nav-link-wrap">
