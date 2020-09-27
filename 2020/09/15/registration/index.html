@@ -9,13 +9,13 @@
   <title>基于深度学习的单模医学图像配准综述（附VoxelMorph配准实例） | zuzhiang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。">
+  <meta name="description" content="本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍，重点讲了下自己踩过的坑。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。">
 <meta name="keywords" content="俎志昂,zuzhiang,blog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于深度学习的单模医学图像配准综述（附VoxelMorph配准实例）">
 <meta property="og:url" content="zuzhiang.cn/2020/09/15/registration/index.html">
 <meta property="og:site_name" content="zuzhiang">
-<meta property="og:description" content="本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。">
+<meta property="og:description" content="本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍，重点讲了下自己踩过的坑。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/04/awRIDx.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/26/d2vFmR.png">
@@ -25,10 +25,11 @@
 <meta property="og:image" content="https://s2.ax1x.com/2020/02/28/3DOasU.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/26/d2vATx.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/26/d2xPC8.jpg">
-<meta property="og:updated_time" content="2020-09-18T02:54:07.783Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/27/0F3bfe.jpg">
+<meta property="og:updated_time" content="2020-09-27T00:58:38.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于深度学习的单模医学图像配准综述（附VoxelMorph配准实例）">
-<meta name="twitter:description" content="本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。">
+<meta name="twitter:description" content="本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍，重点讲了下自己踩过的坑。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。">
 <meta name="twitter:image" content="https://s1.ax1x.com/2020/08/04/awRIDx.jpg">
   
     <link rel="alternative" href="/atom.xml" title="zuzhiang" type="application/atom+xml">
@@ -223,28 +224,28 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。</p>
+    <p>本文是基于深度学习的单模态医学图像配准的综述，除了介绍配准任务、配准过程之外，还会从实际操作出发，以经典的VoxelMorph为例做详细介绍，重点讲了下自己踩过的坑。如果有什么讲的不清楚的地方欢迎大家留言讨论，如果有什么错误的地方，也恳请大家不吝赐教。</p>
 <a id="more"></a>
 
 <h2 id="一、配准简介"><a href="#一、配准简介" class="headerlink" title="一、配准简介"></a>一、配准简介</h2><p>配准问题简单来说就是让一张图像对齐到另一张图像，使得对齐后的图像尽可能相似。即，给定一个浮动图像（moving image）$I_M$和一张固定图像（fixed image）$I_F$。预测一个位移场$u$，进而得到形变场（deformation field）$\phi$，即从浮动图像到固定图像的映射，使得配准后的浮动图像（warped image）$I_W=I_M\circ\phi$和固定图像尽可能相似。其中像素位置$x$的变换可以表示为$\phi(x)=x+u(x)$。浮动图像又称源图像（source image），固定图像又称参考图像（reference image）、模板图像（template image），形变场又称流场（flow field）、配准场（registration field）、转换（transformation）。</p>
 <p><img src="https://s1.ax1x.com/2020/08/04/awRIDx.jpg" alt></p>
-<p>上图分别是源图像、形变场、配准后的源图像和目标图像，列出来让大家有个直观的认识。</p>
+<p>上图$^{[1]}$分别是源图像、形变场、配准后的源图像和目标图像，列出来让大家有个直观的认识。</p>
 <h2 id="二、配准问题分类"><a href="#二、配准问题分类" class="headerlink" title="二、配准问题分类"></a>二、配准问题分类</h2><h3 id="1-线性配准和非线性配准"><a href="#1-线性配准和非线性配准" class="headerlink" title="1. 线性配准和非线性配准"></a>1. 线性配准和非线性配准</h3><p>配准从不同的角度出发可以分为很多种，其中从图像变换的类型角度可以分为线性配准和非线性配准两种，线性配准包括刚体配准、仿射配准等，其中刚体配准是指只通过旋转和平移配准，而仿射配准则等于刚体配准+缩放。而本文所讲解的是针对非线性配准，在论文中通常称为“密度可变形配准（dense deformable registration）”，这个词可能我翻译的不是很准确。</p>
 <h3 id="2-基于全分辨率图像的配准和基于patch的配准"><a href="#2-基于全分辨率图像的配准和基于patch的配准" class="headerlink" title="2. 基于全分辨率图像的配准和基于patch的配准"></a>2. 基于全分辨率图像的配准和基于patch的配准</h3><p><img src="https://s1.ax1x.com/2020/08/26/d2vFmR.png" alt></p>
-<p>基于全分辨率的配准就是将整张图像进行处理，但是当图像较大时，显存可能会爆掉，当然也可以采用<a href="https://blog.csdn.net/zuzhiang/article/details/104930128" target="_blank" rel="noopener">nnUNet</a>中的方法，只保留必要的前景，将多余的黑色背景区域裁掉，以减小图像大小。或者每次取3D图像的一个2D切片进行配准。而基于patch的方法则是将图像裁剪成相同大小的块，每次对一小块进行处理，这样减少了显存的占用，但在将输出patch拼接成完整图像的时候拼凑感会十分明显（如上图所示），此时的处理方式通常是让输出patch之间有重叠，然后对重叠的部分取平均，这样会改善一点，但这种处理方法我没有实操过。输出patch中心的置信度比较高，而四周的较低。有些文章会采用输入patch大小大于输出patch大小的方法，从而更好的利用相邻体素的信息。</p>
+<p>基于全分辨率的配准就是将整张图像进行处理，但是当图像较大时，显存可能会爆掉，当然也可以采用<a href="https://blog.csdn.net/zuzhiang/article/details/104930128" target="_blank" rel="noopener">nnUNet</a>$^{[2]}$中的方法，只保留必要的前景，将多余的黑色背景区域裁掉，以减小图像大小。或者每次取3D图像的一个2D切片进行配准。而基于patch的方法则是将图像裁剪成相同大小的块，每次对一小块进行处理，这样减少了显存的占用，但在将输出patch拼接成完整图像的时候拼凑感会十分明显（如上图所示），此时的处理方式通常是让输出patch之间有重叠，然后对重叠的部分取平均，这样会改善一点，但这种处理方法我没有实操过。输出patch中心的置信度比较高，而四周的较低。有些文章$^{[3]}$会采用输入patch大小大于输出patch大小的方法，从而更好的利用相邻体素的信息。</p>
 <h3 id="3-传统的配准方法和基于学习的配准方法"><a href="#3-传统的配准方法和基于学习的配准方法" class="headerlink" title="3. 传统的配准方法和基于学习的配准方法"></a>3. 传统的配准方法和基于学习的配准方法</h3><h4 id="1）传统的配准方法"><a href="#1）传统的配准方法" class="headerlink" title="1）传统的配准方法"></a>1）传统的配准方法</h4><p>根据配准算法依赖的方法不同，可以将配准分为传统的配准方法和基于学习的配准方法，其中传统的配准方法是指基于数学优化的方法，这种方法需要对每个图像进行迭代优化，因此耗费的时间较长，但通常效果比较好且稳定，据我导师说，医生一般都采用的是传统的方法。</p>
 <h4 id="2）基于学习的配准方法"><a href="#2）基于学习的配准方法" class="headerlink" title="2）基于学习的配准方法"></a>2）基于学习的配准方法</h4><p>而基于学习的配准方法指的就是通过神经网络训练的配准方法，该方法中参数是共享的，首先利用大量的数据来训练一个模型，然后用这个训练好的模型对一个新的图像进行配准。这种方式的优点在于虽然训练过程较为缓慢，但配准（测试）过程比传统方法快很多。缺点的话个人感觉一方面是用作训练的数据较少（特别是有监督的标签数据），另一方面感觉没传统方法稳定，可解释性也许也是一个问题。</p>
 <h5 id="i）有监督的基于学习的配准方法"><a href="#i）有监督的基于学习的配准方法" class="headerlink" title="i）有监督的基于学习的配准方法"></a>i）有监督的基于学习的配准方法</h5><p>基于学习的方法又可以分为有监督的配准方法和无监督的配准方法，有监督配准中的监督数据的获得主要有两种方式，一种是通过传统配准方法得到的形变场作为ground truth，另一种是对一张图像做随机模拟变形，将原始图像作为参考图像，变形图像作为浮动图像，模拟变形场作为监督信息 。有监督的配准的缺点很明显，以传统配准方法的形变场作为ground truth时，理论上模型的效果的上限不会超过传统的方法。另外就是可利用的高质量有监督数据较少，可以发现几乎没有手工标注的有监督数据（既耗时耗力又不现实）。</p>
-<h5 id="ii）无监督的基于学习的配准方法"><a href="#ii）无监督的基于学习的配准方法" class="headerlink" title="ii）无监督的基于学习的配准方法"></a>ii）无监督的基于学习的配准方法</h5><p>而无监督的配准方法我认为是最近的研究的热点，因为配准本质上就是一个无监督的任务，只需要优化两张图像之间的相似度就可以了（更新一下，这种说法貌似有点问题，因为在测试时衡量的不是图像的相似性，而是label的相似性），不需要有监督信息也可以完成。最近也有很多<a href="https://blog.csdn.net/zuzhiang/article/details/104930261" target="_blank" rel="noopener">利用GAN（生成对抗网络）来进行配准的无监督模型</a>，这种模型的优点是不需要指定特定的图像相似度，这避免了由于数据集分布的不同，而导致固定的图像相似度衡量标准的通用性问题。但模型的缺点我觉得也很明显，就是GAN模型训练时一般很难收敛。PS：我在实现<a href="https://blog.csdn.net/zuzhiang/article/details/107606662" target="_blank" rel="noopener">范敬凡老师的GAN配准模型</a>时，就遇到了这种问题，有解决掉的朋友欢迎讨论。</p>
+<h5 id="ii）无监督的基于学习的配准方法"><a href="#ii）无监督的基于学习的配准方法" class="headerlink" title="ii）无监督的基于学习的配准方法"></a>ii）无监督的基于学习的配准方法</h5><p>而无监督的配准方法我认为是最近的研究的热点，因为配准本质上就是一个无监督的任务，只需要优化两张图像之间的相似度就可以了（更新一下，这种说法貌似有点问题，因为在测试时衡量的不是图像的相似性，而是label的相似性），不需要有监督信息也可以完成。最近也有很多<a href="https://blog.csdn.net/zuzhiang/article/details/104930261" target="_blank" rel="noopener">利用GAN（生成对抗网络）来进行配准的无监督模型</a>$^{[4]}$，这种模型的优点是不需要指定特定的图像相似度，这避免了由于数据集分布的不同，而导致固定的图像相似度衡量标准的通用性问题。但模型的缺点我觉得也很明显，就是GAN模型训练时一般很难收敛。PS：我在实现<a href="https://blog.csdn.net/zuzhiang/article/details/107606662" target="_blank" rel="noopener">范敬凡老师的GAN配准模型</a>$^{[3]}$时，就遇到了这种问题，有解决掉的朋友欢迎讨论。</p>
 <h2 id="三、配准网络框架"><a href="#三、配准网络框架" class="headerlink" title="三、配准网络框架"></a>三、配准网络框架</h2><h3 id="1-配准网络框架"><a href="#1-配准网络框架" class="headerlink" title="1. 配准网络框架"></a>1. 配准网络框架</h3><p><img src="https://s1.ax1x.com/2020/08/01/a88wM4.jpg" alt></p>
-<p>我心目中较为完美的配准网络框架是这样的：输入的浮动图像和固定图像在通道（channel）的维度进行拼接，先经过一个仿射配准网络进行仿射配准，然后再经过一个卷积神经网络（一般是类UNet的编码器-解码器网络）预测一个从浮动图像到固定图像的位移场，接着根据位移场得到一个采样网格，使用<a href="https://blog.csdn.net/zuzhiang/article/details/104930225" target="_blank" rel="noopener">空间转换网络（Spatial transformer network，STN）</a>利用该采样网格对浮动图像进行重采样，得到配准后的图像。</p>
-<p>可以发现，上述框架比VoxelMorph的框架多了一个仿射配准模块，这是因为VoxelMorph在进行配准时通常是要求数据进行过预配准（通常是仿射配准），而没有经过预配准的图像通常配准效果较差，这可能是因为此时的位移较大，而模型对大位移的处理能力较差。为了解决大位移配准，也有论文提出了将<a href="https://blog.csdn.net/zuzhiang/article/details/104929907" target="_blank" rel="noopener">多个配准模型级联</a>来预测大变形的方法，这里不再展开。</p>
+<p>我心目中较为完美的配准网络框架是这样的：输入的浮动图像和固定图像在通道（channel）的维度进行拼接，先经过一个仿射配准网络进行仿射配准，然后再经过一个卷积神经网络（一般是类UNet的编码器-解码器网络）预测一个从浮动图像到固定图像的位移场，接着根据位移场得到一个采样网格，使用<a href="https://blog.csdn.net/zuzhiang/article/details/104930225" target="_blank" rel="noopener">空间转换网络（Spatial transformer network，STN）</a>$^{[5]}$利用该采样网格对浮动图像进行重采样，得到配准后的图像。</p>
+<p>可以发现，上述框架比VoxelMorph$^{[6]}$的框架多了一个仿射配准模块，这是因为VoxelMorph在进行配准时通常是要求数据进行过预配准（通常是仿射配准），而没有经过预配准的图像通常配准效果较差，这可能是因为此时的位移较大，而模型对大位移的处理能力较差。为了解决大位移配准，也有论文提出了将<a href="https://blog.csdn.net/zuzhiang/article/details/104929907" target="_blank" rel="noopener">多个配准模型级联</a>$^{[7]}$来预测大变形的方法，这里不再展开。</p>
 <h3 id="2-空间转换网络"><a href="#2-空间转换网络" class="headerlink" title="2. 空间转换网络"></a>2. 空间转换网络</h3><p><img src="https://s2.ax1x.com/2020/02/25/3tQcuR.jpg" alt></p>
 <p>上图是空间转换网络的示意图，本文中所提到的空间转换网络其实只包括上图中的网格生成器和采样器两部分。空间转换网络一开始提出时只是简单用作仿射变换等，后来采用了采样网格的方式使得它功能更加强大。对于大小为[W, H]的二维图像来说，其位移场大小为[W, H, 2]；对于大小为[D, W, H]的三维图像来说，其位移场大小为[D, W, H, 3]。位移场表示每个体素/像素在各个方向（x，y，z轴）的位移。空间转换网络会根据位移场生成一个归一化后的采样网格，然后用该网络对图像进行采样，就得到了配准后的图像。</p>
 <p><img src="https://s1.ax1x.com/2020/07/17/U6GdoD.jpg" alt></p>
 <p>上图是形变场可视化后的图像，关于形变场的可视化，可以看我的<a href="https://blog.csdn.net/zuzhiang/article/details/107423465" target="_blank" rel="noopener">文章</a>。</p>
 <h3 id="3-损失函数"><a href="#3-损失函数" class="headerlink" title="3. 损失函数"></a>3. 损失函数</h3><p>配准网络的损失一般包括两部分，一是图像的相似性损失$\mathcal{L}<em>{sim}(I_F,I_M\circ\phi)$，二是形变场的平滑正则项损失$\mathcal{L}</em>{reg}(\phi)$。图像相似性损失有很多种，常见的有相关系数（Correlation Coefficient, CC）、归一化的相关系数（NCC）、互信息（Mutual Information, MI）、均方误差（MSE）等。当图像具有相似的灰度值分布时，通常采用MSE来评估灰度值的相似性；而在多模配准中，NCC和MI指标会更合适。</p>
-<p>平滑正则项损失的作用是保证预测出的形变场的平滑性，避免形变场中的重叠。有些文章中将形变场描述为一个微分同胚（我不是很理解，以下表述可能不严谨，大家且粗略看看），即连续、可逆、可微的光滑映射，有些网络通过平滑正则项来实现，有些是<a href="https://blog.csdn.net/zuzhiang/article/details/107732449" target="_blank" rel="noopener">通过循环一致性来实现</a>。</p>
+<p>平滑正则项损失的作用是保证预测出的形变场的平滑性，避免形变场中的重叠。有些文章中将形变场描述为一个微分同胚（我不是很理解，以下表述可能不严谨，大家且粗略看看），即连续、可逆、可微的光滑映射，有些网络通过平滑正则项来实现，有些是<a href="https://blog.csdn.net/zuzhiang/article/details/107732449" target="_blank" rel="noopener">通过循环一致性来实现</a>$^{[8]}$。</p>
 <h2 id="四、VoxelMorph配准实例"><a href="#四、VoxelMorph配准实例" class="headerlink" title="四、VoxelMorph配准实例"></a>四、VoxelMorph配准实例</h2><p><img src="https://s2.ax1x.com/2020/02/28/3DOasU.jpg" alt></p>
 <p>上图是VoxelMorph的框架图，不是很熟悉VoxelMorph模型的同学还请参考我的笔记：<a href="http://zuzhiang.cn/2020/02/28/VoxelMorph/">VoxelMorph论文笔记</a>。</p>
 <h3 id="1-数据集及预处理"><a href="#1-数据集及预处理" class="headerlink" title="1. 数据集及预处理"></a>1. 数据集及预处理</h3><p>这里的数据集选用的是<a href="http://www.loni.usc.edu/research/atlas_downloads" target="_blank" rel="noopener">LPBA40数据集</a>，在下载时注意需要翻墙，下载时从<code>LPBA40 Subjects Native Space: MRI data and brain masks in native space</code>和<code>LPBA40 Subjects Delineation Space: MRI and label files in delineation space</code>两个选项中下载得到的分别是native space和delineation space的图像数据，delineation space的数据集已经对齐到mni305空间（具体是什么我也不是很清楚）了，只需要做简单归一化效果就会很好，而native space的我配准的效果一直不好，所以建议用delineation space的图像。</p>
@@ -261,9 +262,44 @@
 <p>LPBA40共40张3D脑部图像。训练时按照某些论文中的方法，随机挑选一张图像作为固定图像（我选择的是S01对应的图像），然后30张图像作为训练集（我选择的是S11-S40这30张），9张图像作为测试集（我选择的是S02-S10这9张）。</p>
 <p>VoxelMorph的各种参数保持默认，即学习率为$1e^{-4}$，选用vm2版本，迭代训练1.5w次，选用NCC作为图像相似性损失，正则项的权重为1.0。（这里等我调好参数后再更新下，默认参数无法达到最优）</p>
 <h3 id="4-测试"><a href="#4-测试" class="headerlink" title="4. 测试"></a>4. 测试</h3><p>在用测试集对训练效果进行评价时主要有两块，一个是评估配准的效果，二是评估形变场的重叠程度。</p>
-<p>配准效果的评估是对label图的每个标签类别计算DICE，从网上可以搜到两个DICE，一个是DICE系数，另一个是DICE损失，这里使用的是DICE系数，通常记为DSC（Dice similarity coefficient）。这里着重提出来的原因是我之前以为是对配准后的浮动图像和固定图像计算DSC，经过多方请教，应该是对配准后的label图计算DSC。DSC表达式如下：<br>$$<br>Dice(A,B)=2\cdot\frac{|A\cap B|}{|A|+|B|}<br>$$<br>用来评价形变场重叠程度的指标一般选择的是雅克比行列式中的负值个数（the total number of locations where Jacobian determinant $det(\nabla\phi^{-1}(x))$ are negative），其计算公式如下：<br>$$<br>\mathcal{N}:=\Sigma\delta(det(D\phi^{-1})&lt;0)<br>$$<br>此外在一些论文中还会对配准后的地标（landmark）进行评价，即计算配准后对应地标之间的欧几里得距离，地标可以简单的理解为图像中的关键点。</p>
+<p>配准效果的评估是对label图的每个标签类别计算DICE，从网上可以搜到两个DICE，一个是DICE系数，另一个是DICE损失，这里使用的是DICE系数，通常记为DSC（Dice similarity coefficient）。这里着重提出来的原因是我之前以为是对配准后的浮动图像和固定图像计算DSC，经过多方请教，应该是对配准后的label图计算DSC。DSC表达式如下：<br>$$<br>Dice(A,B)=2\cdot\frac{|A\cap B|}{|A|+|B|}<br>$$<br>用来评价形变场重叠程度的指标一般选择的是雅克比行列式中的负值个数（the total number of locations where Jacobian determinant $det(\nabla\phi^{-1}(x))$ are negative），其计算公式如下：<br>$$<br>\mathcal{N}:=\Sigma\delta(det(D\phi^{-1})&lt;0)<br>$$<br>此外在一些论文中还会对配准后的地标（landmark）进行评价，即计算配准后对应地标之间的欧几里得距离，landmark可以简单的理解为图像中的关键点。</p>
+<h2 id="五、VoxelMorph代码"><a href="#五、VoxelMorph代码" class="headerlink" title="五、VoxelMorph代码"></a>五、VoxelMorph代码</h2><p>（2020.09.25更新）</p>
+<p>基于Pytorch的VoxelMorph代码已经上传到<a href="https://github.com/zuzhiang/VoxelMorph-torch" target="_blank" rel="noopener">github</a>中，欢迎小伙伴们关注，如果能随手点个star那就感激不尽了~</p>
+<p><img src="https://s1.ax1x.com/2020/09/27/0F3bfe.jpg" alt></p>
+<p>代码是在<a href="https://github.com/voxelmorph/voxelmorph/tree/master/voxelmorph/torch" target="_blank" rel="noopener">VoxelMorph官网源码</a>的基础上做的修改（我发现最近源代码也更新了，变化还挺大的），修改后代码的目录结构如下：</p>
 <hr>
-<p>我自己修改过的基于pytorch的VoxelMorph的代码我以后会慢慢放到Github上，该代码包括较为完整的训练和测试流程。主要是在官方给出的VoxelMorph的代码上做了模块化和规范化，使得通用性更强一点，并且增加了雅克比行列式中负值个数loss和DSC loss等代码。</p>
+<ul>
+<li><code>Checkpoint</code>：存放训练好的模型的文件夹；</li>
+<li><code>Log</code>：存放日志文件的文件夹，记录各个参数下各种loss值的变化；</li>
+<li><code>Model</code><ul>
+<li><code>config.py</code>：模型配置文件，用来指定学习率、训练次数、loss权重、batch size、保存间隔等，分为三部分，分别是公共参数、训练时参数和测试时参数；</li>
+<li><code>datagenerators.py</code>：根据图像文件的路径提供数据，使用了torch.utils.data包来实现的；</li>
+<li><code>losses.py</code>：各种损失函数的计算，包括形变场平滑性损失、MSE、DSC、NCC、CC、雅克比行列式中负值个数等；</li>
+<li><code>model.py</code>：配准网络（U-Net）和空间变换网络（STN）的实现，并且将两者进行了模块化分离。</li>
+</ul>
+</li>
+<li><code>Result</code>：存放训练和测试过程中产生的图像数据的文件夹；</li>
+<li><code>test.py</code>：测试代码；</li>
+<li><code>train.py</code>：训练代码。</li>
+</ul>
+<hr>
+<p>我通过调参得到的最优参数（对于LPBA40数据集来说）如下：学习率为$4e^{-4}$，模型选用vm2版本，迭代训练1.5w次，选用NCC作为图像相似性损失，正则项的权重为4.0，batch size设为1。在测试集上测得的DSC值为<code>0.6855077809012164</code>，作为对比，ANTs包中的SyN算法配准的DSC值为<code>0.6939350219828658</code>。</p>
+<p>已经训练好的模型也已经放在了项目的Model文件夹下，你可以通过下载我处理好的LPBA40数据集使用上面的参数得到同样的训练结果，数据集链接如下：<a href="https://pan.baidu.com/s/1RgjlNiTVq75-TI8p9q2bkw" target="_blank" rel="noopener">https://pan.baidu.com/s/1RgjlNiTVq75-TI8p9q2bkw</a> ，提取码：jyud 。当然，我个人觉得我对原始数据的处理足够简单，只做了裁剪和灰度值局部归一化，自己试着处理一下最好不过了。数据集目录结构如下：</p>
+<ul>
+<li><code>train</code>：训练图像数据，包括S11-S40共30个图像，只进行过裁剪到$160\times192\times160$大小，和局部归一化操作；</li>
+<li><code>test</code>：测试图像数据，包括S02-S10共9个图像，只进行过裁剪到$160\times192\times160$大小，和局部归一化操作；</li>
+<li><code>label</code>：标签数据，包括S01-S40共40个图像，只进行过裁剪到$160\times192\times160$大小的操作，无归一化；</li>
+<li><code>fixed.nii.gz</code>：即S01图像，作为固定图像。</li>
+</ul>
+<hr>
+<h2 id="部分参考文献"><a href="#部分参考文献" class="headerlink" title="部分参考文献"></a>部分参考文献</h2><p>[1] D.Y. Kuang, T. Schmah, “FAIM – A ConvNet Method for Unsupervised 3D Medical Image Registration”, CVPR, 2018.</p>
+<p>[2] Z.W. Zhou, M.M.R. Siddiquee, N. Tajbakhsh, J.M. Liang, “UNet++: A Nested U-Net Architecture for Medical Image Segmentation”,  CVPR, 2018.</p>
+<p>[3] Fan J, Cao X, Wang Q, Yap PT, Shen D. Adversarial learning for mono- or multi-modal registration. Med Image Anal. 2019 Dec;58:101545. doi: 10.1016/j.media.2019.101545. Epub 2019 Aug 24. PMID: 31557633; PMCID: PMC7455790.</p>
+<p>[4] J. F. Fan, X. H. Cao, Z. Xue, P. Yap, and D. G. Shen, “Adversarial similarity network for evaluating image<br>alignment in deep learning based registration,” vol. 11070, pp. 739–746, 2018.</p>
+<p>[5] M. Jaderberg, K. Simonyan, A. Zisserman, and K. Kavukcuoglu, “Spatial transformer networks,” pp. 2017–2025, 2015.</p>
+<p>[6] G. Balakrishnan, A. Zhao, M. R. Sabuncu, A. V. Dalca, and J. V. Guttag, “An unsupervised learning mod-<br>el for deformable medical image registration,” pp. 9252–9260, 2018.</p>
+<p>[7] S.Y. Zhao, Y.Dong, E.Chang, and Y.Xu, “Recursive cascaded networks for unsupervised medical image registration,” pp. 10600–10610, 2019.</p>
+<p>[8] Kuang D. (2019) Cycle-Consistent Training for Reducing Negative Jacobian Determinant in Deep Registration Networks. In: Burgos N., Gooya A., Svoboda D. (eds) Simulation and Synthesis in Medical Imaging. SASHIMI 2019. Lecture Notes in Computer Science, vol 11827. Springer, Cham. <a href="https://doi.org/10.1007/978-3-030-32778-1_13" target="_blank" rel="noopener">https://doi.org/10.1007/978-3-030-32778-1_13</a></p>
 
     
 
